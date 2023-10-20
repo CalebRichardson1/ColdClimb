@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/New Modifer Item", fileName = "NewModifer"), System.Serializable]
 public class ModiferItem : ItemData
 {
     //modifer item data
+    public static Action<bool> EventToTrigger; //change later
 
     //item base methods
     public override void CombineItem()
@@ -17,6 +19,7 @@ public class ModiferItem : ItemData
     }
 
     public override void UseItem(InventoryContextMenu contextMenu){
-        Debug.Log("Modifying...");
+        EventToTrigger?.Invoke(true);
+        InventoryContextMenu.ContextedInventoryItem.RemoveFromStack(1);
     }
 }

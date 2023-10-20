@@ -36,5 +36,6 @@ public enum ItemType{
     Gun,
     Tool,
     EquipmentModifier,
-    ConsumableModifier
+    ConsumableModifier,
+    PlayerModifier
 }

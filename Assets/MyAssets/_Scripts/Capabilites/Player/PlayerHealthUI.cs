@@ -5,20 +5,38 @@ using UnityEngine.Video;
 [RequireComponent(typeof(Image))]
 public class PlayerHealthUI : MonoBehaviour
 {
-    private Image healthBackGroundIMG => GetComponent<Image>();
+    public bool UnlockedHealthBar {get; private set;}
     [SerializeField] private VideoPlayer heartRateVideoPlayer;
     [SerializeField] private VideoClip fineHeartRate, injuredHeartRate, criticalHeartRate;
+    [Header("HealthBar")]
+    [SerializeField] private Image HealthBarIMG;
+    [SerializeField] private float fillSpeed = 3f;
 
+    private Image HealthBackGroundIMG => GetComponent<Image>();
+    
     private Health playerHealth;
-
     private int fineStatusCutOff, injuredStatusCutOff, criticalStatusCutOff;
+    private float healthBarTarget, current, target;
+    private bool moveHealthBar = false;
 
     private void OnEnable() {
         Health.IsPlayerAction += SetPlayerHealth;
+        ModiferItem.EventToTrigger += UnlockHealthBar; //change later
     }
     
     private void OnDisable(){
         Health.IsPlayerAction -= SetPlayerHealth;
+        ModiferItem.EventToTrigger -= UnlockHealthBar; //change later
+    }
+
+    private void Start() {
+        if(!UnlockedHealthBar) HealthBarIMG.gameObject.SetActive(false);
+    }
+
+    private void Update() {
+        if(UnlockedHealthBar && moveHealthBar){
+            LerpHealthBar();
+        }
     }
 
     private void SetPlayerHealth(Health currentPlayerHealth){
@@ -45,21 +63,66 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void UpdateHealthUI(){
         switch(playerHealth.CurrentHealth){
-            case int health when health >= fineStatusCutOff: 
-            healthBackGroundIMG.color = Color.green;
+            case int health when health >= fineStatusCutOff:
+            if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Healthy);
+            HealthBackGroundIMG.color = Color.green;
             heartRateVideoPlayer.clip = fineHeartRate;
             heartRateVideoPlayer.playbackSpeed = 1f;
             break;
             case int health when health >= injuredStatusCutOff: 
-            healthBackGroundIMG.color = Color.yellow;
+            if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Injured);
+            HealthBackGroundIMG.color = Color.yellow;
             heartRateVideoPlayer.clip = injuredHeartRate;
             heartRateVideoPlayer.playbackSpeed = 0.75f;
             break;
             case int health when health >= criticalStatusCutOff: 
-            healthBackGroundIMG.color = Color.red;
+            if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Critical);
+            HealthBackGroundIMG.color = Color.red;
             heartRateVideoPlayer.clip = criticalHeartRate;
             heartRateVideoPlayer.playbackSpeed = 0.5f;
             break;
         }
     }
+
+    private void UpdateHealthBar(int health, HealthState state){
+        switch (state){
+            case HealthState.Healthy: HealthBarIMG.color = Color.green;
+                break;
+            case HealthState.Injured: HealthBarIMG.color = Color.yellow;
+                break;
+            case HealthState.Critical: HealthBarIMG.color = Color.red;
+                break;
+        }
+
+        //lerp for smooth animation
+        healthBarTarget = (float)health / playerHealth.MaxHealth;
+        target = 1;
+        moveHealthBar = true;
+
+    }
+
+    private void LerpHealthBar(){
+        current = Mathf.MoveTowards(current, target, fillSpeed * Time.deltaTime);
+        HealthBarIMG.fillAmount = Mathf.Lerp(HealthBarIMG.fillAmount, healthBarTarget, current);
+        //if close enough snap to the target
+        if(Mathf.Abs(HealthBarIMG.fillAmount - healthBarTarget) <= 0.005f){
+            target = 0;
+            current = 0;
+            HealthBarIMG.fillAmount = healthBarTarget;
+            moveHealthBar = false;
+        } 
+    }
+
+    public void UnlockHealthBar(bool unlocked){
+        HealthBarIMG.gameObject.SetActive(unlocked);
+        UnlockedHealthBar = unlocked;
+        UpdateHealthUI();
+    }
+
+    private enum HealthState{
+        Healthy,
+        Injured,
+        Critical
+    }
 }
+
