@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81339163873187489e8aafabafd6e02, type: 3}
+  m_Name: PlayerDataHolder
+  m_EditorClassIdentifier: 
+  playerStats:
+    currentHealth: 50
+    maxHealth: 100
+    walkSpeed: 4
+    runSpeed: 7
+    lookSpeed: 30
+  playerLocation:
+    currentZoneID: 0
+    playerPosition: {x: 0, y: 0, z: 0}
+    playerLookX: 0
+    playerLookY: 0
+  playerInventory:
+    inventoryItems:
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    - currentStackSize: 0
+      itemData: {fileID: 0}
+    maxInventory: 6

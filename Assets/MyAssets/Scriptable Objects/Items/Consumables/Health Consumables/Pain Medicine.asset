@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d277332bd6ee8384483c0ce6dbcc556e, type: 3}
+  m_Name: Pain Medicine
+  m_EditorClassIdentifier: 
+  itemName: Pain Medicine
+  itemDescription:
+  - A bottle of pain medicine. Will heal you a fair bit.
+  itemImage: {fileID: 3285820176990009405, guid: 1096ec1674c6b54429cc1530898ae239,
+    type: 3}
+  isStackable: 1
+  maxStackSize: 3
+  healAmount: 20
