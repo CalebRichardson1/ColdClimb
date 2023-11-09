@@ -32,11 +32,11 @@ public class EquipableItem : ItemData
         }
 
         //remove the contexted item from the inventory
-        contextedInventoryItem.RemoveFromStack(1);
+        contextedInventoryItem.SetItem(null, 0);
 
         //add the current equipped item to the inventory
         if(playerInventory.AttemptToAddItemToInventory(playerInventory.CurrentEquippedItem.ItemData, playerInventory.CurrentEquippedItem.CurrentStackSize) == 0){
-            InventoryUIController.CurrentEquippedItemSlot.ItemInSlot.RemoveFromStack(1);
+            InventoryUIController.CurrentEquippedItemSlot.ItemInSlot.SetItem(null, 0);
             
             //finally add the held contexted item to the equipment slot
             playerInventory.EquipItem(contextedItemData, contextedInventoryItem.CurrentStackSize);

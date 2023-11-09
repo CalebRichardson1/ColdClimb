@@ -98,6 +98,15 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": ""MultiTap,Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""97816849-bc07-43ca-96bb-d93646d76af9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -362,6 +371,28 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d97fd45-675c-452c-8d34-e4b8cd8ab1da"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b4ebc8b-5691-4ccc-9fac-3d4d301ab4bf"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PauseGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -751,17 +782,6 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f98b6746-e18e-471b-b0df-3a676a3d9d08"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Submit"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
                     ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
@@ -957,6 +977,7 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Status = m_Player.FindAction("Status", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1038,6 +1059,7 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Status;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
         private @PlayerGroundCharacter m_Wrapper;
@@ -1050,6 +1072,7 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Status => m_Wrapper.m_Player_Status;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1083,6 +1106,9 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1111,6 +1137,9 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1301,6 +1330,7 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
         void OnInteract(InputAction.CallbackContext context);
         void OnStatus(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

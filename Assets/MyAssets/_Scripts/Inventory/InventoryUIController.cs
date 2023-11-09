@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
-using SaveLoadSystem;
 
 // Handles the Inventory UI Logic
 public class InventoryUIController : MonoBehaviour
@@ -22,7 +21,6 @@ public class InventoryUIController : MonoBehaviour
     private InventoryContextMenu instancedContexMenu;
 
     private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
-    private PlayerData PlayerData => ResourceLoader.MainPlayerData;
 
     private List<InventorySlot> inventorySlotsUI = new();
 
@@ -30,16 +28,16 @@ public class InventoryUIController : MonoBehaviour
     #endregion
 
     #region Setup
-    private void OnEnable(){
+    private void Awake(){
         GameManager.OnGameStateChange += GameStateChange;
-        PlayerData.LoadValuesCallback += LoadInventorySlots;
         PlayerInventory.CreatedInventoryCallback += CreateInventoryMenu;
+        PlayerInventory.LoadedInventoryCallback += LoadInventorySlots;
     }
 
-    private void OnDisable(){
+    private void OnDestroy(){
         GameManager.OnGameStateChange -= GameStateChange;
-        PlayerData.LoadValuesCallback -= LoadInventorySlots;
         PlayerInventory.CreatedInventoryCallback -= CreateInventoryMenu;
+        PlayerInventory.LoadedInventoryCallback -= LoadInventorySlots;
     } 
     #endregion
 
@@ -79,8 +77,6 @@ public class InventoryUIController : MonoBehaviour
             inventorySlotsUI.Add(newSlot);
         }
         //scale the layout grid group cell size by the max inventory size
-        
-
         CurrentEquippedItemSlot.SetupSlot(this, PlayerInventory.CurrentEquippedItem);
     }
 
@@ -100,11 +96,11 @@ public class InventoryUIController : MonoBehaviour
 
     private void GameStateChange(GameState state){
         //if our state isn't the inventory screen set the inventory ui to false and return
-        if(state != GameState.ContextScreen){
+        if(state != GameState.ContextScreen && instancedContexMenu != null){
             instancedContexMenu.CloseContextMenu();
         }
         
-        if (state != GameState.StatusScreen && state != GameState.ContextScreen){
+        if (state != GameState.StatusScreen && state != GameState.ContextScreen && instancedInventoryScreen != null){
             instancedInventoryScreen.gameObject.SetActive(false);
             return;
         }

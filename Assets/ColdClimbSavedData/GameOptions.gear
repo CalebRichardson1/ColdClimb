@@ -1,0 +1,12 @@
+{
+    "CurrentSettings": {
+        "masterVolume": 1.0,
+        "musicVolume": 1.0,
+        "sfxVolume": 1.0,
+        "resolution": {
+            "horizontal": 1920,
+            "vertical": 1080
+        },
+        "isFullScreen": false
+    }
+}

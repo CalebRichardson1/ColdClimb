@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SaveLoadSystem{
+namespace SaveLoadSystem
+{
 /// <summary>
 /// A class that holds structs to our various data that we want to save.
 /// </summary>
@@ -26,10 +27,10 @@ namespace SaveLoadSystem{
     }
 
     [System.Serializable]
-    // The location where our player is located. Including the currentZoneID for level loading.
+    // The location where our player is located. Including the currentSceneIndex for level loading.
     public struct PlayerLocation
     {
-        public int currentZoneID;
+        public SceneIndex currentSceneIndex;
         public Vector3 playerPosition;
         public float playerLookX;
         public float playerLookY;
@@ -43,5 +44,7 @@ namespace SaveLoadSystem{
         public List<InventoryItem> inventoryItems;
         public int maxInventory;
     }
+
+    //level states (item states, puzzle states, enemy states, etc.)
 }
 

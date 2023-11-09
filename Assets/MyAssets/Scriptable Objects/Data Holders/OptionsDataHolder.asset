@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534a83d4351b73b4e99ae77a20fa6097, type: 3}
+  m_Name: OptionsDataHolder
+  m_EditorClassIdentifier: 
+  mainMixer: {fileID: 24100000, guid: e28a3619a4bed1b4ea7740bce93de2c8, type: 2}
+  videoResolutions:
+  - horizontal: 640
+    vertical: 480
+  - horizontal: 800
+    vertical: 600
+  - horizontal: 1024
+    vertical: 768
+  - horizontal: 1280
+    vertical: 720
+  - horizontal: 1280
+    vertical: 800
+  - horizontal: 1366
+    vertical: 768
+  - horizontal: 1440
+    vertical: 900
+  - horizontal: 1680
+    vertical: 1050
+  - horizontal: 1920
+    vertical: 1080
+  - horizontal: 2560
+    vertical: 1440
+  - horizontal: 1920
+    vertical: 1200
+  settings:
+    masterVolume: 0.71209705
+    musicVolume: 0.29372954
+    sfxVolume: 0.32805705
+    resolution:
+      horizontal: 1920
+      vertical: 1080
+    isFullScreen: 1

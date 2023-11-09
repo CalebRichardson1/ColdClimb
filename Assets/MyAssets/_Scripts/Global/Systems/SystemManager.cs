@@ -6,7 +6,10 @@ public class SystemManager : MonoBehaviour
 {
     #region Variables
     public static SystemManager Instance;
+    public OptionsData OptionsData => optionsData;
+
     [SerializeField] private GameState startingGameState;
+    [SerializeField] private OptionsData optionsData;
     #endregion
 
     #region Setup
@@ -20,10 +23,6 @@ public class SystemManager : MonoBehaviour
 
     private void Start() {
         GameManager.UpdateGameState(startingGameState);
-    }
-
-    public void LoadMainGame(){
-        GameManager.UpdateGameState(GameState.MainGame);
     }
     #endregion
 }

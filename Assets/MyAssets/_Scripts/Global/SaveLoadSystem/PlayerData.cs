@@ -30,6 +30,7 @@ namespace SaveLoadSystem{
             playerInventory = GameDataHandler.CurrentSaveData.CurrentPlayerInventory;
 
             LoadValuesCallback?.Invoke();
+            
             //TMP
             GameManager.UpdateGameState(GameState.MainGame);
         }
@@ -42,12 +43,14 @@ namespace SaveLoadSystem{
             playerStats.walkSpeed = 4f;
             playerStats.runSpeed = 7f;
             playerStats.lookSpeed = 30f;
-            playerLocation.playerPosition = Vector3.zero;
+            playerLocation.currentSceneIndex = SceneIndex.PARKING_LOT;
+            playerLocation.playerPosition = new Vector3(85.18f, 3.06f, 132.12f);
             playerLocation.playerLookX = 0;
             playerLocation.playerLookY = 0;
             
             playerInventory.inventoryItems.Clear();
             playerInventory.currentEquippedItem = null;
+            playerInventory.maxInventory = 6;
             LoadValuesCallback?.Invoke();
             
             //TMP

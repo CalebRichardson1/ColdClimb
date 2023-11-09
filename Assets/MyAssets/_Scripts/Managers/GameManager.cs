@@ -13,7 +13,6 @@ public static class GameManager
    public static event Action<GameState> OnGameStateChange;
 
    public static void UpdateGameState(GameState newState){
-    if(CurrentState == newState) return;
     CurrentState = newState;
 
     ResourceLoader.GlobalLogger.Log("The game state is: " + newState);
@@ -36,26 +35,16 @@ public static class GameManager
                 break;
             case GameState.PuzzleMiniGame:
                 break;
-            case GameState.SavingGame:
-                HandleSavingGame();
-                break;
-            case GameState.LoadingGame:
-                HandleLoadingGame();
-                break;
-            case GameState.NewGame:
-                HandleNewGame();
+            case GameState.PauseMenu: 
+                HandlePauseMenu();
                 break;
         }
 
         OnGameStateChange?.Invoke(newState);
     }
 
-    private static void HandleLoadingGame(){
-        GameDataHandler.LoadGame();
-    }
-
-    private static void HandleSavingGame(){
-        GameDataHandler.SaveGame();
+    private static void HandlePauseMenu(){
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private static void HandleStatus(){
@@ -68,20 +57,16 @@ public static class GameManager
 
     private static void HandleMainMenu(){
         Cursor.lockState = CursorLockMode.None;
-    }
-
-    public static void HandleNewGame(){
-        GameDataHandler.NewGame();
+        
+        SceneDirector.Instance.LoadScene(SceneIndex.MAIN_MENU, GameDataHandler.IntializeSaveValues);
     }
 }
 
 
 public enum GameState{
-    NewGame,
-    SavingGame,
-    LoadingGame,
     MainMenu,
     MainGame,
+    PauseMenu,
     StatusScreen,
     ContextScreen,
     Cutscene,

@@ -50,4 +50,8 @@ public class InputManager : ScriptableObject
     public InputAction ReturnReloadAction(){
         return playerControls.Player.Reload;
     }
+
+    public InputAction ReturnPauseAction(){
+        return playerControls.Player.PauseGame;
+    }
 }

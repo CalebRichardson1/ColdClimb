@@ -14,6 +14,7 @@ public class PlayerInventory : ScriptableObject, ILoadable
     private int MaxInventorySize => PlayerData.playerInventory.maxInventory;
 
     public Action CreatedInventoryCallback;
+    public Action LoadedInventoryCallback;
     public Action<InventoryItem> OnEquipItem;
 
     private Logger GlobalLogger => ResourceLoader.GlobalLogger;
@@ -30,9 +31,16 @@ public class PlayerInventory : ScriptableObject, ILoadable
     }
 
     public void LoadData(){
+        if(CurrentInventory.Count <= 0 && MaxInventorySize > 0){
+            CreateInventory();
+            return;
+        }
+
         if(CurrentEquippedItem != null){
             OnEquipItem?.Invoke(CurrentEquippedItem);
         }
+
+        LoadedInventoryCallback?.Invoke();
     }
 
     // Method to create the inital inventory for our player.
