@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 namespace ColdClimb.Player{
     // Our interact script that gets called when the game state is in the main game state
     public class PlayerInteract : MonoBehaviour{
-        #region Variables
         [SerializeField] private float interactPointRadius;
         [SerializeField] private float interactDistance;
 
@@ -18,9 +17,7 @@ namespace ColdClimb.Player{
         private int numFound;
 
         private bool canInteract = true;
-        #endregion
 
-        #region Setup
         private void OnEnable(){
             GameManager.OnGameStateChange += (state) => canInteract = state == GameState.MainGame;
         }
@@ -36,9 +33,7 @@ namespace ColdClimb.Player{
         private void OnDestroy() {
             InputManager.ReturnInteractAction().started -= TriggerInteract; 
         }
-        #endregion
 
-        #region Interact Action
         private void TriggerInteract(InputAction.CallbackContext context){
             if(!canInteract) return;
             numFound = Physics.SphereCastNonAlloc(transform.position, interactPointRadius, transform.forward, colliders, interactDistance, interactableLayerMask);
@@ -46,13 +41,10 @@ namespace ColdClimb.Player{
                 interactable.Interact(this); 
             }
         }
-        #endregion
 
-        #region Gizmos
         private void OnDrawGizmosSelected(){
             Gizmos.color = Color.cyan;
             Gizmos.DrawRay(transform.position, transform.forward * interactDistance);
         }
-        #endregion
     }
 }

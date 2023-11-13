@@ -8,7 +8,6 @@ using ColdClimb.Item;
 namespace ColdClimb.Inventory{
     // UI class that detects when the cursor is over its gameobject and calls OnSlotSelected from the InventoryUI 
     public class InventorySlot : MonoBehaviour, ISelectHandler{   
-        #region Variables
         public InventoryItem ItemInSlot {get; private set;}
         public Image ItemImage {get; private set;}
         public bool IsEquippmentSlot => isEquipableSlot;
@@ -23,9 +22,7 @@ namespace ColdClimb.Inventory{
         private InventoryUIController inventoryUIController;
         private TMP_Text stackText;
         private Image InstancedImage;
-        #endregion
 
-        #region Player Interaction
         public void OnSelect(BaseEventData eventData){
             inventoryUIController.OnSlotSelectedAction(this);
         }
@@ -34,9 +31,7 @@ namespace ColdClimb.Inventory{
             if(ItemInSlot.ItemData == null) return;
             inventoryUIController.OnViableSlotClickedAction(this);
         }
-        #endregion
 
-        #region Setup
         public void SetupSlot(InventoryUIController controller, InventoryItem item){
             inventoryUIController = controller;
             ItemInSlot = item;
@@ -72,6 +67,5 @@ namespace ColdClimb.Inventory{
             ItemImage = ItemInSlot.ItemData.Image;
             InstancedImage = Instantiate(ItemImage, transform.position, Quaternion.identity, transform);
         }
-        #endregion
     }
 }

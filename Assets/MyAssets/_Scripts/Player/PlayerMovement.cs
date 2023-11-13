@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 namespace ColdClimb.Player{
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovement : MonoBehaviour, ILoadable{
-        #region Variables
         public static Action<bool> OnSprintAction;
 
         [SerializeField] private Transform characterOrientation;
@@ -25,9 +24,7 @@ namespace ColdClimb.Player{
         private Vector3 moveDirection;
 
         private bool canMove;
-        #endregion
 
-        #region Setup
         private void OnEnable(){
             PlayerData.LoadValuesCallback += LoadData;
             GameManager.OnGameStateChange += (state) => canMove = state == GameState.MainGame;
@@ -52,12 +49,10 @@ namespace ColdClimb.Player{
         }
 
         private void OnDestroy(){
-        InputManager.ReturnSprintAction().started -= StartSprinting;
-        InputManager.ReturnSprintAction().canceled -= StopSprinting;
+            InputManager.ReturnSprintAction().started -= StartSprinting;
+            InputManager.ReturnSprintAction().canceled -= StopSprinting;
         }
-        #endregion
 
-        #region Base Movement
         private void Update(){
             if(!canMove) return;
             MoveInput();
@@ -85,9 +80,7 @@ namespace ColdClimb.Player{
                 CharacterRigidbody.velocity = new Vector3(limitedVel.x, CharacterRigidbody.velocity.y, limitedVel.z);
             }
         }
-        #endregion
 
-        #region Sprinting
         private void StartSprinting(InputAction.CallbackContext context){
             if(yInput > 0.55){
                 currentSpeed = runningSpeed;
@@ -105,6 +98,5 @@ namespace ColdClimb.Player{
             currentSpeed = walkingSpeed;
             OnSprintAction?.Invoke(false);
         }
-        #endregion
     }
 }

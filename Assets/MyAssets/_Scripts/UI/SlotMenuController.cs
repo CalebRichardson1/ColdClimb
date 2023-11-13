@@ -8,7 +8,6 @@ namespace ColdClimb.UI{
     {
         public event Action<SaveSlot> OnSlotSelect;
 
-
         public void NewGame(){
             OnSlotSelect += GameDataHandler.NewGame;
         }

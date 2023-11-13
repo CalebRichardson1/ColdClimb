@@ -10,7 +10,6 @@ namespace ColdClimb.Item{
         [SerializeField] private int healAmount = 10;
         private Health playerHealth;
 
-        #region Setup
         private void OnEnable() {
             Health.IsPlayerAction += (currentPlayerHealth) => playerHealth = currentPlayerHealth;
         }
@@ -18,7 +17,6 @@ namespace ColdClimb.Item{
         private void OnDisable() {
             Health.IsPlayerAction -= (currentPlayerHealth) => playerHealth = currentPlayerHealth;
         }
-        #endregion
 
         //item base methods
         public override void CombineItem()

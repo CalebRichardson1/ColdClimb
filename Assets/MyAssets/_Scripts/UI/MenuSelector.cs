@@ -8,7 +8,6 @@ namespace ColdClimb.UI{
     [RequireComponent(typeof(RectTransform))]
     public class MenuSelector : MonoBehaviour
     {
-        #region Variables
         [SerializeField, Range(1f, 50f)] private float selectorMoveSpeed = 25f;
         [SerializeField, Range(0.01f, 5f)] private float stopMovingDistanceFromTarget = 0.01f;
 
@@ -24,14 +23,9 @@ namespace ColdClimb.UI{
         private RectTransform selectedRectTransform;
 
         private bool isValid;
-        #endregion
-
-        #region Setup
         private void OnEnable() => GameManager.OnGameStateChange += EvaluateGameState;
         private void OnDisable() => GameManager.OnGameStateChange -= EvaluateGameState;
-        #endregion
 
-        #region Setting The Default Selection
         public void SetDefaultSelectedObject(Transform defaultSelection){
             defaultSelectedObject = defaultSelection;
             AssignDefaultSelection();
@@ -45,9 +39,7 @@ namespace ColdClimb.UI{
             CurrentEventSystem.SetSelectedGameObject(defaultSelectedObject.gameObject);
             SetTarget(defaultSelectedObject);
         }
-        #endregion
 
-        #region Evaluating Game State and Cursor Specific Logic
         private void EvaluateGameState(GameState gameState){
             isValid = gameState == GameState.MainMenu || gameState == GameState.StatusScreen || gameState == GameState.GameOver || gameState == GameState.ContextScreen;
             //set the cursor visual to be enabled when we are in a menu
@@ -74,7 +66,6 @@ namespace ColdClimb.UI{
                 MoveSelector();
             }  
         }
-        #endregion
 
         public void SetTarget(Transform target){
             CurrentEventSystem.SetSelectedGameObject(target.gameObject);
@@ -82,7 +73,6 @@ namespace ColdClimb.UI{
             selectedRectTransform = target.GetComponent<RectTransform>();
         }
 
-        #region Moving Cursor
         private void Update() {
             if(!isValid) return;
             DetectCursorDistance();
@@ -101,6 +91,5 @@ namespace ColdClimb.UI{
             RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, horizontalLerp);
             RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, verticalLerp);
         }
-        #endregion
     }
 }

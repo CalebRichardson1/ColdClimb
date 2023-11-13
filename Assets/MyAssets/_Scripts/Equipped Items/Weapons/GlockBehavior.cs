@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 namespace ColdClimb.Item.Equipped{
-
     public class GlockBehavior : EquippedItemBehavior{
         [Header("Required Components")]
         [SerializeField] private Transform anchor;

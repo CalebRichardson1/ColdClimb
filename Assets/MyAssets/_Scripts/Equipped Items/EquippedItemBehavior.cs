@@ -10,7 +10,6 @@ namespace ColdClimb.Item.Equipped{
         [SerializeField] protected float actionCooldownTime;
 
         protected bool onCooldown;
-
         public abstract void SetupBehavior(EquipableItem item);
         public abstract void Use(InputAction action);
         public abstract void AltUse(InputAction action);

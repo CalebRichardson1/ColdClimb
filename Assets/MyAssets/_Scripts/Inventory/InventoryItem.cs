@@ -6,19 +6,16 @@ using UnityEngine;
 namespace ColdClimb.Inventory{
     [Serializable]
     public class InventoryItem{
-        #region Variables
         public ItemData ItemData => itemData;
         public int CurrentStackSize => currentStackSize;
 
         [SerializeField] private int currentStackSize;
         [SerializeField] private ItemData itemData;
-        #endregion
 
         public InventoryItem(ItemData heldItem){
             itemData = heldItem;
         }
 
-        #region Manipulating the Stack Size
         public void AddToStack(int amount){
             currentStackSize += amount;
         }
@@ -30,7 +27,6 @@ namespace ColdClimb.Inventory{
                 itemData = null;
             }
         }
-        #endregion
 
         public bool IsFull(){
             return itemData == null || !itemData.IsItemStackable || currentStackSize == itemData.MaxStackSize;

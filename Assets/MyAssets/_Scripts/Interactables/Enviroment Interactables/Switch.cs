@@ -5,7 +5,6 @@ using UnityEngine;
 namespace ColdClimb.Interactable{
     // Basic switch that the player can interact with
     public class Switch : MonoBehaviour, IInteractable{
-        #region Variables
         public bool SwitchState => isActivated;
 
         [Header("Prompt Name")]
@@ -20,15 +19,11 @@ namespace ColdClimb.Interactable{
         public Action<bool> OnSwitchChange;
 
         private bool startState;
-        #endregion
 
-        #region Setup
         private void Start(){
             startState = isActivated;
         }
-        #endregion
 
-        #region Interact Action
         public bool Interact(PlayerInteract player){
             if(oneShot && isActivated != startState) return false;
 
@@ -36,6 +31,5 @@ namespace ColdClimb.Interactable{
             OnSwitchChange?.Invoke(isActivated);
             return true;
         }
-        #endregion
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ColdClimb.Item.Equipped{
-
     public class FlashlightBehavior : EquippedItemBehavior{
         [Header("Required Components")]
         [SerializeField] private Light flashLight;

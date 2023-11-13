@@ -9,7 +9,7 @@ namespace ColdClimb.Inventory{
 
     // Handles the Inventory UI Logic
     public class InventoryUIController : MonoBehaviour{
-        #region Variables
+
         public Action<InventorySlot> OnSlotSelected;
         public Action<InventorySlot> OnSlotClicked;
         public static InventorySlot CurrentEquippedItemSlot;
@@ -28,9 +28,7 @@ namespace ColdClimb.Inventory{
         private List<InventorySlot> inventorySlotsUI = new();
 
         private InventorySlot currentSelectedSlot;
-        #endregion
 
-        #region Setup
         private void Awake(){
             GameManager.OnGameStateChange += GameStateChange;
             PlayerInventory.CreatedInventoryCallback += CreateInventoryMenu;
@@ -42,7 +40,6 @@ namespace ColdClimb.Inventory{
             PlayerInventory.CreatedInventoryCallback -= CreateInventoryMenu;
             PlayerInventory.LoadedInventoryCallback -= LoadInventorySlots;
         } 
-        #endregion
 
         public void OnSlotSelectedAction(InventorySlot selectedSlot){
             currentSelectedSlot = selectedSlot;
@@ -54,7 +51,6 @@ namespace ColdClimb.Inventory{
             OnSlotClicked?.Invoke(selectedSlot);
         }
 
-        #region Updating Inventory Screen
         // Creates the visual inventory that the player sees
 
         private void CreateInventoryMenu(){
@@ -134,6 +130,5 @@ namespace ColdClimb.Inventory{
             instancedInventoryScreen.EquippedItemButton.interactable = true;
             inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = true);
         }
-        #endregion
     }
 }

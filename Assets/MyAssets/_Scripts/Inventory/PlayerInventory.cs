@@ -12,7 +12,6 @@ namespace ColdClimb.Inventory{
     // Player inventory class that holds a list of inventory items that can manipulated
     [CreateAssetMenu(menuName = "Systems/Inventory", fileName = "NewInventory")]
     public class PlayerInventory : ScriptableObject, ILoadable{
-        #region Variables
         public List<InventoryItem> CurrentInventory => PlayerData.playerInventory.inventoryItems;
         public InventoryItem CurrentEquippedItem => PlayerData.playerInventory.currentEquippedItem;
         private int MaxInventorySize => PlayerData.playerInventory.maxInventory;
@@ -23,9 +22,7 @@ namespace ColdClimb.Inventory{
 
         private Logger GlobalLogger => ResourceLoader.GlobalLogger;
         private PlayerData PlayerData => ResourceLoader.MainPlayerData;
-        #endregion
 
-        #region Setup
         private void OnEnable(){
             PlayerData.LoadValuesCallback += LoadData;
         }
@@ -58,9 +55,7 @@ namespace ColdClimb.Inventory{
 
             CreatedInventoryCallback?.Invoke();
         }
-        #endregion
 
-        #region Manipulating The Inventory
         public int AttemptToAddItemToInventory(ItemData item, int itemAmount){
             //check if there is enough room in a item stack already
             var validStackableItems = CurrentInventory.Where(inventoryItem => inventoryItem.ItemData == item && !inventoryItem.IsFull()).ToList();
@@ -125,9 +120,7 @@ namespace ColdClimb.Inventory{
                 if(ammoAmount <= 0) return;
             }
         }
-        #endregion
 
-        #region Reading The Inventory
         public int GetAmmoAmount(GunType ammoType){
             var validInventoryAmmo = ReturnInventoryAmmo(ammoType);
             if(validInventoryAmmo == null) return 0;
@@ -168,6 +161,5 @@ namespace ColdClimb.Inventory{
             List<InventoryItem> validInventoryItems = CurrentInventory.Where(item => validInventoryItemData.Any(data => data == item.ItemData)).ToList();
             return validInventoryItems;
         }
-        #endregion
     }
 }
