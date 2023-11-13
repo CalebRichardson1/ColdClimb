@@ -1,0 +1,66 @@
+{
+    "CurrentPlayerStats": {
+        "currentHealth": 100,
+        "maxHealth": 100,
+        "walkSpeed": 4.0,
+        "runSpeed": 7.0,
+        "lookSpeed": 10.0
+    },
+    "CurrentPlayerLocation": {
+        "currentSceneIndex": 2,
+        "playerPosition": {
+            "x": 83.25208282470703,
+            "y": 3.96934175491333,
+            "z": 137.53932189941407
+        },
+        "playerLookX": -16.468107223510743,
+        "playerLookY": 7.081979751586914
+    },
+    "CurrentPlayerInventory": {
+        "currentEquippedItem": {
+            "currentStackSize": 1,
+            "itemData": {
+                "instanceID": 28506
+            }
+        },
+        "inventoryItems": [
+            {
+                "currentStackSize": 0,
+                "itemData": {
+                    "instanceID": 0
+                }
+            },
+            {
+                "currentStackSize": 2,
+                "itemData": {
+                    "instanceID": 28500
+                }
+            },
+            {
+                "currentStackSize": 0,
+                "itemData": {
+                    "instanceID": 0
+                }
+            },
+            {
+                "currentStackSize": 0,
+                "itemData": {
+                    "instanceID": 0
+                }
+            },
+            {
+                "currentStackSize": 0,
+                "itemData": {
+                    "instanceID": 0
+                }
+            },
+            {
+                "currentStackSize": 0,
+                "itemData": {
+                    "instanceID": 0
+                }
+            }
+        ],
+        "maxInventory": 6
+    }
+}

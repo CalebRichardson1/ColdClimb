@@ -1,40 +1,43 @@
 using System;
+using ColdClimb.Inventory;
+using ColdClimb.Item;
 using UnityEngine;
 
-public class ItemLock : MonoBehaviour
-{
-    public Action OnUnlockEvent;
-    [SerializeField] private string interactPrompt;
-    [SerializeField] private KeyItem itemToUnlock;
-    [SerializeField] private bool consumeItem;
+namespace ColdClimb.Interactable{
+    public class ItemLock : MonoBehaviour{
+        public Action OnUnlockEvent;
+        [SerializeField] private string interactPrompt;
+        [SerializeField] private KeyItem itemToUnlock;
+        [SerializeField] private bool consumeItem;
 
-    public string InteractionPrompt => interactPrompt;
+        public string InteractionPrompt => interactPrompt;
 
-    private bool subscribed;
+        private bool subscribed;
 
-    public void AttemptUnlock(ItemData itemAttempt){
-        if(itemAttempt == itemToUnlock){
-            print("Unlocked!");
-            if(consumeItem) InventoryContextMenu.ContextedInventoryItem.RemoveFromStack(1);
-            OnUnlockEvent?.Invoke();
+        public void AttemptUnlock(ItemData itemAttempt){
+            if(itemAttempt == itemToUnlock){
+                print("Unlocked!");
+                if(consumeItem) InventoryContextMenu.ContextedInventoryItem.RemoveFromStack(1);
+                OnUnlockEvent?.Invoke();
+            }
+            else{
+                print("Wrong Item!");
+            }
         }
-        else{
-            print("Wrong Item!");
+
+        private void OnTriggerEnter(Collider other){
+            if(!other.CompareTag("Player")) return;
+
+            InventoryContextMenu.OnUseKeyItemAction += AttemptUnlock; 
+            subscribed = true;
         }
-    }
 
-    private void OnTriggerEnter(Collider other) {
-        if(!other.CompareTag("Player")) return;
-
-        InventoryContextMenu.OnUseKeyItemAction += AttemptUnlock; 
-        subscribed = true;
-    }
-
-    private void OnTriggerExit(Collider other){
-        if(!other.CompareTag("Player")) return;
-        if(subscribed){
-            InventoryContextMenu.OnUseKeyItemAction -= AttemptUnlock;
-            subscribed = false; 
+        private void OnTriggerExit(Collider other){
+            if(!other.CompareTag("Player")) return;
+            if(subscribed){
+                InventoryContextMenu.OnUseKeyItemAction -= AttemptUnlock;
+                subscribed = false; 
+            }
         }
     }
 }

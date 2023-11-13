@@ -1,6 +1,10 @@
-public interface IInteractable
-{
-    public string InteractionPrompt{ get; }
+using ColdClimb.Player;
 
-    public bool Interact(PlayerInteract player);    
+namespace ColdClimb.Interactable{
+    public interface IInteractable
+    {
+        public string InteractionPrompt{ get; }
+
+        public bool Interact(PlayerInteract player);    
+    }
 }

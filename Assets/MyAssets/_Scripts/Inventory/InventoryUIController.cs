@@ -2,134 +2,138 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
+using ColdClimb.Global;
+using ColdClimb.UI;
 
-// Handles the Inventory UI Logic
-public class InventoryUIController : MonoBehaviour
-{
-    #region Variables
-    public Action<InventorySlot> OnSlotSelected;
-    public Action<InventorySlot> OnSlotClicked;
-    public static InventorySlot CurrentEquippedItemSlot;
+namespace ColdClimb.Inventory{
 
-    [Header("Dependencies")]
-    [SerializeField] private InventoryUIVisual inventoryScreenPrefab;
-    [SerializeField] private InventorySlot inventorySlotPrefab; 
-    [SerializeField] private MenuSelector selector;
-    [SerializeField] private InventoryContextMenu contextMenu;
+    // Handles the Inventory UI Logic
+    public class InventoryUIController : MonoBehaviour{
+        #region Variables
+        public Action<InventorySlot> OnSlotSelected;
+        public Action<InventorySlot> OnSlotClicked;
+        public static InventorySlot CurrentEquippedItemSlot;
 
-    private InventoryUIVisual instancedInventoryScreen;
-    private InventoryContextMenu instancedContexMenu;
+        [Header("Dependencies")]
+        [SerializeField] private InventoryUIVisual inventoryScreenPrefab;
+        [SerializeField] private InventorySlot inventorySlotPrefab; 
+        [SerializeField] private MenuSelector selector;
+        [SerializeField] private InventoryContextMenu contextMenu;
 
-    private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
+        private InventoryUIVisual instancedInventoryScreen;
+        private InventoryContextMenu instancedContexMenu;
 
-    private List<InventorySlot> inventorySlotsUI = new();
+        private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
 
-    private InventorySlot currentSelectedSlot;
-    #endregion
+        private List<InventorySlot> inventorySlotsUI = new();
 
-    #region Setup
-    private void Awake(){
-        GameManager.OnGameStateChange += GameStateChange;
-        PlayerInventory.CreatedInventoryCallback += CreateInventoryMenu;
-        PlayerInventory.LoadedInventoryCallback += LoadInventorySlots;
-    }
+        private InventorySlot currentSelectedSlot;
+        #endregion
 
-    private void OnDestroy(){
-        GameManager.OnGameStateChange -= GameStateChange;
-        PlayerInventory.CreatedInventoryCallback -= CreateInventoryMenu;
-        PlayerInventory.LoadedInventoryCallback -= LoadInventorySlots;
-    } 
-    #endregion
-
-    public void OnSlotSelectedAction(InventorySlot selectedSlot){
-        currentSelectedSlot = selectedSlot;
-        OnSlotSelected?.Invoke(selectedSlot);
-    }
-
-    public void OnViableSlotClickedAction(InventorySlot selectedSlot){
-        InContextMenu();
-        OnSlotClicked?.Invoke(selectedSlot);
-    }
-
-    #region Updating Inventory Screen
-    // Creates the visual inventory that the player sees
-
-    private void CreateInventoryMenu(){
-        instancedInventoryScreen = Instantiate(inventoryScreenPrefab, transform.position, Quaternion.identity, transform);
-        instancedInventoryScreen.SetInventoryUIController(this);
-        instancedInventoryScreen.transform.SetAsFirstSibling();
-        CurrentEquippedItemSlot = instancedInventoryScreen.EquippedItemButton.GetComponent<InventorySlot>();
-
-        //instanitate instanced context menu
-        instancedContexMenu = Instantiate(contextMenu, instancedInventoryScreen.ContextMenuSpawnPoint.position, 
-                                    Quaternion.identity, instancedInventoryScreen.transform);
-        //pass in this controller so the context menu can subscribe to the on click event
-        instancedContexMenu.SetupContextMenu(this, selector);
-
-        CreateInventorySlots();
-    }
-    
-    //Creates the slots that the player can interact with
-    private void CreateInventorySlots(){
-        foreach (var item in PlayerInventory.CurrentInventory){
-            var newSlot = Instantiate(inventorySlotPrefab, transform.position, Quaternion.identity, instancedInventoryScreen.InventorySlotContent);
-            newSlot.SetupSlot(this, item);
-            inventorySlotsUI.Add(newSlot);
-        }
-        //scale the layout grid group cell size by the max inventory size
-        CurrentEquippedItemSlot.SetupSlot(this, PlayerInventory.CurrentEquippedItem);
-    }
-
-    private void LoadInventorySlots(){
-        if(instancedInventoryScreen == null){
-            CreateInventoryMenu();
-            return;
+        #region Setup
+        private void Awake(){
+            GameManager.OnGameStateChange += GameStateChange;
+            PlayerInventory.CreatedInventoryCallback += CreateInventoryMenu;
+            PlayerInventory.LoadedInventoryCallback += LoadInventorySlots;
         }
 
-        foreach (var slot in inventorySlotsUI){
-            Destroy(slot.gameObject);
+        private void OnDestroy(){
+            GameManager.OnGameStateChange -= GameStateChange;
+            PlayerInventory.CreatedInventoryCallback -= CreateInventoryMenu;
+            PlayerInventory.LoadedInventoryCallback -= LoadInventorySlots;
+        } 
+        #endregion
+
+        public void OnSlotSelectedAction(InventorySlot selectedSlot){
+            currentSelectedSlot = selectedSlot;
+            OnSlotSelected?.Invoke(selectedSlot);
         }
 
-        inventorySlotsUI.Clear();
-        CreateInventorySlots();
-    }
+        public void OnViableSlotClickedAction(InventorySlot selectedSlot){
+            InContextMenu();
+            OnSlotClicked?.Invoke(selectedSlot);
+        }
 
-    private void GameStateChange(GameState state){
-        //if our state isn't the inventory screen set the inventory ui to false and return
-        if(state != GameState.ContextScreen && instancedContexMenu != null){
-            instancedContexMenu.CloseContextMenu();
+        #region Updating Inventory Screen
+        // Creates the visual inventory that the player sees
+
+        private void CreateInventoryMenu(){
+            instancedInventoryScreen = Instantiate(inventoryScreenPrefab, transform.position, Quaternion.identity, transform);
+            instancedInventoryScreen.SetInventoryUIController(this);
+            instancedInventoryScreen.transform.SetAsFirstSibling();
+            CurrentEquippedItemSlot = instancedInventoryScreen.EquippedItemButton.GetComponent<InventorySlot>();
+
+            //instanitate instanced context menu
+            instancedContexMenu = Instantiate(contextMenu, instancedInventoryScreen.ContextMenuSpawnPoint.position, 
+                                        Quaternion.identity, instancedInventoryScreen.transform);
+            //pass in this controller so the context menu can subscribe to the on click event
+            instancedContexMenu.SetupContextMenu(this, selector);
+
+            CreateInventorySlots();
         }
         
-        if (state != GameState.StatusScreen && state != GameState.ContextScreen && instancedInventoryScreen != null){
-            instancedInventoryScreen.gameObject.SetActive(false);
-            return;
+        //Creates the slots that the player can interact with
+        private void CreateInventorySlots(){
+            foreach (var item in PlayerInventory.CurrentInventory){
+                var newSlot = Instantiate(inventorySlotPrefab, transform.position, Quaternion.identity, instancedInventoryScreen.InventorySlotContent);
+                newSlot.SetupSlot(this, item);
+                inventorySlotsUI.Add(newSlot);
+            }
+            //scale the layout grid group cell size by the max inventory size
+            CurrentEquippedItemSlot.SetupSlot(this, PlayerInventory.CurrentEquippedItem);
         }
 
-        if (currentSelectedSlot == null)
-        {
-            // Setting the default cursor position in our inventory;
-            currentSelectedSlot = inventorySlotsUI[0];
-            selector.SetDefaultSelectedObject(inventorySlotsUI[0].transform);
+        private void LoadInventorySlots(){
+            if(instancedInventoryScreen == null){
+                CreateInventoryMenu();
+                return;
+            }
+
+            foreach (var slot in inventorySlotsUI){
+                Destroy(slot.gameObject);
+            }
+
+            inventorySlotsUI.Clear();
+            CreateInventorySlots();
         }
 
-        DrawInventorySlotsVisuals();
-        instancedInventoryScreen.gameObject.SetActive(true);
-    }
+        private void GameStateChange(GameState state){
+            //if our state isn't the inventory screen set the inventory ui to false and return
+            if(state != GameState.ContextScreen && instancedContexMenu != null){
+                instancedContexMenu.CloseContextMenu();
+            }
+            
+            if (state != GameState.StatusScreen && state != GameState.ContextScreen && instancedInventoryScreen != null){
+                instancedInventoryScreen.gameObject.SetActive(false);
+                return;
+            }
 
-    public void DrawInventorySlotsVisuals(){
-        CurrentEquippedItemSlot.DrawSlotVisual();
-        inventorySlotsUI.ForEach(slot => slot.DrawSlotVisual());
-        instancedInventoryScreen.UpdateSelectedInfo(currentSelectedSlot);
-    }
+            if (currentSelectedSlot == null)
+            {
+                // Setting the default cursor position in our inventory;
+                currentSelectedSlot = inventorySlotsUI[0];
+                selector.SetDefaultSelectedObject(inventorySlotsUI[0].transform);
+            }
 
-    private void InContextMenu(){
-        instancedInventoryScreen.EquippedItemButton.interactable = false;
-        inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = false);
-    }
+            DrawInventorySlotsVisuals();
+            instancedInventoryScreen.gameObject.SetActive(true);
+        }
 
-    public void NotInContextMenu(){
-        instancedInventoryScreen.EquippedItemButton.interactable = true;
-        inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = true);
+        public void DrawInventorySlotsVisuals(){
+            CurrentEquippedItemSlot.DrawSlotVisual();
+            inventorySlotsUI.ForEach(slot => slot.DrawSlotVisual());
+            instancedInventoryScreen.UpdateSelectedInfo(currentSelectedSlot);
+        }
+
+        private void InContextMenu(){
+            instancedInventoryScreen.EquippedItemButton.interactable = false;
+            inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = false);
+        }
+
+        public void NotInContextMenu(){
+            instancedInventoryScreen.EquippedItemButton.interactable = true;
+            inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = true);
+        }
+        #endregion
     }
-    #endregion
 }

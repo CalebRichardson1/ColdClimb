@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using ColdClimb.Global;
+using ColdClimb.UI;
 using UnityEngine;
 using UnityEngine.Audio;
 
