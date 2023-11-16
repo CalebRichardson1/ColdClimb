@@ -18,7 +18,7 @@ namespace ColdClimb.Global.SaveSystem{
 
         private int selectedResolution;
 
-        private void OnEnable(){
+        public override void Intialize(){
             GameDataHandler.OnSaveOptionsCallback += OnSaveSettings;
             GameDataHandler.OnLoadOptionsCallback += OnLoadSettings;
             GameDataHandler.OnNewOptionsCallback += SetDefaultOptions;

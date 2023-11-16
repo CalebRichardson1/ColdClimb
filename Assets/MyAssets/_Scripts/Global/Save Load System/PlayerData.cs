@@ -15,6 +15,19 @@ namespace ColdClimb.Global.SaveSystem{
 
         public override event Action LoadValuesCallback;
 
+        // Subscribe to the on save callback and on load callback to write/read the values.
+        public override void Intialize(){
+            GameDataHandler.OnSaveCallback += OnSave;
+            GameDataHandler.OnLoadCallback += OnLoad;
+            GameDataHandler.OnNewGameCallback += OnNewGame;
+        }
+
+        private void OnDisable() {
+            GameDataHandler.OnSaveCallback -= OnSave;
+            GameDataHandler.OnLoadCallback -= OnLoad;
+            GameDataHandler.OnNewGameCallback -= OnNewGame;
+        }
+
         // During the OnSave event, we save the structs we have onto the current save data.
         protected override void OnSave(){
             GameDataHandler.CurrentSaveData.CurrentPlayerStats = playerStats;

@@ -1,40 +1,46 @@
 using ColdClimb.Global;
+using ColdClimb.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace ColdClimb.Player{
     public class PlayerPauseBehaviour : MonoBehaviour{
         [SerializeField] private GameObject pauseMenu;
+        [SerializeField] private RectTransform defaultButton;
         private InputManager InputManager => ResourceLoader.InputManager;
 
         private void Awake(){
-            InputManager.ReturnPauseAction().started += PauseGame;
+            InputManager.ReturnPauseAction().started += PauseGameAction;
             pauseMenu.SetActive(false);
         }   
 
         private void OnDestroy(){
-            InputManager.ReturnPauseAction().started -= PauseGame;
+            InputManager.ReturnPauseAction().started -= PauseGameAction;
         }
 
-        private void PauseGame(InputAction.CallbackContext context){
-            if(GameManager.CurrentState != GameState.PauseMenu){
-                pauseMenu.SetActive(true);
-                Time.timeScale = 0;
-                GameManager.UpdateGameState(GameState.PauseMenu);
-            }
-            else{
-                ResumeGame();
+        private void PauseGameAction(InputAction.CallbackContext context){
+            switch (GameManager.CurrentState){
+                case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
+                break;
+                case GameState.MainGame: PauseGame();
+                break;
+                case GameState.PauseMenu: ResumeGame();
+                break;
             }
         }
+
+        private void PauseGame(){
+                MenuSelector.Instance.SetDefaultSelectedObject(defaultButton);
+                pauseMenu.SetActive(true);
+                GameManager.UpdateGameState(GameState.PauseMenu);
+        } 
 
         public void ResumeGame(){
             pauseMenu.SetActive(false);
-            Time.timeScale = 1;
             GameManager.UpdateGameState(GameState.MainGame);
         } 
 
         public void MainMenu(){
-            Time.timeScale = 1;
             GameManager.UpdateGameState(GameState.MainMenu);
         }
 

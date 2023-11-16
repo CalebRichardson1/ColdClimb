@@ -23,10 +23,6 @@ namespace ColdClimb.Inventory{
         private Logger GlobalLogger => ResourceLoader.GlobalLogger;
         private PlayerData PlayerData => ResourceLoader.MainPlayerData;
 
-        private void OnEnable(){
-            PlayerData.LoadValuesCallback += LoadData;
-        }
-
         private void OnDisable(){
             PlayerData.LoadValuesCallback -= LoadData;
         }

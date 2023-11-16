@@ -9,7 +9,7 @@ namespace ColdClimb.Global.SaveSystem{
 
         public ContinueGame continueGame = new ContinueGame();
 
-        private void OnEnable(){
+        public override void Intialize(){
             GameDataHandler.OnLoadValidContinueGame += () => LoadValuesCallback?.Invoke();
             GameDataHandler.OnLoadValidSaveDataCallback += () => LoadValidFilesCallback?.Invoke();
         }

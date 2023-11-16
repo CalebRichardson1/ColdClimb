@@ -17,12 +17,12 @@ namespace ColdClimb.Inventory{
         [Header("Dependencies")]
         [SerializeField] private InventoryUIVisual inventoryScreenPrefab;
         [SerializeField] private InventorySlot inventorySlotPrefab; 
-        [SerializeField] private MenuSelector selector;
         [SerializeField] private InventoryContextMenu contextMenu;
 
         private InventoryUIVisual instancedInventoryScreen;
         private InventoryContextMenu instancedContexMenu;
 
+        private MenuSelector Selector => MenuSelector.Instance;
         private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
 
         private List<InventorySlot> inventorySlotsUI = new();
@@ -63,7 +63,7 @@ namespace ColdClimb.Inventory{
             instancedContexMenu = Instantiate(contextMenu, instancedInventoryScreen.ContextMenuSpawnPoint.position, 
                                         Quaternion.identity, instancedInventoryScreen.transform);
             //pass in this controller so the context menu can subscribe to the on click event
-            instancedContexMenu.SetupContextMenu(this, selector);
+            instancedContexMenu.SetupContextMenu(this);
 
             CreateInventorySlots();
         }
@@ -104,11 +104,13 @@ namespace ColdClimb.Inventory{
                 return;
             }
 
-            if (currentSelectedSlot == null)
-            {
+            if (currentSelectedSlot == null){
                 // Setting the default cursor position in our inventory;
                 currentSelectedSlot = inventorySlotsUI[0];
-                selector.SetDefaultSelectedObject(inventorySlotsUI[0].transform);
+                Selector.SetDefaultSelectedObject(inventorySlotsUI[0].transform);
+            }
+            else{
+                Selector.SetDefaultSelectedObject(currentSelectedSlot.transform);
             }
 
             DrawInventorySlotsVisuals();

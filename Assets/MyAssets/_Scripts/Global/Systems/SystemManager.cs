@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using ColdClimb.Global.SaveSystem;
 using UnityEngine;
 
@@ -11,12 +13,24 @@ namespace ColdClimb.Global{
         [SerializeField] private GameState startingGameState;
         [SerializeField] private OptionsData optionsData;
 
+        [SerializeField] private List<DataHolder> dataHolders;
+
         private void Awake(){
             if(Instance != null && Instance != this){
                 Destroy(gameObject);
                 return;
             }
             Instance = this;
+
+            ResourceLoader.MainPlayerData.LoadValuesCallback += ResourceLoader.PlayerInventory.LoadData;
+
+            IntializeDataHolders();
+        }
+
+        private void IntializeDataHolders(){
+            for (int i = 0; i < dataHolders.Count; i++){
+                dataHolders[i].Intialize();
+            }
         }
 
         private void Start(){

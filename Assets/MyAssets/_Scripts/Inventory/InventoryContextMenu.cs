@@ -21,22 +21,16 @@ namespace ColdClimb.Inventory{
 
         [SerializeField] private GameObject contextMenuVisual;
         [SerializeField] private TMP_Text UseText;
+        [SerializeField] private RectTransform firstButtonTransform;
 
         private ItemData itemContext;
-        private Transform firstButtonTransform;
         private InventoryUIController controller;
-        private MenuSelector inventorySelector;
 
         private bool isEquipableSlot = false;
 
         #region Setup
-        private void OnEnable(){
-            firstButtonTransform = contextMenuVisual.transform.GetChild(0).transform;
-        }
-
-        public void SetupContextMenu(InventoryUIController inventoryUI, MenuSelector selector){
+        public void SetupContextMenu(InventoryUIController inventoryUI){
             controller = inventoryUI;
-            inventorySelector = selector;
             HideContextMenu();
             inventoryUI.OnSlotClicked += ItemContext;
         }
@@ -50,11 +44,11 @@ namespace ColdClimb.Inventory{
             itemContext = slot.ItemInSlot.ItemData;
             ContextedInventoryItem = slot.ItemInSlot;
             isEquipableSlot = slot.IsEquippmentSlot;
+            contextMenuVisual.SetActive(true);
+
+            MenuSelector.Instance.SetDefaultSelectedObject(firstButtonTransform);
 
             UpdateContextVisuals();
-
-            inventorySelector.SetTarget(firstButtonTransform);
-            contextMenuVisual.SetActive(true);
             GameManager.UpdateGameState(GameState.ContextScreen);
         }
 
@@ -64,8 +58,7 @@ namespace ColdClimb.Inventory{
                 return;
             }
 
-            switch (itemContext.ItemType)
-            {
+            switch (itemContext.ItemType){
                 case ItemType.Tool: UseText.text = "Equip";
                     return;
                 case ItemType.Gun: UseText.text = "Equip";
@@ -82,7 +75,7 @@ namespace ColdClimb.Inventory{
         }
 
         public void HideContextMenu(){
-            if(SlotContext != null) inventorySelector.SetTarget(SlotContext.transform);
+            if(SlotContext != null) MenuSelector.Instance.SetDefaultSelectedObject(SlotContext.transform);
             itemContext = null;
             SlotContext = null;
             contextMenuVisual.SetActive(false);

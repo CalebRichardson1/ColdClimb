@@ -5,6 +5,7 @@ using UnityEngine;
 namespace ColdClimb.UI{
     public class MainMenuController : MonoBehaviour{
         public static Action OnButtonPress;
+        public static Action<RectTransform> OnMenuLoad;
 
         [Header("Game Data")]
         [SerializeField] private GameData gameData;
@@ -15,11 +16,18 @@ namespace ColdClimb.UI{
         [SerializeField] private GameObject loadMenu;
         [SerializeField] private GameObject slotMenu;
 
-        [Header("Menu Buttons")]
-        [SerializeField] private GameObject continueGameButton;
-        [SerializeField] private GameObject loadGameButton;
+        [Header("Default Selected UI")]
+        [SerializeField] private RectTransform defaultOptionUI;
+        [SerializeField] private RectTransform defaultLoadUI;
+        [SerializeField] private RectTransform defaultSlotUI;
+
+        [Header("Main Menu Buttons")]
+        [SerializeField] private RectTransform continueGameButton;
+        [SerializeField] private RectTransform loadGameButton;
+        [SerializeField] private RectTransform newGameButton;
 
         private Menu currentMenu;
+        private RectTransform defaultButton;
 
         private void Awake(){
             gameData.LoadValuesCallback += ShowContinue;
@@ -32,44 +40,44 @@ namespace ColdClimb.UI{
         }
 
         private void ShowContinue(){
-            continueGameButton.SetActive(true);
+            continueGameButton.gameObject.SetActive(true);
+            defaultButton = continueGameButton;
+
+            LoadDefaultButton();
         }
 
         private void ShowLoad(){
-            // loadGameButton.SetActive(true);
+            // LoadDefaultButton();
         }
 
         private void Start(){
             currentMenu = Menu.MAIN;
             ShowVisuals();
-            continueGameButton.SetActive(false);
-            loadGameButton.SetActive(false);
+            continueGameButton.gameObject.SetActive(false);
+            loadGameButton.gameObject.SetActive(false);
+
+            defaultButton = newGameButton;
+            LoadDefaultButton();
 
             // Delete Later
             TMP_AudioManager.Instance.PlayMenuMusic();
         }
 
-        public void ShowMainMenu(){
-            currentMenu = Menu.MAIN;
+        public void ShowMenu(int index){
+            switch (index){
+                case 0: currentMenu = Menu.MAIN;
+                break;
+                case 1: currentMenu = Menu.LOAD;
+                break;
+                case 2: currentMenu = Menu.OPTION;
+                break;
+                case 3: currentMenu = Menu.SLOT;
+                break;
+                default: Debug.Log("Not Valid Menu Index, returning...");
+                    return;
+            }
             ShowVisuals();
-            OnButtonPress?.Invoke();
-        }
-
-        public void ShowLoadMenu(){
-            currentMenu = Menu.LOAD;
-            ShowVisuals();
-            OnButtonPress?.Invoke();
-        }
-
-        public void ShowOptionsMenu(){
-            currentMenu = Menu.OPTION;
-            ShowVisuals();
-            OnButtonPress?.Invoke();
-        }
-
-        public void ShowSlotMenu(){
-            currentMenu = Menu.SLOT;
-            ShowVisuals();
+            SetDefaultButton();
             OnButtonPress?.Invoke();
         }
 
@@ -81,6 +89,19 @@ namespace ColdClimb.UI{
         public void ContinueGame(){
             gameData.LoadContinueGame();
         } 
+
+        private void SetDefaultButton(){
+            switch (currentMenu){
+                case Menu.OPTION: OnMenuLoad?.Invoke(defaultOptionUI);
+                    break;
+                case Menu.LOAD: OnMenuLoad?.Invoke(defaultLoadUI);
+                    break;
+                case Menu.SLOT: OnMenuLoad?.Invoke(defaultSlotUI);
+                    break;
+            }
+        }
+
+        public void LoadDefaultButton() => OnMenuLoad?.Invoke(defaultButton);
 
         private void ShowVisuals(){
             mainMenu.SetActive(currentMenu == Menu.MAIN);

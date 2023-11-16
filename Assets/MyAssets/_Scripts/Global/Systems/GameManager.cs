@@ -44,7 +44,6 @@ namespace ColdClimb.Global{
         }
 
         private static void HandlePauseMenu(){
-            Cursor.lockState = CursorLockMode.None;
         }
 
         private static void HandleStatus(){
@@ -52,12 +51,12 @@ namespace ColdClimb.Global{
         }
 
         private static void HandleMainGame(){
-            Cursor.lockState = CursorLockMode.Locked;
+
         }
 
         private static void HandleMainMenu(){
-            Cursor.lockState = CursorLockMode.None;
-            
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             SceneDirector.Instance.LoadScene(SceneIndex.MAIN_MENU, GameDataHandler.IntializeSaveValues);
         }
     }
