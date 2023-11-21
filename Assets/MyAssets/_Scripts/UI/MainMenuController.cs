@@ -58,9 +58,6 @@ namespace ColdClimb.UI{
 
             defaultButton = newGameButton;
             LoadDefaultButton();
-
-            // Delete Later
-            TMP_AudioManager.Instance.PlayMenuMusic();
         }
 
         public void ShowMenu(int index){

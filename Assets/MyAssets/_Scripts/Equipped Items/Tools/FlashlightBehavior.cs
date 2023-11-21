@@ -1,6 +1,8 @@
+using ColdClimb.Audio;
 using ColdClimb.Global;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Item.Equipped{
     public class FlashlightBehavior : EquippedItemBehavior{
@@ -18,6 +20,15 @@ namespace ColdClimb.Item.Equipped{
         [SerializeField] private float zoomedIntensity;
         [SerializeField] private float defaultOuterSpotAngle;
         [SerializeField] private float zoomedOuterSpotAngle;
+
+        [Header("Audio Settings")]
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioType toggleAudio;
+        [SerializeField] private AudioType zoomInAudio;
+        [SerializeField] private AudioType zoomOutAudio;
+
+        private AudioController AudioController => AudioController.instance;
+        private bool startedZoom = false;
 
         private void Start(){
             SetDefaultFlashLight();
@@ -42,13 +53,26 @@ namespace ColdClimb.Item.Equipped{
             if(onCooldown) return;
             if(action.triggered){
                 flashLight.enabled = !flashLight.enabled;
+                AudioController.PlayAudio(toggleAudio, false, 0, 0, audioSource);
                 ActionCooldown(actionCooldownTime);
             }
         }
 
         public override void AltUse(InputAction action){
-            if(action.IsPressed()) LerpLight(FlashLightType.Zoomed);
-            else if(flashLight.range != defaultRange) LerpLight(FlashLightType.Default);
+            if(action.IsPressed()){
+                LerpLight(FlashLightType.Zoomed);
+                if(!startedZoom){
+                    AudioController.PlayAudio(zoomInAudio, false, 0, 0, audioSource);   
+                    startedZoom = true;
+                }
+            } 
+            else if(flashLight.range != defaultRange){
+                if(startedZoom){
+                    AudioController.PlayAudio(zoomOutAudio, false, 0, 0, audioSource); 
+                    startedZoom = false;
+                }
+                LerpLight(FlashLightType.Default);
+            } 
         }
 
         private void LerpLight(FlashLightType type){

@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 3284571275623975280}
   - component: {fileID: 3285913520554633182}
   - component: {fileID: 1083031713491039347}
+  - component: {fileID: 4956632901083763585}
   m_Layer: 5
   m_Name: Inspect
   m_TagString: Untagged
@@ -470,6 +471,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4956632901083763585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332009283026814488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 20
+  clickAudio: 22
 --- !u!1 &5747674424628010791
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +497,7 @@ GameObject:
   - component: {fileID: 9084723297220093574}
   - component: {fileID: 3546178957220378850}
   - component: {fileID: 740496043680768530}
+  - component: {fileID: 18239929170557616}
   m_Layer: 5
   m_Name: Discard
   m_TagString: Untagged
@@ -604,6 +620,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &18239929170557616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747674424628010791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 20
+  clickAudio: 22
 --- !u!1 &6244935070582286459
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +753,7 @@ GameObject:
   - component: {fileID: 5265071802308799529}
   - component: {fileID: 7377232638155704917}
   - component: {fileID: 3876945226994463840}
+  - component: {fileID: 6419166583720839361}
   m_Layer: 5
   m_Name: Combine
   m_TagString: Untagged
@@ -845,6 +876,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6419166583720839361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821263000011065674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 20
+  clickAudio: 22
 --- !u!1 &7050771327839643112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1176,7 @@ GameObject:
   - component: {fileID: 221112684227545553}
   - component: {fileID: 7942430444337740150}
   - component: {fileID: 8718802921948597807}
+  - component: {fileID: 3352567785397158747}
   m_Layer: 5
   m_Name: UseButton
   m_TagString: Untagged
@@ -1253,3 +1299,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3352567785397158747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121351090632798108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 20
+  clickAudio: 22

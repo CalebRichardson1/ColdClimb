@@ -2,6 +2,8 @@ using System;
 using ColdClimb.Global.SaveSystem;
 using ColdClimb.Global.LevelSystem;
 using UnityEngine;
+using ColdClimb.Audio;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Global{
     /// <summary>
@@ -35,15 +37,25 @@ namespace ColdClimb.Global{
                     break;
                 case GameState.PuzzleMiniGame:
                     break;
-                case GameState.PauseMenu: 
+                case GameState.PauseMenu:
                     HandlePauseMenu();
+                    break;
+                case GameState.Devscene:
+                    HandleDevScene();
                     break;
             }
 
             OnGameStateChange?.Invoke(newState);
         }
 
+        private static void HandleDevScene(){
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            SceneDirector.Instance.LoadScene(SceneIndex.DEVPLAYGROUND, GameDataHandler.TriggerNewGameValues);
+        }
+
         private static void HandlePauseMenu(){
+
         }
 
         private static void HandleStatus(){
@@ -57,6 +69,7 @@ namespace ColdClimb.Global{
         private static void HandleMainMenu(){
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            AudioController.instance.PlayLoopingAudio(AudioType.SOUNDTRACK_01);
             SceneDirector.Instance.LoadScene(SceneIndex.MAIN_MENU, GameDataHandler.IntializeSaveValues);
         }
     }
@@ -71,5 +84,6 @@ namespace ColdClimb.Global{
         Cutscene,
         GameOver,
         PuzzleMiniGame,
+        Devscene
     }
 }

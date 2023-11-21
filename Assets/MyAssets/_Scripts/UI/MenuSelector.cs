@@ -37,7 +37,6 @@ namespace ColdClimb.UI{
         private void OnDisable() => GameManager.OnGameStateChange -= EvaluateGameState;
 
         public void SetDefaultSelectedObject(Transform defaultSelection){
-            Debug.Log("Default Selected Object");
             defaultSelectedObject = defaultSelection;
             AssignDefaultSelection();
         } 

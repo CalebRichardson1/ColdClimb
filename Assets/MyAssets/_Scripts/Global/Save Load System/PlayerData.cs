@@ -59,7 +59,6 @@ namespace ColdClimb.Global.SaveSystem{
             playerLocation.playerPosition = new Vector3(85.18f, 3.06f, 132.12f);
             playerLocation.playerLookX = 0;
             playerLocation.playerLookY = 0;
-            
             playerInventory.inventoryItems.Clear();
             playerInventory.currentEquippedItem = null;
             playerInventory.maxInventory = 6;

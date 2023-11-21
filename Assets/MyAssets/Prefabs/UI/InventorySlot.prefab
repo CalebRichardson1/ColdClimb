@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 37496863998379508}
   - component: {fileID: 8841315714012609050}
   - component: {fileID: 703205405910044074}
+  - component: {fileID: 1219662485234563492}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -149,6 +150,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackTextDefaultColor: {r: 1, g: 1, b: 1, a: 1}
   stackTextFullColor: {r: 0.19578727, g: 0.5943396, b: 0, a: 1}
+  isEquipableSlot: 0
+--- !u!114 &1219662485234563492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502204940483711521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 20
+  clickAudio: 22
 --- !u!1 &5119558947988316971
 GameObject:
   m_ObjectHideFlags: 0

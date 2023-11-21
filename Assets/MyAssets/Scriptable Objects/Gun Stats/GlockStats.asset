@@ -17,11 +17,11 @@ MonoBehaviour:
   attackDamage: 15
   fireRange: 50
   aimSpeed: 7
-  reloadSpeed: 2.5
   maxAmmo: 15
   currentAmmo: 15
+  reloadSpeed: 2.5
   baseBloom: 2.5
-  visualRecoil: 15
+  visualRecoil: 30
   basekickback: 0.05
   isAuto: 0
   burstFire: 0

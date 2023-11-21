@@ -5,7 +5,9 @@ namespace ColdClimb.Global{
         MAIN_MENU = 1,
         PARKING_LOT = 2,
         FOREST = 3,
-        MANSION_COURTYARD = 4,
+        DEVPLAYGROUND = 4,
+        MANSION_COURTYARD = 5,
+
 
         NUMSCENEINDEX
     }

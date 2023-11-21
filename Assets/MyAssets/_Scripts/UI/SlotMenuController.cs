@@ -1,4 +1,5 @@
 using System;
+using ColdClimb.Audio;
 using ColdClimb.Global;
 using ColdClimb.Global.SaveSystem;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace ColdClimb.UI{
 
         public void NewGame(){
             OnSlotSelect += GameDataHandler.NewGame;
+            OnSlotSelect += (saveSlot) => AudioController.instance.StopAudio(Audio.AudioType.SOUNDTRACK_01);
         }
 
         public void LoadGame(){
@@ -18,6 +20,7 @@ namespace ColdClimb.UI{
 
         private void OnDestroy() {
             OnSlotSelect -= GameDataHandler.NewGame;
+            OnSlotSelect -= (saveSlot) => AudioController.instance.StopAudio(Audio.AudioType.SOUNDTRACK_01);
         }
 
         public void Slot1() => OnSlotSelect?.Invoke(SaveSlot.SLOT1);

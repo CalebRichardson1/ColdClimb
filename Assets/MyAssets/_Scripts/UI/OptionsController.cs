@@ -61,7 +61,6 @@ namespace ColdClimb.UI{
         public void SetFullscreen(bool state) => OptionsData.settings.isFullScreen = state;
 
         public void ApplyVideoSettings(){
-            TMP_AudioManager.Instance.PlaySound("ButtonPress"); // Remove later.
             OptionsData.ApplySettings(true);
         }
 

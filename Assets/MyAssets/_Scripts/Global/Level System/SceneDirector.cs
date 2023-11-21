@@ -10,6 +10,7 @@ namespace ColdClimb.Global.LevelSystem{
 
     public class SceneDirector : MonoBehaviour{
         public static SceneDirector Instance;
+        public static Action<SceneIndex> LoadedScene;
 
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private Image progressBar;
@@ -31,6 +32,10 @@ namespace ColdClimb.Global.LevelSystem{
         }
 
         public void LoadScene(SceneIndex index, Action loadedCallback){
+            if(currentSceneIndex == index){
+                return;
+            }
+            
             if(loadingScreen != null){
                 loadingScreen.SetActive(true);
             }
@@ -52,7 +57,9 @@ namespace ColdClimb.Global.LevelSystem{
                     totalSceneProgress = 0;
 
                     foreach (AsyncOperation operation in scenesLoading){
-                        totalSceneProgress += operation.progress;
+                        if(operation != null){
+                            totalSceneProgress += operation.progress;
+                        }
                     }
 
                     totalSceneProgress /= scenesLoading.Count;
@@ -65,6 +72,7 @@ namespace ColdClimb.Global.LevelSystem{
                 loadingScreen.SetActive(false);
                 SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)currentSceneIndex));
 
+                LoadedScene?.Invoke(currentSceneIndex);
                 loadedCallback?.Invoke();
         }
 

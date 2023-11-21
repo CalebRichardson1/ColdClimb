@@ -1,12 +1,13 @@
+using ColdClimb.Audio;
 using ColdClimb.Generic;
 using ColdClimb.Global;
-using ColdClimb.Global.SaveSystem;
 using ColdClimb.Inventory;
 using ColdClimb.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Item.Equipped{
     public class GlockBehavior : EquippedItemBehavior{
@@ -22,6 +23,14 @@ namespace ColdClimb.Item.Equipped{
         [SerializeField] private Transform runningPos;
         [SerializeField] private Transform checkingAmmoPos;
 
+        [Header("Audio Settings")]
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioType fireGlockAudio;
+        [SerializeField] private AudioType reloadGlockAudio;
+        [SerializeField] private AudioType emptyGlockAudio;
+
+
+        private AudioController AudioController => AudioController.instance;
         private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
 
         private GunEquipableItem gunItem;
@@ -53,7 +62,11 @@ namespace ColdClimb.Item.Equipped{
 
         //glock firing
         public override void Use(InputAction action){
-            if(onCooldown || isRunning || gunStats.currentAmmo == 0 || checkingAmmo) return;
+            if(onCooldown || isRunning || checkingAmmo) return;
+            if(gunStats.currentAmmo == 0 && action.triggered){
+                AudioController.PlayAudio(emptyGlockAudio, false, 0, 0, audioSource);
+                return;
+            }
 
             Debug.DrawRay(shootSpawnPos.position, shootSpawnPos.forward * gunStats.fireRange, Color.green);
 
@@ -70,6 +83,7 @@ namespace ColdClimb.Item.Equipped{
         }
 
         private void Shoot(){
+            AudioController.PlayAudio(fireGlockAudio, false, 0, 0, audioSource);
             var bloom = Bloom();
             Physics.Raycast(shootSpawnPos.position, bloom, out RaycastHit hit, gunStats.fireRange, canBeShot);
 
@@ -125,6 +139,7 @@ namespace ColdClimb.Item.Equipped{
                 //reload timer
                 var amount = PlayerInventory.GetAmmoAmount(gunStats.gunType);
                 if(amount == 0) return;
+                AudioController.PlayAudio(reloadGlockAudio, false, 0, 0, audioSource);
                 //remove all current ammo if any remains
                 gunStats.currentAmmo = 0;
                 if(amount >= gunStats.maxAmmo){

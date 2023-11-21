@@ -16,6 +16,10 @@ namespace ColdClimb.Global.SaveSystem{
         [Header("Video")]
         [SerializeField] private List<VideoResolution> videoResolutions = new();
 
+        private const string MASTER_VOLUME = "MasterVolume";
+        private const string MUSIC_VOLUME = "MusicVolume";
+        private const string SFX_VOLUME = "SFXVolume";
+
         private int selectedResolution;
 
         public override void Intialize(){
@@ -90,9 +94,9 @@ namespace ColdClimb.Global.SaveSystem{
                 Screen.SetResolution(settings.resolution.horizontal,
                                  settings.resolution.vertical, settings.isFullScreen);
             }
-            mainMixer.SetFloat("MasterVolume", Mathf.Log10(settings.masterVolume) * 20);
-            mainMixer.SetFloat("MusicVolume", Mathf.Log10(settings.musicVolume) * 20);
-            mainMixer.SetFloat("SFXVolume", Mathf.Log10(settings.sfxVolume) * 20);
+            mainMixer.SetFloat(MASTER_VOLUME, Mathf.Log10(settings.masterVolume) * 20);
+            mainMixer.SetFloat(MUSIC_VOLUME, Mathf.Log10(settings.musicVolume) * 20);
+            mainMixer.SetFloat(SFX_VOLUME, Mathf.Log10(settings.sfxVolume) * 20);
 
             GameDataHandler.SaveSettings();
         }

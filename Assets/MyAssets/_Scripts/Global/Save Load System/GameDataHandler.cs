@@ -205,6 +205,8 @@ namespace ColdClimb.Global.SaveSystem{
             LoadGameScene?.Invoke(SceneIndex.PARKING_LOT, OnNewGameCallback);
         }
 
+        public static void TriggerNewGameValues() => OnNewGameCallback?.Invoke();
+
         public static void SaveSettings(){
             OnSaveOptionsCallback?.Invoke();
             if(!Directory.Exists(GameDirectory)) InitializeFolderStructure();
