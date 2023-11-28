@@ -78,6 +78,11 @@ namespace ColdClimb.Generic{
                 OnMaxHealthModifiedCallback?.Invoke();
             }
         }
+
+        public void SetupHealth(int amount){
+            maxHealth = amount;
+            currentHealth = maxHealth;
+        }
     }
 }
     

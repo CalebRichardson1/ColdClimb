@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MyAssets/Scenes/GameAreas/Forest/ForestTrail.unity
     guid: 658e719456918ab45913c7c339b5ee51
-  - enabled: 0
+  - enabled: 1
     path: Assets/MyAssets/Scenes/DevScenes/Dev PlayGround.unity
     guid: 643d51eaff568214aa622a3b478d91bb
   m_configObjects: {}

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9a6a03287186f47b071de159962d40, type: 3}
+  m_Name: Bloomblight
+  m_EditorClassIdentifier: 
+  enemyName: Blightbloom
+  enemyDescription: "A creature developed by splicing human dna with sunflower folicles
+    \nand injecting the rabies virus into the embryo."
+  health: 50
+  attackDamage: 15
+  attackSpeed: 0.8
+  minAttackRange: 1.5
+  maxAttackRange: 5
+  walkingMovementSpeed: 3
+  runningMovementSpeed: 5.5
+  targetRegistrationTime: 0.75
+  maxSpotRange: 50
+  immediateChaseRange: 1.3
+  softChaseRange: 5
+  minSearchTime: 5
+  maxSearchTime: 60
+  patrolType: 2
+  goalType: 0
+  chaseType: 1
+  attackType: 1

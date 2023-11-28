@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAudio: 20
-  clickAudio: 22
+  hoverAudio: 22
+  clickAudio: 0
 --- !u!1 &5119558947988316971
 GameObject:
   m_ObjectHideFlags: 0

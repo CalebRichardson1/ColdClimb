@@ -57,9 +57,9 @@ MonoBehaviour:
   defaultOuterSpotAngle: 75
   zoomedOuterSpotAngle: 25
   audioSource: {fileID: 8935232367480356068}
-  toggleAudio: 27
-  zoomInAudio: 28
-  zoomOutAudio: 29
+  toggleAudio: 29
+  zoomInAudio: 30
+  zoomOutAudio: 31
 --- !u!1 &3455650005897109336
 GameObject:
   m_ObjectHideFlags: 0

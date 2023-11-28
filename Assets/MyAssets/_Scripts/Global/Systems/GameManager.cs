@@ -43,6 +43,8 @@ namespace ColdClimb.Global{
                 case GameState.Devscene:
                     HandleDevScene();
                     break;
+                case GameState.NoteScreen:
+                    break;
             }
 
             OnGameStateChange?.Invoke(newState);
@@ -83,6 +85,7 @@ namespace ColdClimb.Global{
         ContextScreen,
         Cutscene,
         GameOver,
+        NoteScreen,
         PuzzleMiniGame,
         Devscene
     }

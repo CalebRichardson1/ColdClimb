@@ -483,8 +483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAudio: 20
-  clickAudio: 22
+  hoverAudio: 22
+  clickAudio: 24
 --- !u!1 &5747674424628010791
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,8 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAudio: 20
-  clickAudio: 22
+  hoverAudio: 22
+  clickAudio: 24
 --- !u!1 &6244935070582286459
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,8 +888,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAudio: 20
-  clickAudio: 22
+  hoverAudio: 22
+  clickAudio: 24
 --- !u!1 &7050771327839643112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,5 +1311,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAudio: 20
-  clickAudio: 22
+  hoverAudio: 22
+  clickAudio: 24

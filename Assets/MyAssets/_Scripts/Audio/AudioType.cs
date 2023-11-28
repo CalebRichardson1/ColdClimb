@@ -15,6 +15,8 @@ namespace ColdClimb.Audio{
         PLAYER_STEP_STONE_02,
         PLAYER_STEP_STONE_03,
         PLAYER_STEP_STONE_04,
+        PLAYER_NOTE_OPEN,
+        PLAYER_NOTE_CLOSE,
         AMBIENCE_01,
         AMBIENCE_02,
         AMBIENCE_03,

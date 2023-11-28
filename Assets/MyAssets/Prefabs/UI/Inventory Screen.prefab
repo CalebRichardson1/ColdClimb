@@ -594,6 +594,7 @@ GameObject:
   - component: {fileID: 5023352403769251976}
   - component: {fileID: 4575963555426805606}
   - component: {fileID: 5544483924084969686}
+  - component: {fileID: 5740698149983556732}
   m_Layer: 5
   m_Name: Current Equpped Item Slot
   m_TagString: Untagged
@@ -732,6 +733,20 @@ MonoBehaviour:
   stackTextDefaultColor: {r: 1, g: 1, b: 1, a: 1}
   stackTextFullColor: {r: 0.19578727, g: 0.5943396, b: 0, a: 1}
   isEquipableSlot: 1
+--- !u!114 &5740698149983556732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5902908737157042013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc85ea8fcb9bc2408f78dc9ba71cb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAudio: 22
+  clickAudio: 0
 --- !u!1 &5958596730688539219
 GameObject:
   m_ObjectHideFlags: 0

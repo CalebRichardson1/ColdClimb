@@ -26,6 +26,8 @@ namespace ColdClimb.Player{
                 break;
                 case GameState.PauseMenu: ResumeGame();
                 break;
+                case GameState.NoteScreen: ResumeGame();
+                break;
             }
         }
 
@@ -36,7 +38,9 @@ namespace ColdClimb.Player{
         } 
 
         public void ResumeGame(){
-            pauseMenu.SetActive(false);
+            if(pauseMenu.activeSelf){
+                pauseMenu.SetActive(false);
+            }
             GameManager.UpdateGameState(GameState.MainGame);
         } 
 

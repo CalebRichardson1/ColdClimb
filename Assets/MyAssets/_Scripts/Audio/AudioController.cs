@@ -1,4 +1,5 @@
 using System.Collections;
+using ColdClimb.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -34,14 +35,22 @@ namespace ColdClimb.Audio{
             public float delay;
             public float fadeDuration;
             public AudioSource audioSource;
+            public bool notifyEnemies;
+            public float notifyDistance;
+            public int notifyPriority;
+            public SoundType notifyType;
 
-            public AudioJob(AudioAction jobAction, AudioType audioType, bool includeFade, float _fadeDuration, float audioDelay, AudioSource source){
+            public AudioJob(AudioAction jobAction, AudioType audioType, bool includeFade, float _fadeDuration, float audioDelay, AudioSource source, bool alertEnemies, float alertDistance, int alertPriority, SoundType alertType){
                 action = jobAction;
                 type = audioType;
                 fade = includeFade;
                 fadeDuration = _fadeDuration;
                 delay = audioDelay;
                 audioSource = source;
+                notifyEnemies = alertEnemies;
+                notifyDistance = alertDistance;
+                notifyType = alertType;
+                notifyPriority = alertPriority;
             }
         }
 
@@ -65,17 +74,17 @@ namespace ColdClimb.Audio{
 #endregion
 
 #region Public Functions
-        public void PlayAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null){
-            AddJob(new AudioJob(AudioAction.START, type, fade, fadeDuration, delay, source));
+        public void PlayAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null, bool alertEnemies = false, float alertDistance = 10f, int alertPriority = 1, SoundType alertType = SoundType.Default){
+            AddJob(new AudioJob(AudioAction.START, type, fade, fadeDuration, delay, source, alertEnemies, alertDistance, alertPriority, alertType));
         }
-        public void PlayLoopingAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null){
-            AddJob(new AudioJob(AudioAction.LOOP, type, fade, fadeDuration, delay, source));
+        public void PlayLoopingAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null, bool alertEnemies = false, float alertDistance = 10f, int alertPriority = 1, SoundType alertType = SoundType.Default){
+            AddJob(new AudioJob(AudioAction.LOOP, type, fade, fadeDuration, delay, source, alertEnemies, alertDistance, alertPriority, alertType));
         }
-        public void StopAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null){
-            AddJob(new AudioJob(AudioAction.STOP, type, fade, fadeDuration, delay, source));
+        public void StopAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null, bool alertEnemies = false, float alertDistance = 10f, int alertPriority = 1, SoundType alertType = SoundType.Default){
+            AddJob(new AudioJob(AudioAction.STOP, type, fade, fadeDuration, delay, source, alertEnemies, alertDistance, alertPriority, alertType));
         }
-        public void RestartAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null){
-            AddJob(new AudioJob(AudioAction.RESTART, type, fade, fadeDuration, delay, source));
+        public void RestartAudio(AudioType type, bool fade = false, float fadeDuration = 1.0f, float delay = 0.0f, AudioSource source = null, bool alertEnemies = false, float alertDistance = 10f, int alertPriority = 1, SoundType alertType = SoundType.Default){
+            AddJob(new AudioJob(AudioAction.RESTART, type, fade, fadeDuration, delay, source, alertEnemies, alertDistance, alertPriority, alertType));
         }
 #endregion
 
@@ -156,19 +165,30 @@ namespace ColdClimb.Audio{
             switch (job.action){
                 case AudioAction.START:
                     audioSourceToUse.Play();
+                    if(job.notifyEnemies){
+                        var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
+                        SoundBroadcaster.MakeSound(alertSound);
+                    }
                     break;
                 case AudioAction.STOP:
-                    if (!job.fade)
-                    {
+                    if (!job.fade){
                         audioSourceToUse.Stop();
                     }
                     break;
                 case AudioAction.RESTART:
                     audioSourceToUse.Stop();
                     audioSourceToUse.Play();
+                    if(job.notifyEnemies){
+                        var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
+                        SoundBroadcaster.MakeSound(alertSound);
+                    }
                     break;
                 case AudioAction.LOOP:
                     audioSourceToUse.Play();
+                    if(job.notifyEnemies){
+                        var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
+                        SoundBroadcaster.MakeSound(alertSound);
+                     }
                     break;
             }
 

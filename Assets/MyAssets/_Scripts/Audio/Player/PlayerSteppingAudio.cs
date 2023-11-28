@@ -39,7 +39,7 @@ namespace ColdClimb.Player{
             Dispose();
         }
 
-        private void FixedUpdate() {
+        private void Update() {
             DetectGroundType();
         }
 
