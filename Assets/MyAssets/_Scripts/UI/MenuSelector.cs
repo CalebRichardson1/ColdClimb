@@ -8,7 +8,6 @@ namespace ColdClimb.UI{
     [RequireComponent(typeof(RectTransform))]
     public class MenuSelector : MonoBehaviour{
         public static MenuSelector Instance;
-
         [SerializeField, Range(1f, 50f)] private float selectorMoveSpeed = 25f;
         [SerializeField, Range(0.01f, 5f)] private float stopMovingDistanceFromTarget = 0.01f;
 
@@ -55,9 +54,10 @@ namespace ColdClimb.UI{
                 MainMenuController.OnMenuLoad += SetDefaultSelectedObject;
             }
 
+            // Yikes
             isValid = gameState == GameState.MainMenu || gameState == GameState.StatusScreen 
                                    || gameState == GameState.GameOver || gameState == GameState.ContextScreen
-                                   || gameState == GameState.PauseMenu;
+                                   || gameState == GameState.PauseMenu || gameState == GameState.CombineItemScreen;
             //set the cursor visual to be enabled when we are in a menu
             SelectorImage.enabled = isValid;
         }

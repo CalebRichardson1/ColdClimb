@@ -24,9 +24,8 @@ namespace ColdClimb.Item{
             
         }
 
-        public override void DiscardItem()
-        {
-            
+        public override void DiscardItem(){
+            InventoryContextMenu.ContextedInventoryItem.DiscardItem();
         }
 
         public override void UseItem(InventoryContextMenu contextMenu){

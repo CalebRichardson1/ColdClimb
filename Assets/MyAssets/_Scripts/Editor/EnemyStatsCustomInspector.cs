@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using ColdClimb.StateMachines;
+using UnityEditor.Rendering;
 
 namespace ColdClimb.DevTools{
     [CustomEditor(typeof(EnemyStats))]
@@ -11,6 +10,7 @@ namespace ColdClimb.DevTools{
         // Lore
         private SerializedProperty enemyName;
         private SerializedProperty enemyDescription;
+        private SerializedProperty enemyType;
         
         // Base Stats
         private SerializedProperty health;
@@ -42,6 +42,7 @@ namespace ColdClimb.DevTools{
             // Lore
             enemyName = serializedObject.FindProperty("enemyName");
             enemyDescription = serializedObject.FindProperty("enemyDescription");
+            enemyType = serializedObject.FindProperty("enemyType");
 
             // Base Stats
             health = serializedObject.FindProperty("health");
@@ -79,6 +80,7 @@ namespace ColdClimb.DevTools{
                 enemyName.stringValue = EditorGUILayout.TextField(new GUIContent("Name", "Name of the enemy."), enemyStats.enemyName, GUILayout.ExpandWidth(true));
                 GUILayout.Label("Description", new GUIStyle(GUI.skin.label) {alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Normal, fontSize = 12}, GUILayout.ExpandWidth(true));
                 enemyDescription.stringValue = EditorGUILayout.TextArea(enemyStats.enemyDescription, GUILayout.ExpandWidth(true), GUILayout.Height(100));
+                enemyType.enumValueIndex = (int)(EnemyType)EditorGUILayout.EnumPopup(new GUIContent("Enemy Type", "The type of enemy."), enemyStats.enemyType);
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);

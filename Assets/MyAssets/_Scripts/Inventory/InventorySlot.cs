@@ -4,11 +4,12 @@ using UnityEngine.EventSystems;
 using TMPro;
 using ColdClimb.Item.Equipped;
 using ColdClimb.Item;
+using ColdClimb.Global;
 
 namespace ColdClimb.Inventory{
     // UI class that detects when the cursor is over its gameobject and calls OnSlotSelected from the InventoryUI 
     public class InventorySlot : MonoBehaviour, ISelectHandler{   
-        public InventoryItem ItemInSlot {get; private set;}
+        public InventoryItem ItemInSlot {get; set;}
         public Image ItemImage {get; private set;}
         public bool IsEquippmentSlot => isEquipableSlot;
 
@@ -28,7 +29,7 @@ namespace ColdClimb.Inventory{
         }
 
         public void OnSlotClicked(){
-            if(ItemInSlot.ItemData == null) return;
+            if(ItemInSlot.ItemData == null && GameManager.CurrentState != GameState.CombineItemScreen) return;
             inventoryUIController.OnViableSlotClickedAction(this);
         }
 

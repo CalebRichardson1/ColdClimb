@@ -16,12 +16,12 @@ namespace ColdClimb.Player{
 
       private bool canUseItem = true;
 
-      private void OnEnable(){
+      private void Awake(){
          ResourceLoader.PlayerInventory.OnEquipItem += SetCurrentEquippedItem;
          GameManager.OnGameStateChange += (state) => canUseItem = state == GameState.MainGame;
       }
 
-      private void OnDisable() {
+      private void OnDestroy() {
          ResourceLoader.PlayerInventory.OnEquipItem -= SetCurrentEquippedItem;
       }
 

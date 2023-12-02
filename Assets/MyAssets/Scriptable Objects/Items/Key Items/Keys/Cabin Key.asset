@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc697ab7ae425744abb836b92871ffa, type: 3}
+  m_Name: Cabin Key
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: Cabin Key
+  itemDescription:
+  - A key used to unlock the cabin's back door.
+  itemImage: {fileID: 3285820176990009405, guid: 034333495a71e034db6fd6dde919a802,
+    type: 3}
+  isStackable: 0
+  maxStackSize: 1
+  inspectPuzzle: 0
+  isCombinable: 0

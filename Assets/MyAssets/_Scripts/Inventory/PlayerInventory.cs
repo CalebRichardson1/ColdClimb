@@ -12,8 +12,12 @@ namespace ColdClimb.Inventory{
     // Player inventory class that holds a list of inventory items that can manipulated
     [CreateAssetMenu(menuName = "Systems/Inventory", fileName = "NewInventory")]
     public class PlayerInventory : ScriptableObject, ILoadable{
+        //members
+        public List<ItemRecipe> ItemRecipes = new();
         public List<InventoryItem> CurrentInventory => PlayerData.playerInventory.inventoryItems;
         public InventoryItem CurrentEquippedItem => PlayerData.playerInventory.currentEquippedItem;
+        [HideInInspector]
+        public InventoryItem CurrentInitialCombinedItem;
         private int MaxInventorySize => PlayerData.playerInventory.maxInventory;
 
         public Action CreatedInventoryCallback;
@@ -28,6 +32,7 @@ namespace ColdClimb.Inventory{
         }
 
         public void LoadData(){
+            // Don't load the inventory correctly upon load
             if(CurrentInventory.Count <= 0 && MaxInventorySize > 0){
                 CreateInventory();
                 return;
@@ -100,6 +105,93 @@ namespace ColdClimb.Inventory{
                 PlayerData.playerInventory.currentEquippedItem.SetItem(null, 0);
                 OnEquipItem?.Invoke(CurrentEquippedItem);
             }
+        }
+
+        public void CombineItems(InventorySlot incomingItemSlot){
+            InventoryItem initalItem = CurrentInitialCombinedItem;
+            InventoryItem incomingItem = incomingItemSlot.ItemInSlot;
+
+            if(initalItem == incomingItem && initalItem.CurrentStackSize == 1){
+                GameManager.UpdateGameState(GameState.StatusScreen);
+                return;
+            }
+            
+            // See if there is a valid recipe for the two items
+            ItemRecipe validRecipe = null;
+            foreach(var recipe in ItemRecipes){
+                if(recipe.DetectValidRecipe(initalItem.ItemData, incomingItem.ItemData)){
+                    validRecipe = recipe;
+                    break;
+                }
+            }
+            
+            if(validRecipe != null){
+                //Remember them incase not enough space in inventory
+                var item1 = initalItem.ItemData;
+                var item2 = incomingItem.ItemData;
+
+                //Remove the items and add the new item
+                initalItem.RemoveFromStack(1);
+                incomingItem.RemoveFromStack(1);
+                    
+                if(AttemptToAddItemToInventory(validRecipe.resultItem, validRecipe.resultItemAmount) != 0){
+                    AttemptToAddItemToInventory(item1, 1);
+                    AttemptToAddItemToInventory(item2, 1);
+                } 
+                GameManager.UpdateGameState(GameState.StatusScreen);
+                return;
+            }
+
+            if(initalItem == incomingItem){
+                GameManager.UpdateGameState(GameState.StatusScreen);
+                return;
+            }
+
+            // See if there is room in a stack and update the two stacks
+            if(initalItem.ItemData == incomingItem.ItemData && !incomingItem.IsFull() && !initalItem.IsFull()){
+                int amountMissing = incomingItem.ItemData.MaxStackSize - incomingItem.CurrentStackSize;
+                if(amountMissing <= initalItem.CurrentStackSize){
+                    incomingItem.AddToStack(amountMissing);
+                    initalItem.RemoveFromStack(amountMissing);
+                }
+                else{
+                    incomingItem.AddToStack(initalItem.CurrentStackSize);
+                    initalItem.SetItem(null, 0);
+                }
+
+                GameManager.UpdateGameState(GameState.StatusScreen);
+                return;
+            }
+
+            // If the slot is the equip slot return to not swap
+            if(incomingItemSlot.IsEquippmentSlot){
+                return;
+            }
+
+            // Swap the two slots
+            SwapItems(incomingItem); 
+
+            GameManager.UpdateGameState(GameState.StatusScreen);
+        }
+
+        public void SwapItems(InventoryItem item){
+            int index1 = CurrentInventory.IndexOf(CurrentInitialCombinedItem);
+            int index2 = CurrentInventory.IndexOf(item);
+
+            // See if the swapped item data is null
+            if(item.ItemData == null){
+                CurrentInventory[index2].SetItem(CurrentInitialCombinedItem.ItemData, CurrentInitialCombinedItem.CurrentStackSize);
+                CurrentInitialCombinedItem.SetItem(null, 0);
+                return;
+            }
+
+            // Store the item data for swapping
+            var swappedItem = item.ItemData;
+            var swappedItemStack = item.CurrentStackSize;
+
+            // Swap the item data
+            CurrentInventory[index2].SetItem(CurrentInitialCombinedItem.ItemData, CurrentInitialCombinedItem.CurrentStackSize);
+            CurrentInventory[index1].SetItem(swappedItem, swappedItemStack);
         }
 
         public void RemoveGunAmmo(GunType ammoType, int amount){

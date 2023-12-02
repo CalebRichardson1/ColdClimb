@@ -28,6 +28,10 @@ namespace ColdClimb.Inventory{
             }
         }
 
+        public void DiscardItem(){
+            RemoveFromStack(currentStackSize);
+        }
+
         public bool IsFull(){
             return itemData == null || !itemData.IsItemStackable || currentStackSize == itemData.MaxStackSize;
         }

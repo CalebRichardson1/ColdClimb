@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc697ab7ae425744abb836b92871ffa, type: 3}
+  m_Name: Chain Cutters
+  m_EditorClassIdentifier: 
+  itemType: 2
+  itemName: Chain Cutters
+  itemDescription:
+  - Trusty tool that has been used to break in since 1918!
+  itemImage: {fileID: 3285820176990009405, guid: 36dc5b23dcd321d4eb1ee1d4c49a7814,
+    type: 3}
+  isStackable: 0
+  maxStackSize: 1
+  isCombinable: 0

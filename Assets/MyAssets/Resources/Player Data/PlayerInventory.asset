@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25546e9a510baa4eacc5c0531c4b605, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
-  maxInventorySize: 6
+  ItemRecipes:
+  - {fileID: 11400000, guid: 3215a1531b4c63d40b1755ab35080dd9, type: 2}
+  - {fileID: 11400000, guid: a4c54c360b54e5049b6cd8ded7de099d, type: 2}
+  - {fileID: 11400000, guid: 8a2b9b69dac9d2c448020ddfb07608a6, type: 2}
+  CurrentInitialCombinedItem:
+    currentStackSize: 0
+    itemData: {fileID: 0}

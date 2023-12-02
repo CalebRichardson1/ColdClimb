@@ -24,10 +24,8 @@ namespace ColdClimb.Global{
                     HandleMainMenu();
                     break;
                 case GameState.MainGame:
-                    HandleMainGame();
                     break;
                 case GameState.StatusScreen:
-                    HandleStatus();
                     break;
                 case GameState.ContextScreen:
                     break;
@@ -35,10 +33,9 @@ namespace ColdClimb.Global{
                     break;
                 case GameState.GameOver:
                     break;
-                case GameState.PuzzleMiniGame:
+                case GameState.CombineItemScreen:
                     break;
                 case GameState.PauseMenu:
-                    HandlePauseMenu();
                     break;
                 case GameState.Devscene:
                     HandleDevScene();
@@ -56,18 +53,6 @@ namespace ColdClimb.Global{
             SceneDirector.Instance.LoadScene(SceneIndex.DEVPLAYGROUND, GameDataHandler.TriggerNewGameValues);
         }
 
-        private static void HandlePauseMenu(){
-
-        }
-
-        private static void HandleStatus(){
-            
-        }
-
-        private static void HandleMainGame(){
-
-        }
-
         private static void HandleMainMenu(){
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -75,7 +60,6 @@ namespace ColdClimb.Global{
             SceneDirector.Instance.LoadScene(SceneIndex.MAIN_MENU, GameDataHandler.IntializeSaveValues);
         }
     }
-
 
     public enum GameState{
         MainMenu,
@@ -86,7 +70,7 @@ namespace ColdClimb.Global{
         Cutscene,
         GameOver,
         NoteScreen,
-        PuzzleMiniGame,
+        CombineItemScreen,
         Devscene
     }
 }

@@ -10,6 +10,7 @@ namespace ColdClimb.StateMachines{
 
         [SerializeField] private EnemyStats enemyStats;
         [SerializeField] private LayerMask playerLayer;
+        [SerializeField] private LayerMask enemyLayer;
 
         [Header("Enemy Hitspots")]
         [SerializeField] private Collider[] goodSpots;
@@ -21,7 +22,10 @@ namespace ColdClimb.StateMachines{
         private SearchState searchState;
 
         private Collider[] detectedTargets = new Collider[1];
-        
+        private Ray losRay = new();
+
+        private Transform currentTarget = null;
+
         public enum EnemyState{
             Patrol,
             Searching,
@@ -52,9 +56,29 @@ namespace ColdClimb.StateMachines{
         public void LocateTargets(){
             SeePlayer();
         }
-        #endregion
 
-        #region Private Functions
+        public void RespondToSound(ReactableSound sound){
+            if(CurrentState == States[EnemyState.Chasing] || CurrentState == States[EnemyState.Attacking]) return;
+
+            // If the current search sound is higher priority over the incoming one, ignore the incoming one. 
+            Debug.Log("Heard sound");
+            if(CurrentState == States[EnemyState.Searching] && searchState.currentPriority > sound.soundPriority) return;
+            
+            if(sound.soundType == SoundType.Interesting){
+                //Chance not to investigate the noise, based on priority
+                int chance = Random.Range(1, sound.soundPriority);
+        
+                if(chance < 3) return; 
+
+                // Search State (SearchType = Investigate)
+                TransitionToState(EnemyState.Searching);
+                searchState.InjectSound(sound, SearchStatus.Investigating);
+                return;
+            }
+        }
+#endregion
+
+#region Private Functions
         private void Configure(){
             EnemyHealth.SetupHealth(enemyStats.health);
 
@@ -74,6 +98,7 @@ namespace ColdClimb.StateMachines{
                 bodyPart.SetupBodyPart(this, BodyPartRank.Weak);
             }
         }
+        
         private void GenerateStateDictionary(){
             // Add the correct states to the dictionary
             switch (enemyStats.patrolType){
@@ -89,44 +114,51 @@ namespace ColdClimb.StateMachines{
 
             States.Add(EnemyState.Searching, new SearchState(EnemyState.Searching, NavMeshAgent, enemyStats, this));
             searchState = (SearchState)States[EnemyState.Searching];
+
+            switch (enemyStats.chaseType)
+            {
+                case ChaseType.Lonewolf:
+                    break;
+                case ChaseType.GroupHunter: States.Add(EnemyState.Chasing, new ChaseGroupHunter(EnemyState.Chasing, NavMeshAgent, enemyStats, this));
+                    break;
+                case ChaseType.WatchfulEye:
+                    break;
+            }
         }
 
         private void SeePlayer(){
-            // Immediate Detection
-            detectedTargets = Physics.OverlapSphere(transform.position, enemyStats.immediateChaseRange, playerLayer);
-            if(detectedTargets.Length > 0){
-                Debug.Log("Found Player!");
-                return;    
-            }
+            // LOS Detection
+            losRay.origin = transform.position;
+            losRay.direction = transform.forward;
 
-            // Soft Detection
+            // Close Range Detection
             detectedTargets = Physics.OverlapSphere(transform.position, enemyStats.softChaseRange, playerLayer);
             if(detectedTargets.Length > 0){
-                transform.LookAt(detectedTargets[0].transform);
-                if(Physics.Raycast(transform.position, transform.forward, enemyStats.softChaseRange, playerLayer)){
-                    Debug.Log("Found Player!");
-                    return;
-                }
+                //Smoothly look at the detected target
+                Vector3 lookPos = detectedTargets[0].transform.position - transform.position;
+                lookPos.y = 0;
+                Quaternion rotation = Quaternion.LookRotation(lookPos);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.2f);
+                // TO-DO: Make the enemy stop moving if they detect the player for a limited amount of time before resuming their task
+
+            }
+
+            if(TargetInLOS()){
+                //Chase State
+                TransitionToState(EnemyState.Chasing);
             }
         }
 
-        public void RespondToSound(ReactableSound sound){
-            // if(CurrentState == States[EnemyState.Chasing] || CurrentState == States[EnemyState.Attacking]) return;
-
-            // If the current search sound is higher priority over the incoming one, ignore the incoming one. 
-            if(CurrentState == States[EnemyState.Searching] && searchState.currentPriority > sound.soundPriority) return;
-            
-            if(sound.soundType == SoundType.Interesting){
-                //Chance not to investigate the noise, based on priority
-                int chance = Random.Range(1, 2 * sound.soundPriority);
-        
-                if(chance < 3) return; 
-
-                // Search State (SearchType = Investigate)
-                TransitionToState(EnemyState.Searching);
-                searchState.InjectSound(sound, SearchStatus.Investigating);
-                return;
+        private bool TargetInLOS(){
+            Debug.DrawRay(transform.position, transform.forward * enemyStats.maxSpotRange, Color.blue);
+            if (Physics.Raycast(losRay, out RaycastHit hit, enemyStats.maxSpotRange, ~enemyLayer)){
+                // Hate tags
+                if(currentTarget = hit.collider.CompareTag("Player") ? hit.collider.transform : null){
+                    return true;
+                }
             }
+            if(currentTarget != null) currentTarget = null;
+            return false;
         }
         #endregion
     }

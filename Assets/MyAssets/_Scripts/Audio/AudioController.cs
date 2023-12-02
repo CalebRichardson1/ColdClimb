@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 namespace ColdClimb.Audio{
     public class AudioController : MonoBehaviour{
         // Members
+        [SerializeField] private LayerMask enemyLayerMask;
+
         public static AudioController instance;
 
         public bool debug;
@@ -167,7 +169,7 @@ namespace ColdClimb.Audio{
                     audioSourceToUse.Play();
                     if(job.notifyEnemies){
                         var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
-                        SoundBroadcaster.MakeSound(alertSound);
+                        SoundBroadcaster.MakeSound(alertSound, enemyLayerMask);
                     }
                     break;
                 case AudioAction.STOP:
@@ -180,14 +182,14 @@ namespace ColdClimb.Audio{
                     audioSourceToUse.Play();
                     if(job.notifyEnemies){
                         var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
-                        SoundBroadcaster.MakeSound(alertSound);
+                        SoundBroadcaster.MakeSound(alertSound, enemyLayerMask);
                     }
                     break;
                 case AudioAction.LOOP:
                     audioSourceToUse.Play();
                     if(job.notifyEnemies){
                         var alertSound = new ReactableSound(audioSourceToUse.transform.position, job.notifyDistance, job.notifyPriority, job.notifyType);
-                        SoundBroadcaster.MakeSound(alertSound);
+                        SoundBroadcaster.MakeSound(alertSound, enemyLayerMask);
                      }
                     break;
             }

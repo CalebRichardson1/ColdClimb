@@ -60,7 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contextMenuVisual: {fileID: 6244935070582286459}
-  UseText: {fileID: 7318454422552286058}
+  useText: {fileID: 7318454422552286058}
+  combineText: {fileID: 1286191009027693189}
+  discardButton: {fileID: 740496043680768530}
+  combineButton: {fileID: 3876945226994463840}
   firstButtonTransform: {fileID: 9223055491945833573}
 --- !u!1 &242978357635001195
 GameObject:
@@ -355,7 +358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8354949321073179521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -440,7 +443,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
     m_PressedColor: {r: 0.8018868, g: 0.24426046, b: 0.23829654, a: 1}
     m_SelectedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
-    m_DisabledColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
+    m_DisabledColor: {r: 1, g: 0.43528503, b: 0.4292453, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -589,7 +592,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
     m_PressedColor: {r: 0.8018868, g: 0.24426046, b: 0.23829654, a: 1}
     m_SelectedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
-    m_DisabledColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
+    m_DisabledColor: {r: 1, g: 0.43528503, b: 0.4292453, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -845,7 +848,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
     m_PressedColor: {r: 0.8018868, g: 0.24426046, b: 0.23829654, a: 1}
     m_SelectedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
-    m_DisabledColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
+    m_DisabledColor: {r: 1, g: 0.43528503, b: 0.4292453, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1268,7 +1271,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
     m_PressedColor: {r: 0.8018868, g: 0.24426046, b: 0.23829654, a: 1}
     m_SelectedColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
-    m_DisabledColor: {r: 1, g: 0.2665445, b: 0.25943398, a: 1}
+    m_DisabledColor: {r: 1, g: 0.43528503, b: 0.4292453, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:

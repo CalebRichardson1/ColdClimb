@@ -6,6 +6,7 @@ namespace ColdClimb.StateMachines{
         // Enemy lore
         public string enemyName;
         public string enemyDescription;
+        public EnemyType enemyType;
 
         // Base Stats
         public int health;
@@ -54,5 +55,9 @@ namespace ColdClimb.StateMachines{
         Relentless,
         Grabber,
         Bomber
+    }
+
+    public enum EnemyType{
+        Blightbloom
     }
 }

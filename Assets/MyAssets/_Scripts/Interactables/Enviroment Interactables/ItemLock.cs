@@ -1,27 +1,45 @@
-using System;
+using ColdClimb.Audio;
 using ColdClimb.Inventory;
 using ColdClimb.Item;
 using UnityEngine;
+using UnityEngine.Events;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
     public class ItemLock : MonoBehaviour{
-        public Action OnUnlockEvent;
-        [SerializeField] private string interactPrompt;
+        [Header("Unlock Options")]
+        [SerializeField] private UnityEvent OnUnlockEvent;
         [SerializeField] private KeyItem itemToUnlock;
         [SerializeField] private bool consumeItem;
 
-        public string InteractionPrompt => interactPrompt;
+        [Header("Flavor Text")]
+        [SerializeField, TextArea(4,4)] private string onUnlockText;
+        [SerializeField, TextArea(4,4)] private string onFailedUnlockText;
 
+        [Header("Audio Optiopns")]
+        [SerializeField] private AudioType onUnlockAudio;
+        [SerializeField] private AudioType onFailedUnlockAudio;
+
+        private AudioSource AudioSource => GetComponent<AudioSource>();
         private bool subscribed;
 
         public void AttemptUnlock(ItemData itemAttempt){
             if(itemAttempt == itemToUnlock){
-                print("Unlocked!");
+                //TODO: Add unlock text to text box
                 if(consumeItem) InventoryContextMenu.ContextedInventoryItem.RemoveFromStack(1);
                 OnUnlockEvent?.Invoke();
+                if(onUnlockAudio != AudioType.None){
+                    AudioController.instance.PlayAudio(onUnlockAudio, false, 0, 0, AudioSource);
+                }
+
+                // After triggering the event turn off this component.
+                enabled = false;
             }
             else{
-                print("Wrong Item!");
+                //TODO: Add failed text to text box
+                if(onUnlockAudio != AudioType.None){
+                    AudioController.instance.PlayAudio(onFailedUnlockAudio, false, 0, 0, AudioSource);
+                }
             }
         }
 

@@ -95,15 +95,15 @@ namespace ColdClimb.Item.Equipped{
         }
 
         private void Shoot(){
-            // Shoot Visuals
             AudioController.PlayAudio(fireGlockAudio, false, 0, 0, audioSource, true, 25f, 10, SoundType.Interesting);
+
             PlayAnimation(GLOCK_FIRE);
 
             var bloom = Bloom();
             Physics.Raycast(shootSpawnPos.position, bloom, out RaycastHit hit, gunStats.fireRange, canBeShot);
 
             if (hit.transform != null){
-                Debug.DrawRay(shootSpawnPos.position, bloom * gunStats.fireRange, Color.white);
+                Debug.DrawRay(shootSpawnPos.position, bloom * gunStats.fireRange, Color.white, 3f);
                 if(hit.collider.TryGetComponent(out Health health) && health != null){
                     health.TakeDamage(gunStats.attackDamage);
                 }

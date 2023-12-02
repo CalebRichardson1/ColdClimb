@@ -5,8 +5,10 @@ namespace ColdClimb.Item{
     [CreateAssetMenu(menuName = "Item/New Key Item", fileName = "NewKeyItem"), System.Serializable]
     public class KeyItem : ItemData
     {
+        public bool IsItemCombinable => isCombinable;
+
         //key item data
-        [SerializeField] private bool inspectPuzzle;
+        [Header("Key Item Settings")]
         [SerializeField] private bool isCombinable;
 
         //item base methods

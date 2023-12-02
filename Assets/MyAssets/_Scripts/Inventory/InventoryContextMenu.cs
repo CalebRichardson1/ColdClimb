@@ -4,6 +4,7 @@ using ColdClimb.Item;
 using ColdClimb.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ColdClimb.Inventory{
     public class InventoryContextMenu : MonoBehaviour
@@ -20,7 +21,10 @@ namespace ColdClimb.Inventory{
         public PlayerInventory Inventory => ResourceLoader.PlayerInventory;
 
         [SerializeField] private GameObject contextMenuVisual;
-        [SerializeField] private TMP_Text UseText;
+        [SerializeField] private TMP_Text useText;
+        [SerializeField] private TMP_Text combineText;
+        [SerializeField] private Button discardButton;
+        [SerializeField] private Button combineButton;
         [SerializeField] private RectTransform firstButtonTransform;
 
         private ItemData itemContext;
@@ -54,18 +58,33 @@ namespace ColdClimb.Inventory{
 
         private void UpdateContextVisuals(){
             if(isEquipableSlot){
-                UseText.text = "Unequip";
+                useText.text = "Unequip";
+                discardButton.interactable = false;
+                combineButton.interactable = false;
                 return;
             }
 
             switch (itemContext.ItemType){
-                case ItemType.Tool: UseText.text = "Equip";
+                case ItemType.Tool or ItemType.Gun or ItemType.PlayerModifier:
+                    useText.text = "Equip";
+                    combineText.text = "Move";
                     return;
-                case ItemType.Gun: UseText.text = "Equip";
+                case ItemType.KeyItem:
+                    KeyItem keyItem = (KeyItem)itemContext;
+                    if(!keyItem.IsItemCombinable){
+                        useText.text = "Use";
+                        combineText.text = "Move";
+                    }
                     return;
             }
 
-            UseText.text = "Use";
+            if(itemContext.IsItemStackable && ContextedInventoryItem.IsFull()){
+                combineText.text = "Move";
+                return;
+            }
+
+            useText.text = "Use";
+            combineText.text = "Combine";
         }
         #endregion
 
@@ -78,6 +97,8 @@ namespace ColdClimb.Inventory{
             if(SlotContext != null) MenuSelector.Instance.SetDefaultSelectedObject(SlotContext.transform);
             itemContext = null;
             SlotContext = null;
+            discardButton.interactable = true;
+            combineButton.interactable = true;
             contextMenuVisual.SetActive(false);
         }
 
@@ -100,12 +121,22 @@ namespace ColdClimb.Inventory{
         }
 
         public void CombineItemAction(){
-            itemContext.CombineItem();
-            GameManager.UpdateGameState(GameState.StatusScreen);
+            if(!SlotContext.IsEquippmentSlot){
+                itemContext.CombineItem();
+                Inventory.CurrentInitialCombinedItem = ContextedInventoryItem;
+                controller.IntialCombineSlot(SlotContext);
+            }
+            GameManager.UpdateGameState(GameState.CombineItemScreen);
         }
 
         public void DiscardItemAction(){
-            itemContext.DiscardItem();
+            if(itemContext.ItemType == ItemType.KeyItem || itemContext.ItemType == ItemType.Gun || itemContext.ItemType == ItemType.Tool){
+                // Can't Discard this item
+            }
+            else{
+                itemContext.DiscardItem();
+            }
+
             GameManager.UpdateGameState(GameState.StatusScreen);
         }
 }

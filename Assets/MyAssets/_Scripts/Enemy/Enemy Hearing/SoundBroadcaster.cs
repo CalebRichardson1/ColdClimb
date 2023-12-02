@@ -2,10 +2,11 @@ using UnityEngine;
 
 namespace ColdClimb.Generic{
     public static class SoundBroadcaster{
-        public static void MakeSound(ReactableSound sound){
-            Collider[] colliders = Physics.OverlapSphere(sound.posMade, sound.soundRange);
+        public static void MakeSound(ReactableSound sound, LayerMask layer){
+            Collider[] colliders = Physics.OverlapSphere(sound.posMade, sound.soundRange, layer);
 
             for (int i = 0; i < colliders.Length; i++){
+                Debug.Log("Making Sound");
                 if(colliders[i].TryGetComponent(out IHearer hearer)){
                     hearer.RespondToSound(sound);
                 }

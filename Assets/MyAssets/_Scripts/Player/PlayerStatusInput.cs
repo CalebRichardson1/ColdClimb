@@ -1,9 +1,14 @@
+using ColdClimb.Audio;
 using ColdClimb.Global;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Player{
     public class PlayerStatusInput : MonoBehaviour{
+        [Header("Sounds")]
+        [SerializeField] private AudioType cancelAudio;
+
         private InputManager InputManager => ResourceLoader.InputManager;
 
         private void Start(){
@@ -17,11 +22,13 @@ namespace ColdClimb.Player{
         } 
 
         private void StatusAction(InputAction.CallbackContext context){
-            switch (GameManager.CurrentState)
-            {
+            switch (GameManager.CurrentState){
                 case GameState.MainGame: GameManager.UpdateGameState(GameState.StatusScreen);
                     break;
                 case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
+                    break;
+                case GameState.CombineItemScreen: GameManager.UpdateGameState(GameState.StatusScreen);
+                    AudioController.instance.PlayAudio(cancelAudio);
                     break;
                 default: break;
             }
@@ -30,9 +37,13 @@ namespace ColdClimb.Player{
         private void ContextAction(InputAction.CallbackContext context){
             switch(GameManager.CurrentState){
                 case GameState.ContextScreen: GameManager.UpdateGameState(GameState.StatusScreen);
-                break;
+                    AudioController.instance.PlayAudio(cancelAudio);
+                    break;
                 case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
-                break;
+                    break;
+                case GameState.CombineItemScreen: GameManager.UpdateGameState(GameState.StatusScreen);
+                    AudioController.instance.PlayAudio(cancelAudio);
+                    break;
             } 
         }
     }

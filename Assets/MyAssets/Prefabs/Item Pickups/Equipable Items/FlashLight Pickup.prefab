@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733261679089921338}
-  m_LocalRotation: {x: -0.18301302, y: 0.18301305, z: -0.68301266, w: 0.6830126}
-  m_LocalPosition: {x: -31.983, y: 1.5134, z: 9.935}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 30, z: -90}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!33 &8895374039657227355
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -105,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.0280909, y: 0.39749184, z: 0.40405285}
-  m_Center: {x: 6.161369e-17, y: 0.002012768, z: 0.028285265}
+  m_Size: {x: 0.03, y: 0.2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8066111627637771536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,3 +120,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: c760d9fb65e849746872ca91ea18055b, type: 2}
+  itemStackAmount: 0

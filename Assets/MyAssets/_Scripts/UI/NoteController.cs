@@ -1,6 +1,7 @@
 using ColdClimb.Audio;
 using ColdClimb.Global;
 using ColdClimb.Player;
+using ColdClimb.UI;
 using TMPro;
 using UnityEngine;
 using AudioType = ColdClimb.Audio.AudioType;
@@ -8,18 +9,14 @@ using AudioType = ColdClimb.Audio.AudioType;
 namespace ColdClimb.Interactable{
     public class NoteController : MonoBehaviour, IInteractable{
         public string InteractionPrompt => "Read Note";
-
-        [Header("UI Text References")]
-        [SerializeField] private GameObject noteCanvas;
-        [SerializeField] private TMP_Text noteTextAreaUI;
+        [SerializeField, TextArea(4, 4)] private string noteText;
 
         [Header("Note Juice")]
         [SerializeField] private AudioType noteShowSFX;
         [SerializeField] private AudioType noteHideSFX;
 
-        [Space(10)]
-        [SerializeField, TextArea] private string noteText;
-
+        private GameObject NoteCanvas => GlobalUIReference.NoteCanvas;
+        private TMP_Text NoteTextAreaUI => GlobalUIReference.NoteTextAreaUI;
         private Animator NoteAnimator => GetComponent<Animator>();
 
         private const string SHOW_NOTE = "Show_Note";
@@ -29,10 +26,6 @@ namespace ColdClimb.Interactable{
 #region Unity Functions
         private void Awake() {
             GameManager.OnGameStateChange += (state) => {if(state == GameState.MainGame && isNoteOpen == true) HideNote();};
-        }
-
-        private void Start() {
-            noteCanvas.SetActive(false);
         }
 
         private void OnDestroy() {
@@ -49,8 +42,8 @@ namespace ColdClimb.Interactable{
 
 #region Private Functions
         private void ShowNote(){
-            noteTextAreaUI.text = noteText;
-            noteCanvas.SetActive(true);
+            NoteTextAreaUI.text = noteText;
+            NoteCanvas.SetActive(true);
             GameManager.UpdateGameState(GameState.NoteScreen);
             isNoteOpen = true;
 
@@ -60,7 +53,7 @@ namespace ColdClimb.Interactable{
         }
 
         private void HideNote(){
-            noteCanvas.SetActive(false);
+            NoteCanvas.SetActive(false);
             isNoteOpen = false;
 
             //Juice

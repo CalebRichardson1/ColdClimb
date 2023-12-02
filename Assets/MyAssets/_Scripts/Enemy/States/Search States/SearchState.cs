@@ -18,7 +18,6 @@ namespace ColdClimb.StateMachines{
         private Vector3 baseSearchPos;
         private bool isSearching = false;
 
-
         public SearchState(EnemyStateMachine.EnemyState key, NavMeshAgent agent, EnemyStats stats, EnemyStateMachine stateMachine) : base(key){
             navMeshAgent = agent;
             enemyStats = stats;

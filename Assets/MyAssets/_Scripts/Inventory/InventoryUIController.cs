@@ -6,10 +6,8 @@ using ColdClimb.Global;
 using ColdClimb.UI;
 
 namespace ColdClimb.Inventory{
-
     // Handles the Inventory UI Logic
     public class InventoryUIController : MonoBehaviour{
-
         public Action<InventorySlot> OnSlotSelected;
         public Action<InventorySlot> OnSlotClicked;
         public static InventorySlot CurrentEquippedItemSlot;
@@ -23,7 +21,7 @@ namespace ColdClimb.Inventory{
         private InventoryContextMenu instancedContexMenu;
 
         private MenuSelector Selector => MenuSelector.Instance;
-        private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
+        private PlayerInventory Inventory => ResourceLoader.PlayerInventory;
 
         private List<InventorySlot> inventorySlotsUI = new();
 
@@ -31,14 +29,14 @@ namespace ColdClimb.Inventory{
 
         private void Awake(){
             GameManager.OnGameStateChange += GameStateChange;
-            PlayerInventory.CreatedInventoryCallback += CreateInventoryMenu;
-            PlayerInventory.LoadedInventoryCallback += LoadInventorySlots;
+            Inventory.CreatedInventoryCallback += CreateInventoryMenu;
+            Inventory.LoadedInventoryCallback += LoadInventorySlots;
         }
 
         private void OnDestroy(){
             GameManager.OnGameStateChange -= GameStateChange;
-            PlayerInventory.CreatedInventoryCallback -= CreateInventoryMenu;
-            PlayerInventory.LoadedInventoryCallback -= LoadInventorySlots;
+            Inventory.CreatedInventoryCallback -= CreateInventoryMenu;
+            Inventory.LoadedInventoryCallback -= LoadInventorySlots;
         } 
 
         public void OnSlotSelectedAction(InventorySlot selectedSlot){
@@ -47,12 +45,21 @@ namespace ColdClimb.Inventory{
         }
 
         public void OnViableSlotClickedAction(InventorySlot selectedSlot){
+            //See if we are in the combine state
+            if(GameManager.CurrentState == GameState.CombineItemScreen && Inventory.CurrentInitialCombinedItem != null){
+                Inventory.CombineItems(selectedSlot);
+                return;
+            }
+
             InContextMenu();
             OnSlotClicked?.Invoke(selectedSlot);
         }
 
-        // Creates the visual inventory that the player sees
+        public void IntialCombineSlot(InventorySlot slot){
+            GlobalUIReference.CombineSelector.SetTarget(slot.transform);
+        }
 
+        // Creates the visual inventory that the player sees
         private void CreateInventoryMenu(){
             instancedInventoryScreen = Instantiate(inventoryScreenPrefab, transform.position, Quaternion.identity, transform);
             instancedInventoryScreen.SetInventoryUIController(this);
@@ -70,13 +77,13 @@ namespace ColdClimb.Inventory{
         
         //Creates the slots that the player can interact with
         private void CreateInventorySlots(){
-            foreach (var item in PlayerInventory.CurrentInventory){
+            foreach (var item in Inventory.CurrentInventory){
                 var newSlot = Instantiate(inventorySlotPrefab, transform.position, Quaternion.identity, instancedInventoryScreen.InventorySlotContent);
                 newSlot.SetupSlot(this, item);
                 inventorySlotsUI.Add(newSlot);
             }
             //scale the layout grid group cell size by the max inventory size
-            CurrentEquippedItemSlot.SetupSlot(this, PlayerInventory.CurrentEquippedItem);
+            CurrentEquippedItemSlot.SetupSlot(this, Inventory.CurrentEquippedItem);
         }
 
         private void LoadInventorySlots(){
@@ -99,7 +106,7 @@ namespace ColdClimb.Inventory{
                 instancedContexMenu.CloseContextMenu();
             }
             
-            if (state != GameState.StatusScreen && state != GameState.ContextScreen && instancedInventoryScreen != null){
+            if (state != GameState.StatusScreen && state != GameState.ContextScreen && state != GameState.CombineItemScreen && instancedInventoryScreen != null){
                 instancedInventoryScreen.gameObject.SetActive(false);
                 return;
             }
@@ -117,15 +124,17 @@ namespace ColdClimb.Inventory{
             instancedInventoryScreen.gameObject.SetActive(true);
         }
 
+        private void InContextMenu(){
+            instancedInventoryScreen.EquippedItemButton.interactable = false;
+            inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = false);
+        }
+
+
+
         public void DrawInventorySlotsVisuals(){
             CurrentEquippedItemSlot.DrawSlotVisual();
             inventorySlotsUI.ForEach(slot => slot.DrawSlotVisual());
             instancedInventoryScreen.UpdateSelectedInfo(currentSelectedSlot);
-        }
-
-        private void InContextMenu(){
-            instancedInventoryScreen.EquippedItemButton.interactable = false;
-            inventorySlotsUI.ForEach(slot => slot.GetComponent<Button>().interactable = false);
         }
 
         public void NotInContextMenu(){
