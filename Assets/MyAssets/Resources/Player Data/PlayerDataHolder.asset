@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: PlayerDataHolder
   m_EditorClassIdentifier: 
   playerStats:
-    currentHealth: 50
+    currentHealth: 100
     maxHealth: 100
-    walkSpeed: 4
+    walkSpeed: 10
     runSpeed: 7
     lookSpeed: 30
   playerLocation:
-    currentZoneID: 0
-    playerPosition: {x: 0, y: 0, z: 0}
+    currentSceneIndex: 3
+    playerPosition: {x: 73.64147, y: 30.653, z: 84.45414}
     playerLookX: 0
     playerLookY: 0
   playerInventory:
+    currentEquippedItem:
+      currentStackSize: 0
+      itemData: {fileID: 0}
     inventoryItems:
     - currentStackSize: 0
       itemData: {fileID: 0}

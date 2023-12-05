@@ -4,58 +4,52 @@ using UnityEngine;
 using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
-    public class Door : MonoBehaviour, IInteractable
-    {
+    public class Door : MonoBehaviour, IInteractable{
         public string InteractionPrompt => "Open Door";
+        [Header("Door Audio")]
+        [SerializeField] private AudioType openDoorAudio;
+        [SerializeField] private AudioType lockedDoorAudio;
 
         [Header("Door Variables")]        
         [SerializeField] private float speed = 8f;
+        [SerializeField] private float rangeToSnap = 0.1f;
         [SerializeField] private bool isOpened = false;
         [SerializeField] private bool isLocked = false;
 
-        [Header("Rotation Config")]
-        [SerializeField] private float rotationAmount = 90f;
-        [SerializeField] private Transform forwardTransform;
+        [Header("Door Positions")]
+        [SerializeField] private Transform openPos;
+        [SerializeField] private Transform closePos;
 
-        [Header("Sound Options")]
-        [SerializeField] private AudioType interactAudio;
-        [SerializeField] private AudioType lockedAudio;
+        private Transform doorTransform;
 
-        private Vector3 startRotation;
-        private Vector3 forward;
-
-        private Coroutine doorAnimationCoroutine;
+        private bool isMoving = false;
 
 #region Unity Functions
         private void Start() {
-            startRotation = transform.rotation.eulerAngles;
+            doorTransform = transform;
+        }
 
-            forward = -transform.forward;
+        private void OnDestroy(){
+            StopAllCoroutines();
         }
 
 #endregion
 
 #region Public Functions
         public bool Interact(PlayerInteract player){
-            if(isLocked){
+            if(isLocked || isMoving){
                 return false;
             }
 
-            if(doorAnimationCoroutine != null){
-                StopCoroutine(doorAnimationCoroutine);
+            // If player is far enough of the door to open it then open or close the door
+            if(Vector3.Distance(player.transform.position, doorTransform.position) >= 2.1f){
+                Transform targetPos = doorTransform.localRotation == openPos.localRotation ? closePos : openPos;
+                StartCoroutine(RotateDoorCoroutine(targetPos));
+                
+                return true;
             }
-
-            if(!isOpened){
-                // Open the door
-                float dot = Vector3.Dot(forward, (player.transform.position - transform.position).normalized);
-                Debug.Log($"Dot: {dot:N3}");
-                doorAnimationCoroutine = StartCoroutine(OpenDoorAnimationCoroutine(dot));
-            }
-            else{
-                // Close the door
-                doorAnimationCoroutine = StartCoroutine(CloseDoorAnimationCoroutine());
-            }
-            return true;
+            
+            return false;
         }
 
         public void UnlockDoor(){
@@ -65,43 +59,20 @@ namespace ColdClimb.Interactable{
 #endregion
 
 #region Private Functions
-        private IEnumerator OpenDoorAnimationCoroutine(float forwardAmount){
-            Quaternion startRotation = transform.rotation;
-            Quaternion endRotation;
-
-            if(forwardAmount >= 0){
-                endRotation = Quaternion.Euler(new Vector3(0, startRotation.y + rotationAmount, 0));
-            } 
-            else{
-                endRotation = Quaternion.Euler(new Vector3(0, startRotation.y - rotationAmount, 0));
-            }
-
-            isOpened = true;
-
-            float time = 0;
-            while (time < 1){
-                transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
+        private IEnumerator RotateDoorCoroutine(Transform pos){
+            isMoving = true;
+            while(doorTransform.localRotation != pos.localRotation){
+                var currentLerpRotation = Quaternion.Lerp(doorTransform.localRotation, pos.localRotation, Time.deltaTime * speed);
+                doorTransform.localRotation = currentLerpRotation;
+                if(Vector3.Distance(doorTransform.localRotation.eulerAngles, pos.eulerAngles) <= rangeToSnap){
+                    doorTransform.localRotation = pos.localRotation;
+                    break;
+                }
                 yield return null;
-                time += Time.deltaTime * speed;
-                transform.rotation = endRotation;
             }
+            isMoving = false;
         }
-
-        private IEnumerator CloseDoorAnimationCoroutine(){
-            Quaternion _startRotation = transform.rotation;
-            Quaternion endRotation = Quaternion.Euler(startRotation);
-
-            isOpened = false;
-
-            float time = 0;
-            while (time < 1){
-            transform.rotation = Quaternion.Slerp(_startRotation, endRotation, time);
-            yield return null;
-            time += Time.deltaTime * speed;
-            }
-        }
-
-#endregion
+        #endregion
     }
 }
 

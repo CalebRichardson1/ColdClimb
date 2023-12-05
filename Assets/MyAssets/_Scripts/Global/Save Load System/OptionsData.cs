@@ -34,7 +34,6 @@ namespace ColdClimb.Global.SaveSystem{
             GameDataHandler.OnNewOptionsCallback -= SetDefaultOptions;
         }
 
-
         private void OnSaveSettings(){
             GameDataHandler.CurrentOptions.CurrentSettings = settings;
         }
@@ -68,6 +67,9 @@ namespace ColdClimb.Global.SaveSystem{
                  selectedResolution = defaultIndex;
             } 
             settings.isFullScreen = true;
+            
+            settings.lookSensitivity = 15f;
+
             LoadValuesCallback?.Invoke();
             ApplySettings(true);
         }

@@ -15,6 +15,9 @@ namespace ColdClimb.UI{
         [SerializeField] private TMP_Text resolutionLabel;
         [SerializeField] private Toggle fullscreenToggle;
 
+        [Header("Gameplay")]
+        [SerializeField] private Slider lookSensitivitySlider;
+
         private OptionsData OptionsData => SystemManager.Instance.OptionsData;
 
         private void Awake(){
@@ -29,6 +32,7 @@ namespace ColdClimb.UI{
             masterVolumeSlider.value = OptionsData.settings.masterVolume;
             musicVolumeSlider.value = OptionsData.settings.musicVolume;
             sfxVolumeSlider.value = OptionsData.settings.sfxVolume;
+            lookSensitivitySlider.value = OptionsData.settings.lookSensitivity;
             fullscreenToggle.isOn = OptionsData.settings.isFullScreen;
             SetResolutionLabel(OptionsData.settings.resolution);
         }
@@ -62,6 +66,11 @@ namespace ColdClimb.UI{
 
         public void ApplyVideoSettings(){
             OptionsData.ApplySettings(true);
+        }
+
+        public void LookSensChange(float amount){
+            OptionsData.settings.lookSensitivity = amount;
+            OptionsData.ApplySettings(false);
         }
 
         private void SetResolutionLabel(VideoResolution resolution){

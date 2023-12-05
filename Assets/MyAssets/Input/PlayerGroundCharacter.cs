@@ -278,7 +278,7 @@ public partial class @PlayerGroundCharacter: IInputActionCollection2, IDisposabl
                 {
                     ""name"": """",
                     ""id"": ""49abd6f4-3b99-4c63-b63f-d59eb2667938"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

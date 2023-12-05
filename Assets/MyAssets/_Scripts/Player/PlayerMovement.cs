@@ -127,7 +127,7 @@ namespace ColdClimb.Player{
 
         private void EvaluateGameState(GameState state){
             canMove = state == GameState.MainGame;
-            CharacterRigidbody.isKinematic = state == GameState.PauseMenu || state == GameState.NoteScreen;
+            CharacterRigidbody.isKinematic = state == GameState.PauseMenu || state == GameState.NoteScreen || state == GameState.StatusScreen || state == GameState.CombineItemScreen;
         }
 
         private void OnDrawGizmosSelected() {

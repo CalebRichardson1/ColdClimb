@@ -8,7 +8,7 @@ namespace ColdClimb.Camera{
     public class SmoothLookAt : MonoBehaviour{
         private Vector3 vectOffset;
         [SerializeField] private Transform followPos;
-        [SerializeField] private float FollowSpeed => PlayerData.playerStats.lookSpeed;
+        private float FollowSpeed => PlayerData.playerStats.lookSpeed;
 
         private PlayerData PlayerData => ResourceLoader.MainPlayerData;
 

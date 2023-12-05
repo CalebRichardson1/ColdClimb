@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ColdClimb.Global.SaveSystem;
+using ColdClimb.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace ColdClimb.Global.LevelSystem{    
 
@@ -12,18 +12,17 @@ namespace ColdClimb.Global.LevelSystem{
         public static SceneDirector Instance;
         public static Action<SceneIndex> LoadedScene;
 
-        [SerializeField] private GameObject loadingScreen;
-        [SerializeField] private Image progressBar;
-
         private SceneIndex currentSceneIndex;
         private bool loadedScene = false;
 
         private List<AsyncOperation> scenesLoading = new();
-        private float totalSceneProgress, target;
+
+
+        private SceneIndex nextSceneIndex = SceneIndex.NUMSCENEINDEX;
+        private Action currentLoadedCallback;
 
         private void Awake(){
             Instance = this;
-            loadingScreen.SetActive(false);
             GameDataHandler.LoadGameScene += LoadScene;
         }
 
@@ -35,49 +34,46 @@ namespace ColdClimb.Global.LevelSystem{
             if(currentSceneIndex == index){
                 return;
             }
-            
-            if(loadingScreen != null){
-                loadingScreen.SetActive(true);
+
+            GameManager.UpdateGameState(GameState.LoadingScene);
+            currentLoadedCallback = loadedCallback;
+            nextSceneIndex = index;
+
+            if(loadedScene){
+                GlobalUIReference.ScreenFader.FadeToBlack(0.5f, LoadingScenes);
+                return;
             }
 
-            if(loadedScene)scenesLoading.Add(SceneManager.UnloadSceneAsync((int)currentSceneIndex)); //unload the current scene if we have loaded one
-            scenesLoading.Add(SceneManager.LoadSceneAsync((int)index, LoadSceneMode.Additive)); //start loading the next scene
-            loadedScene = true;
-            currentSceneIndex = index;
+            LoadingScenes();
+        }
 
-            StartCoroutine(GetSceneLoadProgress(loadedCallback));
+        private void LoadingScenes(){
+            if(loadedScene) scenesLoading.Add(SceneManager.UnloadSceneAsync((int)currentSceneIndex)); //unload the current scene if we have loaded one
+            scenesLoading.Add(SceneManager.LoadSceneAsync((int)nextSceneIndex, LoadSceneMode.Additive)); //start loading the next scene
+            loadedScene = true;
+            currentSceneIndex = nextSceneIndex;
+
+            StartCoroutine(GetSceneLoadProgress(currentLoadedCallback));
         }
 
         // TO-DO:switch to async/await method
         private IEnumerator GetSceneLoadProgress(Action loadedCallback){
             for (int i = 0; i < scenesLoading.Count; i++){
                 while (!scenesLoading[i].isDone){
-                    target = 0;
-                    progressBar.fillAmount = 0;
-                    totalSceneProgress = 0;
-
-                    foreach (AsyncOperation operation in scenesLoading){
-                        if(operation != null){
-                            totalSceneProgress += operation.progress;
-                        }
-                    }
-
-                    totalSceneProgress /= scenesLoading.Count;
-
-                    target = totalSceneProgress;
                     yield return null;
                 }
             }
                 scenesLoading.Clear();
-                loadingScreen.SetActive(false);
                 SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)currentSceneIndex));
+
 
                 LoadedScene?.Invoke(currentSceneIndex);
                 loadedCallback?.Invoke();
-        }
 
-        private void Update(){
-            progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, target, 3 * Time.deltaTime);
+                nextSceneIndex = SceneIndex.NUMSCENEINDEX;
+                currentLoadedCallback = null;
+
+                GlobalUIReference.ScreenFader.FadeFromBlack(0.5f, null);
         }
     }
 }

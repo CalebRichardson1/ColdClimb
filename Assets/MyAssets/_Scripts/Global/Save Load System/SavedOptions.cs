@@ -20,6 +20,9 @@ namespace ColdClimb.Global.SaveSystem{
         [Header("Video")]
         public VideoResolution resolution;
         public bool isFullScreen;
+
+        [Header("Gameplay")]
+        public float lookSensitivity;
     }
 
     [System.Serializable]

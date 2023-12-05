@@ -1,5 +1,7 @@
+using System;
 using ColdClimb.Audio;
 using ColdClimb.Global;
+using ColdClimb.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using AudioType = ColdClimb.Audio.AudioType;
@@ -23,9 +25,9 @@ namespace ColdClimb.Player{
 
         private void StatusAction(InputAction.CallbackContext context){
             switch (GameManager.CurrentState){
-                case GameState.MainGame: GameManager.UpdateGameState(GameState.StatusScreen);
+                case GameState.MainGame: GlobalUIReference.ScreenFader.FadeFromAndToBlack(0.3f, SwitchGameState);
                     break;
-                case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
+                case GameState.StatusScreen: GlobalUIReference.ScreenFader.FadeFromAndToBlack(0.3f, SwitchGameState);
                     break;
                 case GameState.CombineItemScreen: GameManager.UpdateGameState(GameState.StatusScreen);
                     AudioController.instance.PlayAudio(cancelAudio);
@@ -34,12 +36,22 @@ namespace ColdClimb.Player{
             }
         }
 
+        private void SwitchGameState(){
+            switch(GameManager.CurrentState){
+                case GameState.MainGame: GameManager.UpdateGameState(GameState.StatusScreen);
+                break;
+                case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
+                break;
+            }
+
+        }
+
         private void ContextAction(InputAction.CallbackContext context){
             switch(GameManager.CurrentState){
                 case GameState.ContextScreen: GameManager.UpdateGameState(GameState.StatusScreen);
                     AudioController.instance.PlayAudio(cancelAudio);
                     break;
-                case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
+                case GameState.StatusScreen: GlobalUIReference.ScreenFader.FadeFromAndToBlack(0.3f, SwitchGameState);
                     break;
                 case GameState.CombineItemScreen: GameManager.UpdateGameState(GameState.StatusScreen);
                     AudioController.instance.PlayAudio(cancelAudio);

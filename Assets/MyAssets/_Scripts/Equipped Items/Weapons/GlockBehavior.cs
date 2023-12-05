@@ -30,6 +30,11 @@ namespace ColdClimb.Item.Equipped{
         [SerializeField] private AudioType reloadGlockAudio;
         [SerializeField] private AudioType emptyGlockAudio;
 
+        [Header("Extra")]
+        [SerializeField] private bool hasLaserSights;
+        [SerializeField] private LineRenderer laserSightLR;
+        [SerializeField] private Color notFullAmmoTextColor;
+
 
         private AudioController AudioController => AudioController.instance;
         private PlayerInventory PlayerInventory => ResourceLoader.PlayerInventory;
@@ -48,22 +53,40 @@ namespace ColdClimb.Item.Equipped{
 
         private float rangeToSnap = 0.005f;
 
+        private Vector3 laserAimPos = new Vector3();
+
         // Change to a state machine
         private bool isRunning;
         private bool fullyAimedIn;
         private bool raiseGun;
         private bool isInspecting;
         private bool isReloading;
-
-        private void OnEnable(){
+        private void Awake(){
             PlayerMovement.OnSprintAction += (state) => isRunning = state;
             ResourceLoader.InputManager.ReturnReloadAction().performed += GetPerformedReloadInteraction;
             ResourceLoader.InputManager.ReturnReloadAction().canceled += GetCanceledReloadInteraction;
         }
-        private void OnDisable(){
+        private void OnDestroy(){
             PlayerMovement.OnSprintAction -= (state) => isRunning = state;
             ResourceLoader.InputManager.ReturnReloadAction().performed -= GetPerformedReloadInteraction;
             ResourceLoader.InputManager.ReturnReloadAction().canceled -= GetCanceledReloadInteraction;
+        }
+
+        private void Update() {
+            if(hasLaserSights){
+                Physics.Raycast(shootSpawnPos.position, shootSpawnPos.forward, out RaycastHit hit, gunStats.fireRange, canBeShot);
+                LaserSight(hit);
+            }
+        }
+
+        private void LaserSight(RaycastHit hit){
+            laserSightLR.SetPosition(0, laserSightLR.transform.position);
+            if(hit.collider){
+                laserSightLR.SetPosition(1, hit.point);
+                return;
+            }
+
+            laserSightLR.SetPosition(1, shootSpawnPos.position + shootSpawnPos.forward * gunStats.fireRange);
         }
 
         public override void SetupBehavior(EquipableItem item){
@@ -142,7 +165,7 @@ namespace ColdClimb.Item.Equipped{
                 raiseGun = true;
                 currentAmmoText.enabled = true;
                 currentAmmoText.text = gunStats.currentAmmo + "/" + gunStats.maxAmmo;
-                currentAmmoText.color = gunStats.currentAmmo == gunStats.maxAmmo ? Color.green : Color.white;
+                currentAmmoText.color = gunStats.currentAmmo == gunStats.maxAmmo ? Color.green : notFullAmmoTextColor;
                 if(gunStats.currentAmmo == 0){
                     currentAmmoText.color = Color.red;
                 }

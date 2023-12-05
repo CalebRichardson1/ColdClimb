@@ -1,5 +1,6 @@
 using ColdClimb.Generic;
 using ColdClimb.Item;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -11,6 +12,8 @@ namespace ColdClimb.Player{
         public bool UnlockedHealthBar {get; private set;}
         [SerializeField] private VideoPlayer heartRateVideoPlayer;
         [SerializeField] private VideoClip fineHeartRate, injuredHeartRate, criticalHeartRate;
+        [SerializeField] private TMP_Text statusText;
+
         [Header("HealthBar")]
         [SerializeField] private Image HealthBarIMG;
         [SerializeField] private float fillSpeed = 3f;
@@ -67,22 +70,28 @@ namespace ColdClimb.Player{
         private void UpdateHealthUI(){
             switch(playerHealth.CurrentHealth){
                 case int health when health >= fineStatusCutOff:
-                if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Healthy);
-                HealthBackGroundIMG.color = Color.green;
-                heartRateVideoPlayer.clip = fineHeartRate;
-                heartRateVideoPlayer.playbackSpeed = 1f;
+                    if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Healthy);
+                    statusText.text = "Fine";
+                    statusText.color = Color.green;
+                    HealthBackGroundIMG.color = Color.green;
+                    heartRateVideoPlayer.clip = fineHeartRate;
+                    heartRateVideoPlayer.playbackSpeed = 1f;
                 break;
                 case int health when health >= injuredStatusCutOff: 
-                if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Injured);
-                HealthBackGroundIMG.color = Color.yellow;
-                heartRateVideoPlayer.clip = injuredHeartRate;
-                heartRateVideoPlayer.playbackSpeed = 0.75f;
+                    if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Injured);
+                    statusText.text = "Injured";
+                    statusText.color = Color.yellow;
+                    HealthBackGroundIMG.color = Color.yellow;
+                    heartRateVideoPlayer.clip = injuredHeartRate;
+                    heartRateVideoPlayer.playbackSpeed = 0.75f;
                 break;
                 case int health when health >= criticalStatusCutOff: 
-                if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Critical);
-                HealthBackGroundIMG.color = Color.red;
-                heartRateVideoPlayer.clip = criticalHeartRate;
-                heartRateVideoPlayer.playbackSpeed = 0.5f;
+                    if(UnlockedHealthBar) UpdateHealthBar(health, HealthState.Critical);
+                    statusText.text = "Critical";
+                    statusText.color = Color.red;
+                    HealthBackGroundIMG.color = Color.red;
+                    heartRateVideoPlayer.clip = criticalHeartRate;
+                    heartRateVideoPlayer.playbackSpeed = 0.5f;
                 break;
             }
         }

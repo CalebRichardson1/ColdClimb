@@ -668,7 +668,8 @@ MonoBehaviour:
   - associatedTerrain: 3
     stepAudio: 0b0000000c0000000d0000000e000000
   playerRigidbody: {fileID: 2351100940982203288}
-  baseStepTime: 3
+  walkingStepTime: 0.85
+  runningStepTime: 0.45
   playerAudioSource: {fileID: 5674240230966534132}
 --- !u!1 &3459753711775476411
 GameObject:
@@ -1391,7 +1392,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
@@ -1424,7 +1425,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6306731498092893389}
   characterOrientation: {fileID: 2161441322344718079}
-  cameraMoveSens: 5
 --- !u!114 &6519762044325862250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1439,7 +1439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bobbingAmplitude: 0.001
   bobbingFrequency: 7.5
-  runningBobbingAmplitude: 0.002
+  runningBobbingAmplitude: 0.003
   runningBobbingFrequency: 15
   headBobResetSpeed: 2
   playerCamera: {fileID: 5346562539534581428}

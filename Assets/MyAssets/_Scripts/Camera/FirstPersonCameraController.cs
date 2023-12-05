@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using ColdClimb.Global.SaveSystem;
 using ColdClimb.Global;
@@ -8,15 +7,16 @@ namespace ColdClimb.Camera{
     public class FirstPersonCameraController : MonoBehaviour, ILoadable{
         [SerializeField] private Transform camHolder;
         [SerializeField] private Transform characterOrientation;
-        [SerializeField, Range(0.1f, 50f)] private float cameraMoveSens = 25f;
 
         private InputManager InputManager => ResourceLoader.InputManager;
         private PlayerData PlayerData => ResourceLoader.MainPlayerData;
+        private OptionsData OptionsData => SystemManager.Instance.OptionsData;
 
         public float XValue { get; private set; }
         public float YValue { get; private set; }
 
         private bool canLook = true;
+        private float CameraMoveSens => OptionsData.settings.lookSensitivity;
 
         private void Awake(){
             PlayerData.LoadValuesCallback += LoadData;
@@ -30,7 +30,7 @@ namespace ColdClimb.Camera{
 
         public void LoadData(){
             XValue = PlayerData.playerLocation.playerLookX;
-            YValue = PlayerData.playerLocation.playerLookY;      
+            YValue = PlayerData.playerLocation.playerLookY;       
         }
 
         private void Update(){
@@ -39,7 +39,7 @@ namespace ColdClimb.Camera{
 
         public void LookInput(){
             if(!canLook) return;
-            Vector2 inputVector = cameraMoveSens * Time.deltaTime * InputManager.GetLookDelta();
+            Vector2 inputVector = CameraMoveSens * Time.deltaTime * InputManager.GetLookDelta();
             XValue += inputVector.x;
             YValue -= inputVector.y;
             YValue = Mathf.Clamp(YValue, -80f, 80f);

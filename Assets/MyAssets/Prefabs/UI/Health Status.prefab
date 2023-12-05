@@ -167,11 +167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374934945b7d50145baa43c544a3fa80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBarIMG: {fileID: 8143646996643567764}
   heartRateVideoPlayer: {fileID: 7743969688377867735}
   fineHeartRate: {fileID: 32900000, guid: 68efcd84687bf8f46a1ef8691e249ebb, type: 3}
   injuredHeartRate: {fileID: 32900000, guid: d3a82008d591e074a827fb3dc21a33f6, type: 3}
   criticalHeartRate: {fileID: 32900000, guid: 6f071c5fa553b3847b4bb890926b7b15, type: 3}
+  statusText: {fileID: 0}
+  HealthBarIMG: {fileID: 8143646996643567764}
   fillSpeed: 0.25
 --- !u!1 &2950454954062070266
 GameObject:
@@ -658,9 +659,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8405480095624836791}
   - {fileID: 5687939756491203580}
   - {fileID: 6452759688978580519}
-  - {fileID: 8405480095624836791}
   m_Father: {fileID: 5509251129107284837}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

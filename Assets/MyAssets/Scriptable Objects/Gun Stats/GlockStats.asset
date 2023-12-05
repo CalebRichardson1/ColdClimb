@@ -19,9 +19,9 @@ MonoBehaviour:
   aimSpeed: 7
   maxAmmo: 15
   currentAmmo: 15
-  reloadSpeed: 2.5
-  baseBloom: 2.5
-  visualRecoil: 30
+  reloadSpeed: 1
+  baseBloom: 1
+  visualRecoil: 12
   basekickback: 0.05
   isAuto: 0
   burstFire: 0

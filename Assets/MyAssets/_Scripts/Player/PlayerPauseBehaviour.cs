@@ -20,8 +20,6 @@ namespace ColdClimb.Player{
 
         private void PauseGameAction(InputAction.CallbackContext context){
             switch (GameManager.CurrentState){
-                case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
-                break;
                 case GameState.MainGame: PauseGame();
                 break;
                 case GameState.PauseMenu: ResumeGame();

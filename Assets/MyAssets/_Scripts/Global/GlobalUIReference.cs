@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,11 +6,13 @@ namespace ColdClimb.UI{
         [SerializeField] private GameObject noteCanvas;
         [SerializeField] private TMP_Text noteTextAreaUI;
         [SerializeField] private CombineSelector combineSelector;
+        [SerializeField] private ScreenFader screenFader;
 
         public static GlobalUIReference Instance;
         public static GameObject NoteCanvas;
         public static TMP_Text NoteTextAreaUI;
         public static CombineSelector CombineSelector;
+        public static ScreenFader ScreenFader;
 
         private void Awake() {
             if(Instance != null && Instance != this){
@@ -25,6 +25,7 @@ namespace ColdClimb.UI{
             NoteCanvas = noteCanvas;
             NoteTextAreaUI = noteTextAreaUI;
             CombineSelector = combineSelector;
+            ScreenFader = screenFader;
         }
 
         private void Start() {

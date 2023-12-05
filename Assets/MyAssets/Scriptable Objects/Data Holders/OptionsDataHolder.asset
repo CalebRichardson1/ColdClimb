@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534a83d4351b73b4e99ae77a20fa6097, type: 3}
   m_Name: OptionsDataHolder
   m_EditorClassIdentifier: 
+  settings:
+    masterVolume: 0.71209705
+    musicVolume: 0.29372954
+    sfxVolume: 0.32805705
+    resolution:
+      horizontal: 1920
+      vertical: 1080
+    isFullScreen: 1
+    lookSensitivity: 15
   mainMixer: {fileID: 24100000, guid: e28a3619a4bed1b4ea7740bce93de2c8, type: 2}
   videoResolutions:
   - horizontal: 640
@@ -36,11 +45,3 @@ MonoBehaviour:
     vertical: 1440
   - horizontal: 1920
     vertical: 1200
-  settings:
-    masterVolume: 0.71209705
-    musicVolume: 0.29372954
-    sfxVolume: 0.32805705
-    resolution:
-      horizontal: 1920
-      vertical: 1080
-    isFullScreen: 1

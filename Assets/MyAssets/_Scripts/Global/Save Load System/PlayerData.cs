@@ -52,8 +52,8 @@ namespace ColdClimb.Global.SaveSystem{
             //move to a default value file or something similar for easy editing for different difficulties/settings
             playerStats.currentHealth = 100;
             playerStats.maxHealth = 100;
-            playerStats.walkSpeed = 4f;
-            playerStats.runSpeed = 7f;
+            playerStats.walkSpeed = 4.5f;
+            playerStats.runSpeed = 7.5f;
             playerStats.lookSpeed = 30f;
             playerLocation.currentSceneIndex = SceneIndex.PARKING_LOT;
             playerLocation.playerPosition = new Vector3(85.18f, 3.06f, 132.12f);
