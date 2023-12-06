@@ -53,8 +53,6 @@ namespace ColdClimb.Item.Equipped{
 
         private float rangeToSnap = 0.005f;
 
-        private Vector3 laserAimPos = new Vector3();
-
         // Change to a state machine
         private bool isRunning;
         private bool fullyAimedIn;

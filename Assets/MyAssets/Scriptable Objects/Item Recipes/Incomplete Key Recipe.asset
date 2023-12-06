@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c1b16d05a85d748bb450fc18b7e4cc, type: 3}
   m_Name: Incomplete Key Recipe
   m_EditorClassIdentifier: 
-  item1: {fileID: 11400000, guid: 8380d8fe2fe518d47abb5e08eb9eee26, type: 2}
+  item1: {fileID: 11400000, guid: 7921ec013ad34c8439499bfbfcec115a, type: 2}
   item2: {fileID: 11400000, guid: 8380d8fe2fe518d47abb5e08eb9eee26, type: 2}
   resultItem: {fileID: 11400000, guid: df66d09877dc775408a93d19730decfd, type: 2}
   resultItemAmount: 1

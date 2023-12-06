@@ -19,5 +19,5 @@ MonoBehaviour:
   itemImage: {fileID: 3285820176990009405, guid: 3cfaa7ab2f8ed18428f0238213812623,
     type: 3}
   isStackable: 1
-  maxStackSize: 3
+  maxStackSize: 2
   isCombinable: 1

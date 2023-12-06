@@ -65,6 +65,30 @@ MonoBehaviour:
   discardButton: {fileID: 740496043680768530}
   combineButton: {fileID: 3876945226994463840}
   firstButtonTransform: {fileID: 9223055491945833573}
+  failedDiscardDialogue:
+    sentences:
+    - I feel like I might need that... I'm keeping it for now.
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  failedKeyItemUseDialogue:
+    sentences:
+    - I can't use that here.
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &242978357635001195
 GameObject:
   m_ObjectHideFlags: 0

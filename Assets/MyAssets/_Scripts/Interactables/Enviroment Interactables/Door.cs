@@ -1,24 +1,29 @@
 using System.Collections;
 using ColdClimb.Player;
+using ColdClimb.UI;
 using UnityEngine;
 using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
     public class Door : MonoBehaviour, IInteractable{
         public string InteractionPrompt => "Open Door";
-        [Header("Door Audio")]
-        [SerializeField] private AudioType openDoorAudio;
-        [SerializeField] private AudioType lockedDoorAudio;
 
         [Header("Door Variables")]        
         [SerializeField] private float speed = 8f;
         [SerializeField] private float rangeToSnap = 0.1f;
-        [SerializeField] private bool isOpened = false;
+        [SerializeField] private float minRangeFromToOpen = 2.1f;
         [SerializeField] private bool isLocked = false;
 
         [Header("Door Positions")]
         [SerializeField] private Transform openPos;
         [SerializeField] private Transform closePos;
+
+        [Header("Door Audio")]
+        [SerializeField] private AudioType openDoorAudio;
+        [SerializeField] private AudioType lockedDoorAudio;
+
+        [Header("Door Flavor")]
+        [SerializeField] private Dialogue lockedDoorDialogue;
 
         private Transform doorTransform;
 
@@ -37,12 +42,19 @@ namespace ColdClimb.Interactable{
 
 #region Public Functions
         public bool Interact(PlayerInteract player){
-            if(isLocked || isMoving){
+            if(isLocked){
+                // Play Locked Audio
+                //Trigger Locked Dialouge
+                GlobalUIReference.DialogueController.StartDialogue(lockedDoorDialogue);
                 return false;
             }
 
+            if(isMoving){
+                return false;
+            }
+            
             // If player is far enough of the door to open it then open or close the door
-            if(Vector3.Distance(player.transform.position, doorTransform.position) >= 2.1f){
+            if(Vector3.Distance(player.transform.position, doorTransform.position) >= minRangeFromToOpen){
                 Transform targetPos = doorTransform.localRotation == openPos.localRotation ? closePos : openPos;
                 StartCoroutine(RotateDoorCoroutine(targetPos));
                 
@@ -61,11 +73,11 @@ namespace ColdClimb.Interactable{
 #region Private Functions
         private IEnumerator RotateDoorCoroutine(Transform pos){
             isMoving = true;
-            while(doorTransform.localRotation != pos.localRotation){
-                var currentLerpRotation = Quaternion.Lerp(doorTransform.localRotation, pos.localRotation, Time.deltaTime * speed);
-                doorTransform.localRotation = currentLerpRotation;
-                if(Vector3.Distance(doorTransform.localRotation.eulerAngles, pos.eulerAngles) <= rangeToSnap){
-                    doorTransform.localRotation = pos.localRotation;
+            while(doorTransform.rotation != pos.rotation){
+                var currentLerpRotation = Quaternion.Lerp(doorTransform.rotation, pos.rotation, Time.deltaTime * speed);
+                doorTransform.rotation = currentLerpRotation;
+                if(Vector3.Distance(doorTransform.rotation.eulerAngles, pos.eulerAngles) <= rangeToSnap){
+                    doorTransform.rotation = pos.rotation;
                     break;
                 }
                 yield return null;

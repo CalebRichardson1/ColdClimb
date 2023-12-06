@@ -1,4 +1,5 @@
 using ColdClimb.Inventory;
+using ColdClimb.UI;
 using UnityEngine;
 
 namespace ColdClimb.Item{

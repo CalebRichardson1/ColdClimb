@@ -19,8 +19,7 @@ namespace ColdClimb.Global{
         CurrentState = newState;
 
         ResourceLoader.GlobalLogger.Log("The game state is: " + newState);
-            switch (newState)
-            {
+            switch (newState){
                 case GameState.MainMenu:
                     HandleMainMenu();
                     break;
@@ -44,6 +43,8 @@ namespace ColdClimb.Global{
                 case GameState.NoteScreen:
                     break;
                 case GameState.LoadingScene:
+                    break;
+                case GameState.DialogueScreen:
                     break;
             }
 
@@ -75,6 +76,8 @@ namespace ColdClimb.Global{
         NoteScreen,
         CombineItemScreen,
         LoadingScene,
+        DialogueScreen,
+        QuestionScreen,
         Devscene
     }
 }

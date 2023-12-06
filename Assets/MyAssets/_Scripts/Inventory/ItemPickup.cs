@@ -2,13 +2,20 @@ using ColdClimb.Global;
 using ColdClimb.Interactable;
 using ColdClimb.Item;
 using ColdClimb.Player;
+using ColdClimb.UI;
 using UnityEngine;
 using Logger = ColdClimb.Global.Logger;
 
 namespace ColdClimb.Inventory{
     public class ItemPickup : MonoBehaviour, IInteractable{
+        [Header("Item Data")]
         [SerializeField] private ItemData itemData;
         [SerializeField] private int itemStackAmount;
+
+        [Header("Pickup Flavor")]
+        [SerializeField] private Dialogue interactQuestionDialogue;
+        [SerializeField] private Dialogue successfulGrabbedDialogue;
+        [SerializeField] private Dialogue failedGrabDialogue;
 
         private Logger GlobalLogger => ResourceLoader.GlobalLogger;
 
@@ -22,23 +29,47 @@ namespace ColdClimb.Inventory{
             if(itemStackAmount == 0) itemStackAmount = 1;
         }
 
+        public void PickUpItem(){
+            //Returns a int of 0 if item was successfully added to inventory
+            //else change the stack amount of this pickup item
+            var itemRemainder = ResourceLoader.PlayerInventory.AttemptToAddItemToInventory(itemData, itemStackAmount);
+            if(itemRemainder == 0){
+                Destroy(gameObject, 0.1f);
+                if(successfulGrabbedDialogue.sentences.Length > 0){
+                    GlobalUIReference.DialogueController.StartDialogue(successfulGrabbedDialogue);
+                    return;
+                }
+            }  
+            else{
+                itemStackAmount = itemRemainder;
+                if(failedGrabDialogue.sentences.Length > 0){
+                    GlobalUIReference.DialogueController.StartDialogue(failedGrabDialogue);
+                    return;
+                }
+            } 
+
+            if(interactQuestionDialogue.sentences.Length > 0){
+                GlobalUIReference.DialogueController.EndDialogue();
+            }
+        }
+
+        public void CancelPickUp(){
+            GlobalUIReference.DialogueController.EndDialogue();
+        }
+
         public bool Interact(PlayerInteract player){
             if(itemData == null){
                 GlobalLogger.Log("No Item Data Assigned...", this);
                 return false;
             }
 
-            //Returns a int of 0 if item was successfully added to inventory
-            //else change the stack amount of this pickup item
-            var itemRemainder = ResourceLoader.PlayerInventory.AttemptToAddItemToInventory(itemData, itemStackAmount);
-            if(itemRemainder == 0){
-                Destroy(gameObject, 0.1f);
-                return true;
-            }  
-            else{
-                itemStackAmount = itemRemainder;
+            if(interactQuestionDialogue.sentences.Length > 0){
+                GlobalUIReference.DialogueController.StartDialogue(interactQuestionDialogue);
                 return false;
-            } 
+            }
+
+            PickUpItem();
+            return true;
         } 
     }
 }

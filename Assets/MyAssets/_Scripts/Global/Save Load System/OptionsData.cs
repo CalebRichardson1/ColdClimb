@@ -68,7 +68,7 @@ namespace ColdClimb.Global.SaveSystem{
             } 
             settings.isFullScreen = true;
             
-            settings.lookSensitivity = 15f;
+            settings.lookSensitivity = 5f;
 
             LoadValuesCallback?.Invoke();
             ApplySettings(true);

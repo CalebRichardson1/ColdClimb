@@ -1,6 +1,7 @@
 using ColdClimb.Audio;
 using ColdClimb.Inventory;
 using ColdClimb.Item;
+using ColdClimb.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using AudioType = ColdClimb.Audio.AudioType;
@@ -13,8 +14,8 @@ namespace ColdClimb.Interactable{
         [SerializeField] private bool consumeItem;
 
         [Header("Flavor Text")]
-        [SerializeField, TextArea(4,4)] private string onUnlockText;
-        [SerializeField, TextArea(4,4)] private string onFailedUnlockText;
+        [SerializeField] private Dialogue onUnlockDialogue;
+        [SerializeField] private Dialogue onFailedUnlockDialogue;
 
         [Header("Audio Optiopns")]
         [SerializeField] private AudioType onUnlockAudio;
@@ -26,6 +27,10 @@ namespace ColdClimb.Interactable{
         public void AttemptUnlock(ItemData itemAttempt){
             if(itemAttempt == itemToUnlock){
                 //TODO: Add unlock text to text box
+                if(onUnlockDialogue.sentences.Length != 0){
+                    GlobalUIReference.DialogueController.StartDialogue(onUnlockDialogue);
+                }
+
                 if(consumeItem) InventoryContextMenu.ContextedInventoryItem.RemoveFromStack(1);
                 OnUnlockEvent?.Invoke();
                 if(onUnlockAudio != AudioType.None){
@@ -37,6 +42,9 @@ namespace ColdClimb.Interactable{
             }
             else{
                 //TODO: Add failed text to text box
+                if(onFailedUnlockDialogue.sentences.Length != 0){
+                    GlobalUIReference.DialogueController.StartDialogue(onFailedUnlockDialogue);
+                }
                 if(onUnlockAudio != AudioType.None){
                     AudioController.instance.PlayAudio(onFailedUnlockAudio, false, 0, 0, AudioSource);
                 }

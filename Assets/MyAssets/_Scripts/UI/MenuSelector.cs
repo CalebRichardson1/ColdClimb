@@ -37,8 +37,16 @@ namespace ColdClimb.UI{
 
         public void SetDefaultSelectedObject(Transform defaultSelection){
             defaultSelectedObject = defaultSelection;
+
             AssignDefaultSelection();
         } 
+
+        public void SetIsValid(bool state){
+            isValid = state;
+
+            //set the cursor visual to be the incoming state
+            SelectorImage.enabled = isValid;
+        }
 
         private void AssignDefaultSelection(){
             //if the default selected object has not been assigned yet, return
@@ -58,6 +66,7 @@ namespace ColdClimb.UI{
             isValid = gameState == GameState.MainMenu || gameState == GameState.StatusScreen 
                                    || gameState == GameState.GameOver || gameState == GameState.ContextScreen
                                    || gameState == GameState.PauseMenu || gameState == GameState.CombineItemScreen;
+                                   
             //set the cursor visual to be enabled when we are in a menu
             SelectorImage.enabled = isValid;
         }

@@ -20,12 +20,17 @@ namespace ColdClimb.Inventory{
         public InventoryUIController Controller => controller;
         public PlayerInventory Inventory => ResourceLoader.PlayerInventory;
 
+        [Header("UI References")]
         [SerializeField] private GameObject contextMenuVisual;
         [SerializeField] private TMP_Text useText;
         [SerializeField] private TMP_Text combineText;
         [SerializeField] private Button discardButton;
         [SerializeField] private Button combineButton;
-        [SerializeField] private RectTransform firstButtonTransform;
+        [SerializeField] private Transform firstButtonTransform;
+
+        [Header("Dialogue")]
+        [SerializeField] private Dialogue failedDiscardDialogue;
+        [SerializeField] private Dialogue failedKeyItemUseDialogue;
 
         private ItemData itemContext;
         private InventoryUIController controller;
@@ -108,10 +113,16 @@ namespace ColdClimb.Inventory{
                 controller.DrawInventorySlotsVisuals();
                 isEquipableSlot = false;
             }
-            else{
-            itemContext.UseItem(this);
-            SlotContext.DrawSlotVisual();  
+            else if(itemContext.ItemType == ItemType.KeyItem && OnUseKeyItemAction == null){
+                if(failedKeyItemUseDialogue.sentences.Length != 0){
+                    GlobalUIReference.DialogueController.StartDialogue(failedKeyItemUseDialogue);
+                    return;
+                }
+                
+                itemContext.UseItem(this);
+                SlotContext.DrawSlotVisual();  
             } 
+
             GameManager.UpdateGameState(GameState.StatusScreen);
         }
 
@@ -132,6 +143,10 @@ namespace ColdClimb.Inventory{
         public void DiscardItemAction(){
             if(itemContext.ItemType == ItemType.KeyItem || itemContext.ItemType == ItemType.Gun || itemContext.ItemType == ItemType.Tool){
                 // Can't Discard this item
+                if(failedDiscardDialogue.sentences.Length != 0){
+                    GlobalUIReference.DialogueController.StartDialogue(failedDiscardDialogue);
+                    return;
+                }
             }
             else{
                 itemContext.DiscardItem();

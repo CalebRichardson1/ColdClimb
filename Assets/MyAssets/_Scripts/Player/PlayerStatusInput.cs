@@ -43,7 +43,6 @@ namespace ColdClimb.Player{
                 case GameState.StatusScreen: GameManager.UpdateGameState(GameState.MainGame);
                 break;
             }
-
         }
 
         private void ContextAction(InputAction.CallbackContext context){
