@@ -1,0 +1,317 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &544047923268906131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3040396860288656192}
+  - component: {fileID: 3987219227665576856}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3040396860288656192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544047923268906131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.673, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7246392732157857959}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3987219227665576856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544047923268906131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330e67bf6cf03754f800a483251809ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnUnlockEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3697507654605978181}
+        m_TargetAssemblyTypeName: ColdClimb.Interactable.Door, Assembly-CSharp
+        m_MethodName: UnlockDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  itemToUnlock: {fileID: 11400000, guid: 6b33de08d75473042afaef4864a1bbba, type: 2}
+  consumeItem: 0
+  onUnlockDialogue:
+    sentences:
+    - I used the Bolt Cutters and cut the padlock off.
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  onFailedUnlockDialogue:
+    sentences:
+    - Hmm, the item won't work, I need something that can break through metal.
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  onUnlockAudio: 0
+  onFailedUnlockAudio: 0
+--- !u!1001 &249971995264722631
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7246392732157857959}
+    m_Modifications:
+    - target: {fileID: 209469979225045470, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_Name
+      value: PadLock_Locked
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 99.999985
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4828
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6422
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.021
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69013447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.6086615
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.3182598
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.22793922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -80.132
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 70.757
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -25.139
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 120df9c821adf6c4c959a9b8fe2b9781, type: 3}
+--- !u!4 &5853781982064624587 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5928104379105666316, guid: 120df9c821adf6c4c959a9b8fe2b9781,
+    type: 3}
+  m_PrefabInstance: {fileID: 249971995264722631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5213201876590628229
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 316743131435592394, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 61
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 233.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 27.803
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 167.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.86602527
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50000036
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887968217715990776, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102318226109329855, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407134858873919601, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304906350725449092, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_Name
+      value: RangerBox (Locked)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304906350725449092, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865666696258926528, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: isLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865666696258926528, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: lockedDoorDialogue.sentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865666696258926528, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: lockedDoorDialogue.sentences.Array.data[0]
+      value: This Ranger Box is locked by a old padlock.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865666696258926528, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      propertyPath: lockedDoorDialogue.sentences.Array.data[1]
+      value: It's so rusted I think I can break it if I had the right tool.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3040396860288656192}
+    - targetCorrespondingSourceObject: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5853781982064624587}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36bf031419539b04f92c2eaa289ac17a, type: 3}
+--- !u!114 &3697507654605978181 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8865666696258926528, guid: 36bf031419539b04f92c2eaa289ac17a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5213201876590628229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f4890d02548d840ab8a7cb9786df9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &7246392732157857959 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3227208153467215138, guid: 36bf031419539b04f92c2eaa289ac17a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5213201876590628229}
+  m_PrefabAsset: {fileID: 0}

@@ -31,7 +31,16 @@ namespace ColdClimb.Audio{
         ITEM_GLOCK_EQUIP,
         ITEM_FLASHLIGHT_USE,
         ITEM_FLASHLIGHT_ZOOM_IN,
-        ITEM_FLASHLIGHT_ZOOM_OUT
+        ITEM_FLASHLIGHT_ZOOM_OUT,
+        UI_05,
+        PLAYER_SAVE,
+        PLAYER_OPEN_INVENTORY,
+        DOOR_OPEN,
+        DOOR_CLOSE,
+        DOOR_LOCKED,
+        WOODEN_DOOR_OPEN,
+        WOODEN_DOOR_CLOSE,
+        WOODEN_DOOR_LOCKED
     }
 }
 

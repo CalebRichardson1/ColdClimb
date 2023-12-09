@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 namespace ColdClimb.Player{
     [RequireComponent(typeof(Rigidbody))]
@@ -127,7 +128,13 @@ namespace ColdClimb.Player{
 
         private void EvaluateGameState(GameState state){
             canMove = state == GameState.MainGame;
-            CharacterRigidbody.isKinematic = state == GameState.PauseMenu || state == GameState.NoteScreen || state == GameState.StatusScreen || state == GameState.CombineItemScreen;
+            if(state == GameState.MainGame){
+                CharacterRigidbody.constraints = RigidbodyConstraints.None;
+                CharacterRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            }
+            else{
+                CharacterRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            }
         }
 
         private void OnDrawGizmosSelected() {

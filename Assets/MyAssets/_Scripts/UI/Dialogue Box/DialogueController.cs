@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ColdClimb.Audio;
 using ColdClimb.Global;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.UI{
     public class DialogueController : MonoBehaviour{
@@ -23,6 +24,9 @@ namespace ColdClimb.UI{
         [SerializeField] private Button answerTwoButton;
         [SerializeField] private TMP_Text answerTwoText;
 
+        [Header("Audio")]
+        [SerializeField] private AudioType dialogueAudio;
+
         private Queue<string> sentences;
         private WaitForSecondsRealtime printTime;
 
@@ -34,6 +38,7 @@ namespace ColdClimb.UI{
         private Dialogue currentDialogue;
         private UnityEvent answerOneAction;
         private UnityEvent answerTwoAction;
+        private UnityEvent actionAfterDialogue;
 
 #region Unity Functions
         private void Start() {
@@ -112,7 +117,10 @@ namespace ColdClimb.UI{
             }
 
             dialogueUI.SetActive(false);
+
             GameManager.UpdateGameState(GameState.MainGame);
+            
+            currentDialogue.eventAfterDialogueEnds?.Invoke();
         }
         #endregion
 
@@ -123,9 +131,14 @@ namespace ColdClimb.UI{
             isPrinting = true;
             printTime.waitTime = typeSpeed;
             currentTextObject.text = "";
+            int num = 0;
             foreach(char letter in sentence.ToCharArray()){
                 currentTextObject.text += letter;
 
+                if(num % 4 == 0){
+                    AudioController.instance.PlayAudio(dialogueAudio);
+                }
+                num++;
                 yield return printTime;
             }
             isPrinting = false;

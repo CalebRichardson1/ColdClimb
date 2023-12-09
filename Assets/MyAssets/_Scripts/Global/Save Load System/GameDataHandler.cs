@@ -202,7 +202,7 @@ namespace ColdClimb.Global.SaveSystem{
             DeleteSaveData(slot);
 
             // Hard coded starting scene for now.
-            LoadGameScene?.Invoke(SceneIndex.PARKING_LOT, OnNewGameCallback);
+            LoadGameScene?.Invoke(SceneIndex.FOREST, OnNewGameCallback);
         }
 
         public static void TriggerNewGameValues() => OnNewGameCallback?.Invoke();

@@ -15,9 +15,9 @@ MonoBehaviour:
   itemType: 0
   itemName: Medkit
   itemDescription:
-  - This item will heal you lots!
-  itemImage: {fileID: 3285820176990009405, guid: 1096ec1674c6b54429cc1530898ae239,
+  - A medkit used for minior injuries. Will heal you a modest amount.
+  itemImage: {fileID: 3285820176990009405, guid: d617e8d0eb3a15c449d10194dd741680,
     type: 3}
   isStackable: 1
   maxStackSize: 2
-  healAmount: 25
+  healAmount: 50

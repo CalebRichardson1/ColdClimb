@@ -78,6 +78,7 @@ namespace ColdClimb.Global{
         LoadingScene,
         DialogueScreen,
         QuestionScreen,
+        KeypadScreen,
         Devscene
     }
 }

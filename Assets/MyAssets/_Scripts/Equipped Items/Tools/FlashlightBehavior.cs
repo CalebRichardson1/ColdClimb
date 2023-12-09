@@ -1,5 +1,6 @@
 using ColdClimb.Audio;
 using ColdClimb.Global;
+using ColdClimb.Interactable;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using AudioType = ColdClimb.Audio.AudioType;
@@ -12,6 +13,10 @@ namespace ColdClimb.Item.Equipped{
         [Header("Speed Settings")]
         [SerializeField] private float playerLookSpeed = 15f;
         [SerializeField] private float zoomSpeed;
+
+        [Header("Raycast Settings")]
+        [SerializeField] private LayerMask ignoreLayers;
+        [SerializeField] private Transform flashlightRayPoint;
 
         [Header("Light Settings")]
         [SerializeField] private float defaultRange;
@@ -27,6 +32,7 @@ namespace ColdClimb.Item.Equipped{
         [SerializeField] private AudioType zoomInAudio;
         [SerializeField] private AudioType zoomOutAudio;
 
+        private InspectObject currentInspectObject;
         private AudioController AudioController => AudioController.instance;
         private bool startedZoom = false;
 
@@ -39,8 +45,35 @@ namespace ColdClimb.Item.Equipped{
             
         }
 
+        public void Update(){
+            if(!flashLight.enabled){
+                ResetCurrentInspectObject();
+                return;
+            } 
+
+            //Send a raycast out the size of our flashlight range
+            if(Physics.Raycast(flashlightRayPoint.position, flashlightRayPoint.forward, out RaycastHit hitInfo, flashLight.range, ~ignoreLayers)){
+                if(hitInfo.collider.TryGetComponent(out InspectObject inspectObject) && inspectObject.NeedsLight && inspectObject != currentInspectObject){
+                    ResetCurrentInspectObject();
+                    currentInspectObject = inspectObject;
+                    currentInspectObject.SetInspectable(true);
+                } 
+            } 
+            else{
+                ResetCurrentInspectObject();
+            } 
+        }
+
+        private void ResetCurrentInspectObject(){
+            if(currentInspectObject != null){
+                currentInspectObject.SetInspectable(false);
+                currentInspectObject = null;
+            }
+        }
+
         private void OnDestroy(){
             ResourceLoader.MainPlayerData.playerStats.lookSpeed = 30f;
+            ResetCurrentInspectObject();
         }
 
         private void SetDefaultFlashLight(){
@@ -93,10 +126,16 @@ namespace ColdClimb.Item.Equipped{
         public override void UseResource(InputAction action){
             return;
         }
+
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(flashlightRayPoint.position, flashlightRayPoint.forward * flashLight.range);
+        }
     }
 
     public enum FlashLightType{
         Default,
         Zoomed
     }
+
 }

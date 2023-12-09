@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d277332bd6ee8384483c0ce6dbcc556e, type: 3}
   m_Name: Pain Medicine
   m_EditorClassIdentifier: 
+  itemType: 0
   itemName: Pain Medicine
   itemDescription:
   - A bottle of pain medicine. Will heal you a fair bit.
   itemImage: {fileID: 3285820176990009405, guid: 1096ec1674c6b54429cc1530898ae239,
     type: 3}
   isStackable: 1
-  maxStackSize: 3
+  maxStackSize: 5
   healAmount: 20

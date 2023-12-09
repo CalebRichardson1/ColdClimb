@@ -4,32 +4,39 @@ using ColdClimb.Player;
 using ColdClimb.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
     public class NoteController : MonoBehaviour, IInteractable{
         public string InteractionPrompt => "Read Note";
-        [SerializeField, TextArea(4, 4)] private string noteText;
+        [SerializeField, TextArea(6, 6)] private string noteText;
 
         [Header("Note Juice")]
         [SerializeField] private AudioType noteShowSFX;
         [SerializeField] private AudioType noteHideSFX;
+        [SerializeField] private Dialogue dialogueAfterNote;
 
         private GameObject NoteCanvas => GlobalUIReference.NoteCanvas;
         private TMP_Text NoteTextAreaUI => GlobalUIReference.NoteTextAreaUI;
-        private Animator NoteAnimator => GetComponent<Animator>();
+        private Animator noteAnimator;
+        private InputManager InputManager => ResourceLoader.InputManager;
 
         private const string SHOW_NOTE = "Show_Note";
         private const string HIDE_NOTE = "Hide_Note";
 
         private bool isNoteOpen = false;
+        private bool hasRead = false;
 #region Unity Functions
         private void Awake() {
-            GameManager.OnGameStateChange += (state) => {if(state == GameState.MainGame && isNoteOpen == true) HideNote();};
+            TryGetComponent(out noteAnimator); 
+            InputManager.ReturnPauseAction().started += PauseGameAction;
+            InputManager.ReturnCancelAction().started += PauseGameAction;
         }
 
         private void OnDestroy() {
-            GameManager.OnGameStateChange -= (state) => {if(state == GameState.MainGame && isNoteOpen == true) HideNote();};
+            InputManager.ReturnPauseAction().started -= PauseGameAction;
+            InputManager.ReturnCancelAction().started -= PauseGameAction;
         }
 #endregion
 
@@ -49,7 +56,9 @@ namespace ColdClimb.Interactable{
 
             //Juice
             AudioController.instance.PlayAudio(noteShowSFX);
-            PlayAnimation(SHOW_NOTE);
+            if(noteAnimator != null){
+                PlayAnimation(SHOW_NOTE);
+            }
         }
 
         private void HideNote(){
@@ -58,11 +67,26 @@ namespace ColdClimb.Interactable{
 
             //Juice
             AudioController.instance.PlayAudio(noteHideSFX);
-            PlayAnimation(HIDE_NOTE);
+            if(noteAnimator != null){
+                PlayAnimation(HIDE_NOTE);
+            }
+
+            if(dialogueAfterNote.sentences.Length != 0 && !hasRead){
+                GlobalUIReference.DialogueController.StartDialogue(dialogueAfterNote);
+                hasRead = true;
+                return;
+            }
+            GameManager.UpdateGameState(GameState.MainGame);
         }
 
         private void PlayAnimation(string animationName){
-            NoteAnimator.Play(animationName, -1, 0);
+            noteAnimator.Play(animationName, -1, 0);
+        }
+        
+        private void PauseGameAction(InputAction.CallbackContext context){
+            if(isNoteOpen && GameManager.CurrentState == GameState.NoteScreen){
+                HideNote();
+            }
         }
 #endregion
     }

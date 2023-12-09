@@ -14,5 +14,6 @@ namespace ColdClimb.UI{
 
         public UnityEvent answerOneEvent;
         public UnityEvent answerTwoEvent;
+        public UnityEvent eventAfterDialogueEnds;
     }
 }

@@ -10,7 +10,17 @@ namespace ColdClimb.Generic{
             if(!other.CompareTag("Player") || GameManager.CurrentState != GameState.MainGame) return;
 
             GlobalUIReference.DialogueController.StartDialogue(onTriggerDialogue);
-            gameObject.GetComponent<Collider>().enabled = false;
+            if(!onTriggerDialogue.isQuestion){
+                gameObject.GetComponent<Collider>().enabled = false;
+            }
+        }
+
+        public void ReadText(){
+            GlobalUIReference.DialogueController.StartDialogue(onTriggerDialogue);
+        }
+
+        public void CancelInteraction(){
+            GlobalUIReference.DialogueController.EndDialogue();
         }
     }
 }

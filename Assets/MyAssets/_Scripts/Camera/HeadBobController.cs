@@ -1,3 +1,4 @@
+using ColdClimb.Global;
 using ColdClimb.Player;
 using UnityEngine;
 
@@ -24,15 +25,19 @@ namespace ColdClimb.Camera{
         private Vector3 startPos;
         private float defaultAmplitude;
         private float defaultFrequency;
+
+        private bool canHeadBob = true;
         #endregion
 
         #region Setup
         private void Awake(){
             PlayerMovement.OnSprintAction += EvaluateSprintBob;
+            GameManager.OnGameStateChange += (state) => canHeadBob = state != GameState.KeypadScreen;
         } 
 
         private void OnDestroy(){
-        PlayerMovement.OnSprintAction -= EvaluateSprintBob;   
+            PlayerMovement.OnSprintAction -= EvaluateSprintBob;   
+            GameManager.OnGameStateChange -= (state) => canHeadBob = state != GameState.KeypadScreen;
         }
     
         private void Start(){
@@ -44,6 +49,7 @@ namespace ColdClimb.Camera{
 
         #region Checks
         private void Update(){
+            if(!canHeadBob) return;
             CheckMotion();
 
             ResetPostion();

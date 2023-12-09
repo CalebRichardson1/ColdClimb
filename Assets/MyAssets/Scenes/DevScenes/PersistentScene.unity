@@ -1101,6 +1101,12 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: eecc8cbc18af16a489c266db06a14030, type: 3}
     - type: 25
       clip: {fileID: 8300000, guid: 3966ed7181c31ec49b03fdb273e5c6aa, type: 3}
+    - type: 32
+      clip: {fileID: 8300000, guid: 7fb5abba2f4f5cf47a4e105d078e8f40, type: 3}
+    - type: 33
+      clip: {fileID: 8300000, guid: a3f7f9a96b0257c43977f4e80b858c37, type: 3}
+    - type: 34
+      clip: {fileID: 8300000, guid: c4491e3597c0a0147bf00879c986c3d2, type: 3}
     audioMixer: {fileID: 6962733533113731604, guid: e28a3619a4bed1b4ea7740bce93de2c8,
       type: 2}
   - globalSource: {fileID: 0}
@@ -1125,6 +1131,22 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: e7c649a747c0a2a42a7f1cc6d332e5ef, type: 3}
     - type: 16
       clip: {fileID: 8300000, guid: c9c70aa6335a8d544872a582f124ce5d, type: 3}
+    audioMixer: {fileID: 6962733533113731604, guid: e28a3619a4bed1b4ea7740bce93de2c8,
+      type: 2}
+  - globalSource: {fileID: 0}
+    audio:
+    - type: 35
+      clip: {fileID: 8300000, guid: 8099ffd05b1d9a641a925b8a21b1be51, type: 3}
+    - type: 36
+      clip: {fileID: 8300000, guid: 1c2ecd6db823a27408020a9998b5332d, type: 3}
+    - type: 37
+      clip: {fileID: 8300000, guid: 0ad49328304a5c24eb2fe65262410c51, type: 3}
+    - type: 38
+      clip: {fileID: 8300000, guid: 6a1ba685afecea3478b2f8fb8400c890, type: 3}
+    - type: 39
+      clip: {fileID: 8300000, guid: 27cf251bc61ec7e41b5e8d60ef393341, type: 3}
+    - type: 40
+      clip: {fileID: 8300000, guid: 7aff9cb4b6d9536478ca41f9eaacfbdd, type: 3}
     audioMixer: {fileID: 6962733533113731604, guid: e28a3619a4bed1b4ea7740bce93de2c8,
       type: 2}
 --- !u!114 &827499173
@@ -2711,7 +2733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7592ba5a68061354fbea6baddd144588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingGameState: 12
+  startingGameState: 0
   optionsData: {fileID: 11400000, guid: 58421f5f49a30a946869b0d38b4c6810, type: 2}
   dataHolders:
   - {fileID: 11400000, guid: 6b165b5b78f595c448452a74a9657176, type: 2}
@@ -2918,6 +2940,7 @@ MonoBehaviour:
   answerOneText: {fileID: 1583942551}
   answerTwoButton: {fileID: 1796993959}
   answerTwoText: {fileID: 600319720}
+  dialogueAudio: 32
 --- !u!1 &2013286814
 GameObject:
   m_ObjectHideFlags: 0

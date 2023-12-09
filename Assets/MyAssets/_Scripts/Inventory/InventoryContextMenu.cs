@@ -118,10 +118,10 @@ namespace ColdClimb.Inventory{
                     GlobalUIReference.DialogueController.StartDialogue(failedKeyItemUseDialogue);
                     return;
                 }
-                
-                itemContext.UseItem(this);
-                SlotContext.DrawSlotVisual();  
-            } 
+            }
+
+            itemContext.UseItem(this);
+            SlotContext.DrawSlotVisual();  
 
             GameManager.UpdateGameState(GameState.StatusScreen);
         }

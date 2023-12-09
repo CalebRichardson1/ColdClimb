@@ -49,7 +49,7 @@ namespace ColdClimb.Player{
                     crossHairIMG.SetActive(true);
                 }
             }   
-            else if(crossHairIMG.activeSelf){
+            else{
                 crossHairIMG.SetActive(false);
             }
 
@@ -58,7 +58,7 @@ namespace ColdClimb.Player{
         private void EvaluateGameState(GameState state){
             if(state == GameState.MainGame){
                 if(interactCooldown){
-                    Invoke(nameof(InteractValid), 0.5f);
+                    Invoke(nameof(InteractValid), 1f);
                     interactCooldown = false;
                     return;
                 }
@@ -68,7 +68,7 @@ namespace ColdClimb.Player{
             }
 
             // See if the state is a dialogue state, and next time we switch back to main game, lock the interact function for a couple of seconds.
-            if(state == GameState.DialogueScreen || state == GameState.QuestionScreen){
+            if(state == GameState.DialogueScreen || state == GameState.QuestionScreen || state == GameState.KeypadScreen){
                 interactCooldown = true;
             }
 
@@ -85,6 +85,7 @@ namespace ColdClimb.Player{
         }
 
         private void InteractValid(){
+            if(GameManager.CurrentState != GameState.MainGame) return;
             canInteract = true;
         }
 
