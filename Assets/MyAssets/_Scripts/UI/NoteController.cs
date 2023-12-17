@@ -1,5 +1,7 @@
+using System;
 using ColdClimb.Audio;
 using ColdClimb.Global;
+using ColdClimb.Global.SaveSystem;
 using ColdClimb.Player;
 using ColdClimb.UI;
 using TMPro;
@@ -9,6 +11,12 @@ using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
     public class NoteController : MonoBehaviour, IInteractable{
+        public string id;
+
+        [ContextMenu("Generate guid for id")]
+        private void GenerateGuid(){
+            id = System.Guid.NewGuid().ToString();
+        }
         public string InteractionPrompt => "Read Note";
         [SerializeField, TextArea(6, 6)] private string noteText;
 
@@ -21,6 +29,7 @@ namespace ColdClimb.Interactable{
         private TMP_Text NoteTextAreaUI => GlobalUIReference.NoteTextAreaUI;
         private Animator noteAnimator;
         private InputManager InputManager => ResourceLoader.InputManager;
+        private ScenesData ScenesData => ResourceLoader.ScenesData;
 
         private const string SHOW_NOTE = "Show_Note";
         private const string HIDE_NOTE = "Hide_Note";
@@ -32,11 +41,15 @@ namespace ColdClimb.Interactable{
             TryGetComponent(out noteAnimator); 
             InputManager.ReturnPauseAction().started += PauseGameAction;
             InputManager.ReturnCancelAction().started += PauseGameAction;
+            GameDataHandler.OnSaveInjectionCallback += SaveState;
+            ScenesData.LoadValuesCallback += LoadData;
         }
 
         private void OnDestroy() {
             InputManager.ReturnPauseAction().started -= PauseGameAction;
             InputManager.ReturnCancelAction().started -= PauseGameAction;
+            GameDataHandler.OnSaveInjectionCallback -= SaveState;
+            ScenesData.LoadValuesCallback -= LoadData;
         }
 #endregion
 
@@ -48,6 +61,17 @@ namespace ColdClimb.Interactable{
 #endregion
 
 #region Private Functions
+        private void SaveState(){
+            if(ScenesData.CurrentSceneData.ReadNotes.ContainsKey(id)){
+                ScenesData.CurrentSceneData.ReadNotes.Remove(id);
+            }
+            ScenesData.CurrentSceneData.ReadNotes.Add(id, hasRead);
+        }
+
+        private void LoadData(){
+            ScenesData.CurrentSceneData.ReadNotes.TryGetValue(id, out hasRead);
+        }
+
         private void ShowNote(){
             NoteTextAreaUI.text = noteText;
             NoteCanvas.SetActive(true);

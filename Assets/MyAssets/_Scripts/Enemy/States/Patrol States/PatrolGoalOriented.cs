@@ -51,8 +51,7 @@ namespace ColdClimb.StateMachines{
         }
 
         public override EnemyStateMachine.EnemyState GetNextState(){
-            enemyStateMachine.LocateTargets();
-            return EnemyStateMachine.EnemyState.Patrol;
+            return enemyStateMachine.LocateTargets();
         }
 
         public override void OnTriggerEnter(Collider other){

@@ -22,6 +22,7 @@ namespace ColdClimb.UI{
 
         private void Awake(){
             OptionsData.LoadValuesCallback += UpdateMenu;
+            
         }
 
         private void OnDestroy(){

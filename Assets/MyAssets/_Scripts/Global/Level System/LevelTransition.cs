@@ -44,7 +44,7 @@ namespace ColdClimb.Global.LevelSystem{
             
             
             // Load the temp data after we transition
-            SceneDirector.Instance.LoadScene(levelToLoad, GameDataHandler.ReturnOnLoadAction());
+            SceneDirector.Instance.LoadScene(levelToLoad, GameDataHandler.OnLevelLoad);
         }
 
         public void CancelInteraction(){

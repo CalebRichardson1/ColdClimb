@@ -451,7 +451,7 @@ Transform:
   - {fileID: 1052429216198257}
   - {fileID: 897129725058197051}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 47
   m_LocalEulerAnglesHint: {x: -270, y: 0, z: -60}
 --- !u!114 &8746383789169995475
 MonoBehaviour:
@@ -465,8 +465,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958bda5218ab5b6458a5ff066053d875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: bdceb799-2809-4650-a73f-c8e201c55b76
   itemData: {fileID: 11400000, guid: 377602589ecb914408b013755ddb99f8, type: 2}
   itemStackAmount: 1
+  interactQuestionDialogue:
+    sentences:
+    - Your going to need this. Take the glock?
+    isQuestion: 1
+    answerOneText: Yes
+    answerTwoText: No
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8746383789169995475}
+          m_TargetAssemblyTypeName: ColdClimb.Inventory.ItemPickup, Assembly-CSharp
+          m_MethodName: PickUpItem
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8746383789169995475}
+          m_TargetAssemblyTypeName: ColdClimb.Inventory.ItemPickup, Assembly-CSharp
+          m_MethodName: CancelPickUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    eventAfterDialogueEnds:
+      m_PersistentCalls:
+        m_Calls: []
+  successfulGrabbedDialogue:
+    sentences: []
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    eventAfterDialogueEnds:
+      m_PersistentCalls:
+        m_Calls: []
+  failedGrabDialogue:
+    sentences: []
+    isQuestion: 0
+    answerOneText: 
+    answerTwoText: 
+    answerOneEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    answerTwoEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    eventAfterDialogueEnds:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!65 &5263568740480670296
 BoxCollider:
   m_ObjectHideFlags: 0

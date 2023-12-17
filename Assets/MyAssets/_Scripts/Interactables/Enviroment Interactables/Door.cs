@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using ColdClimb.Audio;
+using ColdClimb.Global;
+using ColdClimb.Global.SaveSystem;
 using ColdClimb.Player;
 using ColdClimb.UI;
 using UnityEngine;
@@ -8,6 +11,12 @@ using AudioType = ColdClimb.Audio.AudioType;
 namespace ColdClimb.Interactable{
     public class Door : MonoBehaviour, IInteractable{
         public string InteractionPrompt => "Open Door";
+        public string id;
+
+        [ContextMenu("Generate guid for id")]
+        private void GenerateGuid(){
+            id = System.Guid.NewGuid().ToString();
+        }
 
         [Header("Door Variables")]        
         [SerializeField] private float speed = 8f;
@@ -27,6 +36,8 @@ namespace ColdClimb.Interactable{
         [Header("Door Flavor")]
         [SerializeField] private Dialogue lockedDoorDialogue;
 
+        private ScenesData ScenesData => ResourceLoader.ScenesData;
+
         private AudioSource audioSource;
 
         private Transform doorTransform;
@@ -36,6 +47,8 @@ namespace ColdClimb.Interactable{
 #region Unity Functions
         private void Awake() {
             TryGetComponent(out audioSource);
+            GameDataHandler.OnSaveInjectionCallback += SaveState;
+            ScenesData.LoadValuesCallback += LoadData;
         }
 
         private void Start() {
@@ -44,6 +57,8 @@ namespace ColdClimb.Interactable{
 
         private void OnDestroy(){
             StopAllCoroutines();
+            GameDataHandler.OnSaveInjectionCallback -= SaveState;
+            ScenesData.LoadValuesCallback -= LoadData;
         }
 
 #endregion
@@ -104,7 +119,15 @@ namespace ColdClimb.Interactable{
                 yield return null;
             }
         }
-        #endregion
+
+        private void SaveState(){
+            
+        }
+
+        private void LoadData(){
+
+        }
+#endregion
     }
 }
 

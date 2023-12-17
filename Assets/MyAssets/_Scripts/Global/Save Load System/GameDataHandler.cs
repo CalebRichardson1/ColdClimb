@@ -74,6 +74,7 @@ namespace ColdClimb.Global.SaveSystem{
         }
 
         public static void SaveTempData(){
+            OnSaveInjectionCallback?.Invoke();
             OnSaveCallback?.Invoke();
         } 
 
@@ -124,8 +125,14 @@ namespace ColdClimb.Global.SaveSystem{
             return true;
         }
 
-        public static Action ReturnOnLoadAction(){
-            return OnLoadCallback;
+        public static void OnLevelLoad(){
+            OnLoadCallback?.Invoke();
+            OnLoadOptionsCallback?.Invoke();
+        }
+
+        public static void OnFirstLevelLoad(){
+            OnNewGameCallback?.Invoke();
+            OnLoadOptionsCallback?.Invoke();
         }
 
         // Loads the SaveGameData.sav file from the directory, and if found, reads the file and applys it to our CurrentSaveData
@@ -202,7 +209,7 @@ namespace ColdClimb.Global.SaveSystem{
             DeleteSaveData(slot);
 
             // Hard coded starting scene for now.
-            LoadGameScene?.Invoke(SceneIndex.FOREST, OnNewGameCallback);
+            LoadGameScene?.Invoke(SceneIndex.PARKING_LOT, OnFirstLevelLoad);
         }
 
         public static void TriggerNewGameValues() => OnNewGameCallback?.Invoke();
@@ -249,6 +256,16 @@ namespace ColdClimb.Global.SaveSystem{
                 try{
                     files[i].Attributes = FileAttributes.Normal;
                     File.Delete(files[i].FullName);
+                }
+                catch { }
+            }
+
+            if(File.Exists(GameDirectory + SAVEGAME)){
+                FileInfo saveGameInfo = new FileInfo(GameDirectory + SAVEGAME);
+                //Delete SAVEGAME
+                try{
+                    saveGameInfo.Attributes = FileAttributes.Normal;
+                    File.Delete(saveGameInfo.FullName);
                 }
                 catch { }
             }

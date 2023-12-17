@@ -27,6 +27,8 @@ namespace ColdClimb.StateMachines{
 
         public override void EnterState(){
             Debug.Log("Searching");
+            baseSearchPos = enemyStateMachine.CurrentTarget.position;
+            navMeshAgent.SetDestination(baseSearchPos);
             SearchTimer();
         }
 

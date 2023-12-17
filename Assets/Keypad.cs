@@ -1,27 +1,43 @@
+using System;
 using System.Collections;
+using ColdClimb.Audio;
 using ColdClimb.Global;
+using ColdClimb.Global.SaveSystem;
 using ColdClimb.Player;
 using ColdClimb.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using AudioType = ColdClimb.Audio.AudioType;
 
 namespace ColdClimb.Interactable{
     public class Keypad : MonoBehaviour{
+        public string id;
+
+        [ContextMenu("Generate guid for id")]
+        private void GenerateGuid(){
+            id = System.Guid.NewGuid().ToString();
+        }
         //members
         [Header("Keypad Meta")]
         [SerializeField] private string password;
         [SerializeField] private UnityEvent unlockEvent;
+        [SerializeField] private Transform playerCamPlacement;
+        [SerializeField] private float playerMoveSpeed = 5f;
 
         [Header("Keypad Visuals")]
         [SerializeField] private GameObject keyPadCanvas;
         [SerializeField] private Transform firstButtonPos;
         [SerializeField] private TMP_Text answerText;
-        [SerializeField] private Transform playerCamPlacement;
-        [SerializeField] private float playerMoveSpeed = 5f;
+
+        [Header("Keypad Audio")]
+        [SerializeField] private AudioType buttonClickedSoundEffect;
+        [SerializeField] private AudioType unlockSoundEffect;
+        [SerializeField] private AudioType failedSoundEffect;
 
         private InputManager InputManager => ResourceLoader.InputManager;
+        private ScenesData ScenesData => ResourceLoader.ScenesData;
 
         private const float snapDistance = 0.25f;
 
@@ -31,22 +47,47 @@ namespace ColdClimb.Interactable{
         private Quaternion playerCamOriginalRotation;
         private PlayerInteract player;
 
+        private AudioSource audioSource;
+
         private bool isMoving;
+        private bool isUnlocked;
 
         private string currentEntry = "";
         private int previousCharPos = 0;
         private char incomingChar = new();
+
+        private void Awake() {
+            GameDataHandler.OnSaveInjectionCallback += SaveState;
+            ScenesData.LoadValuesCallback += LoadData;
+        }
+
+        private void OnDestroy(){
+            InputManager.ReturnCancelAction().started -= CancelKeypad;
+            InputManager.ReturnPauseAction().started -= CancelKeypad;
+            GameDataHandler.OnSaveInjectionCallback -= SaveState;
+            ScenesData.LoadValuesCallback -= LoadData;
+        }
+
+        private void SaveState(){
+            if(ScenesData.CurrentSceneData.KeyPadsUnlocked.ContainsKey(id)){
+                ScenesData.CurrentSceneData.KeyPadsUnlocked.Remove(id);
+            }
+            ScenesData.CurrentSceneData.KeyPadsUnlocked.Add(id, isUnlocked);
+        }
+
+        private void LoadData(){
+            ScenesData.CurrentSceneData.InspectObjectsUpdated.TryGetValue(id, out isUnlocked);
+            if(isUnlocked){
+                GetComponent<Collider>().enabled = false;
+            }
+        }
 
         private void Start() {
             InputManager.ReturnCancelAction().started += CancelKeypad;
             InputManager.ReturnPauseAction().started += CancelKeypad;
             keyPadCanvas.SetActive(false);
             answerText.text = "";
-        }
-
-        private void OnDestroy() {
-            InputManager.ReturnCancelAction().started -= CancelKeypad;
-            InputManager.ReturnPauseAction().started -= CancelKeypad;
+            TryGetComponent(out audioSource);
         }
 
         public void ShowKeypadUI(PlayerInteract playerInteract){
@@ -58,6 +99,9 @@ namespace ColdClimb.Interactable{
         }   
 
         public void NumButtonPressed(int number){
+            if(buttonClickedSoundEffect != AudioType.None && audioSource != null){
+                AudioController.instance.PlayAudio(buttonClickedSoundEffect, false, 0, 0, audioSource);
+            }
             incomingChar = number switch{
                 0 => '0',
                 1 => '1',
@@ -76,6 +120,9 @@ namespace ColdClimb.Interactable{
         }
 
         public void ClearNUM(){
+            if(failedSoundEffect != AudioType.None && audioSource != null){
+                AudioController.instance.PlayAudio(failedSoundEffect, false, 0, 0, audioSource);
+            }
             currentEntry = "";
             previousCharPos = -1;
             answerText.text = currentEntry;
@@ -84,13 +131,19 @@ namespace ColdClimb.Interactable{
         public void EnterNUM(){
             if(currentEntry == password){
                 unlockEvent?.Invoke();
+                isUnlocked = true;
                 //Play unlock audio
-
+                if(unlockSoundEffect != AudioType.None && audioSource != null){
+                    AudioController.instance.PlayAudio(unlockSoundEffect, false, 0, 0, audioSource);
+                }
                 StartCoroutine(ResetPlayerCam(player.transform));
                 GetComponent<Collider>().enabled = false;
             }
             else{
                 //play failed unlock audio
+                if(failedSoundEffect != AudioType.None && audioSource != null){
+                    AudioController.instance.PlayAudio(failedSoundEffect, false, 0, 0, audioSource);
+                }
             }
         }
 

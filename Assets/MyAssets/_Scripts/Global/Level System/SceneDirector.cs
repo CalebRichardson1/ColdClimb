@@ -9,10 +9,11 @@ using UnityEngine.SceneManagement;
 namespace ColdClimb.Global.LevelSystem{    
 
     public class SceneDirector : MonoBehaviour{
+        public static SceneIndex CurrentSceneIndex;
+
         public static SceneDirector Instance;
         public static Action<SceneIndex> LoadedScene;
 
-        private SceneIndex currentSceneIndex;
         private bool loadedScene = false;
 
         private List<AsyncOperation> scenesLoading = new();
@@ -31,7 +32,7 @@ namespace ColdClimb.Global.LevelSystem{
         }
 
         public void LoadScene(SceneIndex index, Action loadedCallback){
-            if(currentSceneIndex == index){
+            if(CurrentSceneIndex == index){
                 return;
             }
 
@@ -48,10 +49,10 @@ namespace ColdClimb.Global.LevelSystem{
         }
 
         private void LoadingScenes(){
-            if(loadedScene) scenesLoading.Add(SceneManager.UnloadSceneAsync((int)currentSceneIndex)); //unload the current scene if we have loaded one
+            if(loadedScene) scenesLoading.Add(SceneManager.UnloadSceneAsync((int)CurrentSceneIndex)); //unload the current scene if we have loaded one
             scenesLoading.Add(SceneManager.LoadSceneAsync((int)nextSceneIndex, LoadSceneMode.Additive)); //start loading the next scene
             loadedScene = true;
-            currentSceneIndex = nextSceneIndex;
+            CurrentSceneIndex = nextSceneIndex;
 
             StartCoroutine(GetSceneLoadProgress(currentLoadedCallback));
         }
@@ -64,10 +65,10 @@ namespace ColdClimb.Global.LevelSystem{
                 }
             }
                 scenesLoading.Clear();
-                SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)currentSceneIndex));
+                SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex((int)CurrentSceneIndex));
 
 
-                LoadedScene?.Invoke(currentSceneIndex);
+                LoadedScene?.Invoke(CurrentSceneIndex);
                 loadedCallback?.Invoke();
 
                 nextSceneIndex = SceneIndex.NUMSCENEINDEX;

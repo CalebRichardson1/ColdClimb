@@ -15,11 +15,12 @@ MonoBehaviour:
   enemyName: Blightbloom
   enemyDescription: "A creature developed by splicing human dna with sunflower folicles
     \nand injecting the rabies virus into the embryo."
+  enemyType: 0
   health: 50
-  attackDamage: 15
+  attackDamage: 30
   attackSpeed: 0.8
-  minAttackRange: 1.5
-  maxAttackRange: 5
+  minAttackRange: 1
+  maxAttackRange: 1.5
   walkingMovementSpeed: 3
   runningMovementSpeed: 5.5
   targetRegistrationTime: 0.75

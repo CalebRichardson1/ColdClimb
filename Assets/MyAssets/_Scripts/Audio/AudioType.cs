@@ -40,7 +40,13 @@ namespace ColdClimb.Audio{
         DOOR_LOCKED,
         WOODEN_DOOR_OPEN,
         WOODEN_DOOR_CLOSE,
-        WOODEN_DOOR_LOCKED
+        WOODEN_DOOR_LOCKED,
+        KEYPAD_BUTTON_CLICKED,
+        KEYPAD_UNLOCK,
+        KEYPAD_FAIL,
+        GATE_OPEN,
+        GATE_CLOSE,
+        GATE_LOCKED
     }
 }
 

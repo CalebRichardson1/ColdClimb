@@ -62,7 +62,7 @@ namespace ColdClimb.StateMachines{
         }
 
         private void UpdateGameState(GameState state){
-            if(state == GameState.PauseMenu){
+            if(state == GameState.PauseMenu || state == GameState.GameOver){
                 CurrentState.PauseState(true);
                 return;
             }

@@ -6,7 +6,6 @@ namespace ColdClimb.Generic{
             Collider[] colliders = Physics.OverlapSphere(sound.posMade, sound.soundRange, layer);
 
             for (int i = 0; i < colliders.Length; i++){
-                Debug.Log("Making Sound");
                 if(colliders[i].TryGetComponent(out IHearer hearer)){
                     hearer.RespondToSound(sound);
                 }

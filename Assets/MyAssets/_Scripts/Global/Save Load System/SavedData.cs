@@ -12,6 +12,7 @@ namespace ColdClimb.Global.SaveSystem{
         public PlayerStats CurrentPlayerStats = new PlayerStats();
         public PlayerLocation CurrentPlayerLocation = new PlayerLocation();
         public PlayerInventoryData CurrentPlayerInventory = new PlayerInventoryData();
+        public GameScenesData CurrentScenesData = new GameScenesData();       
     }
 
     [System.Serializable]
@@ -41,6 +42,24 @@ namespace ColdClimb.Global.SaveSystem{
         public int maxInventory;
     }
 
-    //level states (item states, puzzle states, enemy states, etc.)
+    [System.Serializable]
+    public class GameScenesData{
+        public List<SceneData> SceneDatasModified;
+    }
+
+   [System.Serializable]
+   public class SceneData{
+        public int associatedSceneIndex;
+        public SerializableDictionary<string, bool> DialogueTriggersActivated;
+        public SerializableDictionary<string, bool> InspectObjectsUpdated;
+        public SerializableDictionary<string, bool> ItemsPickuped;
+        public SerializableDictionary<string, bool> ItemLocksUnlocked;
+        public SerializableDictionary<string, bool> DoorsUnlocked;
+        public SerializableDictionary<string, bool> DoorsOpened;
+        public SerializableDictionary<string, bool> EnemiesDied;
+        public SerializableDictionary<string, bool> ReadNotes;
+        public SerializableDictionary<string, bool> KeyPadsUnlocked;
+        public SerializableDictionary<string, bool> CutscenesActivated;
+   }
 }
 

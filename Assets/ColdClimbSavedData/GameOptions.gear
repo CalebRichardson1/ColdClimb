@@ -1,13 +1,13 @@
 {
     "CurrentSettings": {
-        "masterVolume": 0.5000499486923218,
-        "musicVolume": 1.0,
-        "sfxVolume": 1.0,
+        "masterVolume": 1.0,
+        "musicVolume": 0.10009000450372696,
+        "sfxVolume": 0.7599900364875794,
         "resolution": {
-            "horizontal": 1920,
-            "vertical": 1080
+            "horizontal": 1280,
+            "vertical": 720
         },
-        "isFullScreen": true,
-        "lookSensitivity": 6.59999942779541
+        "isFullScreen": false,
+        "lookSensitivity": 7.600003242492676
     }
 }

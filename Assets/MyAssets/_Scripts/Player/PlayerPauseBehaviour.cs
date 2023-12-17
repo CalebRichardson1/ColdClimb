@@ -5,8 +5,11 @@ using UnityEngine.InputSystem;
 
 namespace ColdClimb.Player{
     public class PlayerPauseBehaviour : MonoBehaviour{
-        [SerializeField] private GameObject pauseMenu;
         [SerializeField] private RectTransform defaultButton;
+        [SerializeField] private RectTransform optionDefaultButton;
+        [SerializeField] private GameObject pauseMenu;
+        [SerializeField] private GameObject pauseScreen;
+        [SerializeField] private GameObject optionsScreen;
 
         private bool pauseCooldown = false;
         private bool canPause = true;
@@ -51,20 +54,26 @@ namespace ColdClimb.Player{
             if(!canPause) return;
 
             switch (GameManager.CurrentState){
-                case GameState.MainGame: PauseGame();
+                case GameState.MainGame: GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, PauseGame);
                 break;
-                case GameState.PauseMenu: ResumeGame();
+                case GameState.PauseMenu: GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, ResumeGame);
                 break;
             }
         }
 
         private void PauseGame(){
-                MenuSelector.Instance.SetDefaultSelectedObject(defaultButton);
-                pauseMenu.SetActive(true);
-                GameManager.UpdateGameState(GameState.PauseMenu);
-        } 
+            pauseMenu.SetActive(true);
+            ShowPauseScreen();
+            GameManager.UpdateGameState(GameState.PauseMenu);
+        }
 
-        public void ResumeGame(){
+        private void ShowPauseScreen(){
+            pauseScreen.SetActive(true);
+            optionsScreen.SetActive(false);
+            MenuSelector.Instance.SetDefaultSelectedObject(defaultButton);
+        }
+
+        private void ResumeGame(){
             if(pauseMenu.activeSelf){
                 pauseMenu.SetActive(false);
             }
@@ -73,6 +82,24 @@ namespace ColdClimb.Player{
 
         public void MainMenu(){
             GameManager.UpdateGameState(GameState.MainMenu);
+        }
+
+        public void GameTransition(){
+            GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, ResumeGame);
+        }
+
+        public void OptionsTransition(){
+            GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, OptionsMenu);
+        }
+
+        public void PauseScreenTransition(){
+            GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, ShowPauseScreen);
+        }
+
+        private void OptionsMenu(){
+            optionsScreen.SetActive(true);
+            pauseScreen.SetActive(false);
+            MenuSelector.Instance.SetDefaultSelectedObject(optionDefaultButton);
         }
 
         public void QuitGame(){

@@ -1,4 +1,6 @@
+using System;
 using ColdClimb.Global;
+using ColdClimb.Global.SaveSystem;
 using ColdClimb.Interactable;
 using ColdClimb.Item;
 using ColdClimb.Player;
@@ -8,6 +10,13 @@ using Logger = ColdClimb.Global.Logger;
 
 namespace ColdClimb.Inventory{
     public class ItemPickup : MonoBehaviour, IInteractable{
+        public string id;
+
+        [ContextMenu("Generate guid for id")]
+        private void GenerateGuid(){
+            id = System.Guid.NewGuid().ToString();
+        }
+
         [Header("Item Data")]
         [SerializeField] private ItemData itemData;
         [SerializeField] private int itemStackAmount;
@@ -18,8 +27,34 @@ namespace ColdClimb.Inventory{
         [SerializeField] private Dialogue failedGrabDialogue;
 
         private Logger GlobalLogger => ResourceLoader.GlobalLogger;
+        private ScenesData ScenesData => ResourceLoader.ScenesData;
 
         public string InteractionPrompt => new("Pickup " + itemData.Name);
+        bool isPickedUp;
+        
+        private void Awake() {
+            GameDataHandler.OnSaveInjectionCallback += SaveState;
+            ScenesData.LoadValuesCallback += LoadData;
+        }
+
+        private void SaveState(){
+            if(ScenesData.CurrentSceneData.ItemsPickuped.ContainsKey(id)){
+                ScenesData.CurrentSceneData.ItemsPickuped.Remove(id);
+            }
+            ScenesData.CurrentSceneData.ItemsPickuped.Add(id, isPickedUp);
+        }
+
+        private void LoadData(){
+            ScenesData.CurrentSceneData.ItemsPickuped.TryGetValue(id, out isPickedUp);
+            if(isPickedUp){
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void OnDestroy(){
+            GameDataHandler.OnSaveInjectionCallback -= SaveState;
+            ScenesData.LoadValuesCallback -= LoadData;
+        }
 
         private void Start(){
             if(itemStackAmount > itemData.MaxStackSize){
@@ -34,11 +69,10 @@ namespace ColdClimb.Inventory{
             //else change the stack amount of this pickup item
             var itemRemainder = ResourceLoader.PlayerInventory.AttemptToAddItemToInventory(itemData, itemStackAmount);
             if(itemRemainder == 0){
+                isPickedUp = true;
+                GlobalUIReference.DialogueController.StartDialogue(successfulGrabbedDialogue);
                 Destroy(gameObject, 0.1f);
-                if(successfulGrabbedDialogue.sentences.Length > 0){
-                    GlobalUIReference.DialogueController.StartDialogue(successfulGrabbedDialogue);
-                    return;
-                }
+                return;
             }  
             else{
                 itemStackAmount = itemRemainder;
@@ -51,6 +85,10 @@ namespace ColdClimb.Inventory{
             if(interactQuestionDialogue.sentences.Length > 0){
                 GlobalUIReference.DialogueController.EndDialogue();
             }
+        }
+
+        public void TurnItemOff(){
+            gameObject.SetActive(false);
         }
 
         public void CancelPickUp(){

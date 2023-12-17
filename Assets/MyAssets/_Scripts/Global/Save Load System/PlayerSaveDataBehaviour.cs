@@ -12,14 +12,16 @@ namespace ColdClimb.Global.SaveSystem{
 
         private PlayerData MainPlayerData => ResourceLoader.MainPlayerData;
 
-        private void OnEnable(){
-            GameDataHandler.OnSaveInjectionCallback += SavePlayerLocation;
+        private void Awake(){
+            // GameDataHandler.OnSaveInjectionCallback += SavePlayerLocation;
             MainPlayerData.LoadValuesCallback += LoadPlayerLocation;
+            GameManager.OnGameStateChange += EvaluateGameState;
         }
 
         private void OnDisable(){
-            GameDataHandler.OnSaveInjectionCallback -= SavePlayerLocation;
+            // GameDataHandler.OnSaveInjectionCallback -= SavePlayerLocation;
             MainPlayerData.LoadValuesCallback -= LoadPlayerLocation;
+            GameManager.OnGameStateChange -= EvaluateGameState;
         }
 
         private void SavePlayerLocation(){
@@ -28,9 +30,6 @@ namespace ColdClimb.Global.SaveSystem{
         }
 
         private void LoadPlayerLocation(){
-            PlayerMovement.enabled = false;
-            PlayerRB.isKinematic = true;
-
             Vector3 pos = MainPlayerData.playerLocation.playerPosition;
             transform.position = pos;
 
@@ -38,10 +37,23 @@ namespace ColdClimb.Global.SaveSystem{
         }
 
         private IEnumerator MovementTimer(){
+            PlayerMovement.enabled = false;
+            PlayerRB.isKinematic = true;
+
             yield return new WaitForSeconds(0.05f);
 
             PlayerMovement.enabled = true;
             PlayerRB.isKinematic = false;
+        }
+
+        private void EvaluateGameState(GameState state){
+            if(state == GameState.GameOver){
+                //Turn off the player collider
+                gameObject.TryGetComponent(out Collider collider);
+                if(collider != null){
+                    collider.enabled = false;
+                }
+            }
         }
     }
 }

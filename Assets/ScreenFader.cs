@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using ColdClimb.Global;
 using UnityEngine;
 
 namespace ColdClimb.UI{
@@ -8,10 +9,27 @@ namespace ColdClimb.UI{
 
         private CanvasGroup CanvasGroup => GetComponent<CanvasGroup>();
 
-        public void FadeFromAndToBlack(float duration, Action afterFadedBlackCallback){
-            if(isFading) return;
+        private void Awake() {
+            GameManager.OnGameStateChange += EvaluateGameState;
+        }
 
-            StartCoroutine(FadeFromAndToBlackCoroutine(duration, afterFadedBlackCallback));
+        private void OnDestroy() {
+            GameManager.OnGameStateChange -= EvaluateGameState;
+        }
+
+        private void EvaluateGameState(GameState state){
+            if(state == GameState.GameOver){
+                StopAllCoroutines();
+                CanvasGroup.alpha = 0;
+                isFading = false;
+            }
+        }
+
+
+        public void FadeToAndFromBlack(float duration, Action afterFadedBlackCallback){
+            if(isFading) return;
+            
+            StartCoroutine(FadeToAndFromBlackCoroutine(duration, afterFadedBlackCallback));
         }
 
         public void FadeToBlack(float duration, Action afterFadedCallback){
@@ -59,7 +77,7 @@ namespace ColdClimb.UI{
             isFading = false;
         }
 
-        private IEnumerator FadeFromAndToBlackCoroutine(float duration, Action afterFadedBlackCallback){
+        private IEnumerator FadeToAndFromBlackCoroutine(float duration, Action afterFadedBlackCallback){
             isFading = true;
 
             //fade to black

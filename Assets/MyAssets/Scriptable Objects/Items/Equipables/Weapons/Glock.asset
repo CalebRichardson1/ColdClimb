@@ -16,10 +16,10 @@ MonoBehaviour:
   itemName: Glock
   itemDescription:
   - A light-weight handgun.
-  itemImage: {fileID: 4271481660715338122, guid: eb09e3eab7b376c4f8b476e1f18043c5,
+  itemImage: {fileID: 4271481660715338122, guid: a23e65e42cc29de40bc91b1a9ada43c1,
     type: 3}
   isStackable: 0
   maxStackSize: 0
-  itemBehavior: {fileID: 1684220379534416003, guid: 19e7ac6356dbafe458ea38b857b4ec24,
+  itemBehavior: {fileID: 4442456697208037734, guid: 19e7ac6356dbafe458ea38b857b4ec24,
     type: 3}
   gunStats: {fileID: 11400000, guid: 50e2580398102f24cade2e0bc5b35831, type: 2}

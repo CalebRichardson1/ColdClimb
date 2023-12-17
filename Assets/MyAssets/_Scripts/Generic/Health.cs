@@ -19,7 +19,7 @@ namespace ColdClimb.Generic{
 
         PlayerData PlayerData => ResourceLoader.MainPlayerData;
 
-        private void OnEnable(){
+        private void Awake(){
             if(isPlayer){
                 PlayerData.LoadValuesCallback += LoadData;
                 OnHealthChangedCallback += UpdatePlayerData;
@@ -49,15 +49,7 @@ namespace ColdClimb.Generic{
         public void TakeDamage(int amount){
             currentHealth -= amount;
             if(currentHealth <= 0){
-                if(isPlayer){
-                    OnDieCallback?.Invoke();
-                    return;
-                }
-                else{
-                    // Use the action for the future for non player objects as well, this is just for testing/implementing
-                    Destroy(gameObject);
-                    return;
-                }
+                OnDieCallback?.Invoke();
             }
 
             OnHealthChangedCallback?.Invoke();

@@ -1,4 +1,5 @@
 using System;
+using ColdClimb.Global;
 using ColdClimb.Global.SaveSystem;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace ColdClimb.UI{
             continueGameButton.gameObject.SetActive(true);
             defaultButton = continueGameButton;
 
-            LoadDefaultButton();
+            SetDefaultButton();
         }
 
         private void ShowLoad(){
@@ -57,7 +58,7 @@ namespace ColdClimb.UI{
             loadGameButton.gameObject.SetActive(false);
 
             defaultButton = newGameButton;
-            LoadDefaultButton();
+            SetDefaultButton();
         }
 
         public void ShowMenu(int index){
@@ -73,6 +74,11 @@ namespace ColdClimb.UI{
                 default: Debug.Log("Not Valid Menu Index, returning...");
                     return;
             }
+
+            GlobalUIReference.ScreenFader.FadeToAndFromBlack(0.15f, UpdateAfterTransition);
+        }
+
+        private void UpdateAfterTransition(){
             ShowVisuals();
             SetDefaultButton();
             OnButtonPress?.Invoke();
@@ -89,6 +95,8 @@ namespace ColdClimb.UI{
 
         private void SetDefaultButton(){
             switch (currentMenu){
+                case Menu.MAIN: OnMenuLoad?.Invoke(defaultButton);
+                break;
                 case Menu.OPTION: OnMenuLoad?.Invoke(defaultOptionUI);
                     break;
                 case Menu.LOAD: OnMenuLoad?.Invoke(defaultLoadUI);
@@ -97,9 +105,6 @@ namespace ColdClimb.UI{
                     break;
             }
         }
-
-        public void LoadDefaultButton() => OnMenuLoad?.Invoke(defaultButton);
-
         private void ShowVisuals(){
             mainMenu.SetActive(currentMenu == Menu.MAIN);
             optionMenu.SetActive(currentMenu == Menu.OPTION);

@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 namespace ColdClimb.Player{
     [RequireComponent(typeof(Rigidbody))]

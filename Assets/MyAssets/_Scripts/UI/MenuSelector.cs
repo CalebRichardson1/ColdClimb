@@ -64,7 +64,7 @@ namespace ColdClimb.UI{
 
             // Yikes
             isValid = gameState == GameState.MainMenu || gameState == GameState.StatusScreen 
-                                   || gameState == GameState.GameOver || gameState == GameState.ContextScreen
+                                   || gameState == GameState.ContextScreen
                                    || gameState == GameState.PauseMenu || gameState == GameState.CombineItemScreen;
                                    
             //set the cursor visual to be enabled when we are in a menu
